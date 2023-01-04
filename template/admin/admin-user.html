@@ -1,0 +1,88 @@
+{% extends 'admin/admin-index.html'%}
+{% block content %}
+{% load static %}
+
+<!-- <section class="h-100 gradient-custom " > -->
+  <div class="container h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <table class="table" id="example">
+                <thead>
+                  <tr>
+                  
+                    
+                     <td>User</td>
+                    <th>name</th>
+                    <th>Email</th>
+                    <th>Phone number</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                    {% for i in new %}
+                    {% if i.is_superuser %}
+
+                    {% else %}
+                  <tr>
+                  
+                 {% if i.blocked is False %}
+                    <td class="w-25">
+                     
+                      <img
+                        src="https://cdn.w600.comps.canstockphoto.com/blocked-red-stamp-text-clip-art-vector_csp21873666.jpg"
+                        class="img-fluid img-thumbnail w-50 " alt="Sheep">
+                    </td>
+                    {% else %}
+                                <td class="w-25">
+                                  <img src="https://cdn-icons-png.flaticon.com/128/4205/4205906.png" class="img-fluid img-thumbnail"
+                                    alt="Sheep">
+                                </td>
+
+                                {% endif %}
+                    
+                   
+                    <td>{{i.username}}</td>
+                    <td>{{i.email}}</td>
+                    <td>{{i.phone_number}}</td>
+                   
+                  
+                    <td>
+                      <!----<form action="" method="post">
+                        {% csrf_token %}
+                        <input name="status" value="" hidden>--->
+                        {% if i.blocked is False %}
+                        <a href=" {% url 'admin_block'  i.id %}">   <button type="submit" class="btn btn-dark">unBlock</button>
+                        </a>
+                        {% else  %}
+                               
+                         <a href="{% url 'admin_unblock' i.id  %}"    >  <button type="submit" class="btn btn-dark" >Block</button>
+
+                         </a> 
+                        {% endif %}
+                      <!---</form>--->
+
+                    </td>
+
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                  <!--<% }); %>-->
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+                    
+        </div>
+      </div>
+    </div>
+  </div>
+<!--</section>-->
+
+
+{% endblock %}

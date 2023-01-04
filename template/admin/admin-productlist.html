@@ -1,0 +1,54 @@
+{% extends 'admin/admin-index.html'%}
+{% block content %}
+{% load static %}
+
+<h1 style="text-align: center;">Product List</h1>
+    <div class="btns">
+  
+         <a href="{% url 'admin_addproduct' %}"> <button class="btn btn-success mt-5">Add Product</button></a>
+   
+    </div>
+  
+         <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col" style="width: 25%">Image</th>
+                      <th scope="col" style="width: 30%">Name of the product</th>
+                      <!-- <th scope="col">Color</th> -->
+                      <th scope="col" style="width: 15%">Category</th>
+                      <th scope="col">Stock</th>
+                      <th scope="col" style="width: 15%">Price</th>
+                      <th scope="col" style="width: 15%">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in product %}
+                    <tr >
+                      
+                      <td ><img src="/media/{{i.images}}" alt="..." class=" w-25 h-25"></td>
+                      <td>{{i.product_name }}</td>
+                      <td>{{ i.category }}</td>
+                     <td>{{i.stock}}</td>
+                     <td>{{ i.price }}</td>
+                      <td>
+                           <a href="{% url 'edit_product' i.id %}" ><button class="btn btn-warning mb-3" id="my-button" >Edit </button></a><br> 
+                           <a href="{% url 'remove_product' i.id  %}" ><button class="btn btn-warning mb-3" id="my-button" >Remove </button></a><br> 
+                          <!-- <form action="" method="post">
+                            <input name="stock" value="<%= product.stock %>" hidden> -->
+                           <!--- <% if ( product.stock) { %>
+                              <button type="submit" class="btn btn-danger" >Unlist</button>
+                             
+                                <%} else { %>
+                                 
+                                  <button type="submit" class="btn btn-success" >List</button>
+                                  <% } %>
+                        -- </form> -->
+
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+
+{% endblock %}

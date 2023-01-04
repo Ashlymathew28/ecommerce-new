@@ -1,0 +1,120 @@
+{% extends 'index.html'%} {% block content %} {% load static %}
+<div id="content">
+		<div class="content-page woocommerce">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h2 class="title-shop-page dark font-bold play-font">Member</h2>
+						<div class="register-content-box">
+							<div class="row">
+								<div class="col-md-6 col-sm-6 col-ms-12">
+									<div class="check-billing">
+										<div class="form-my-account">
+											<!--<form class="block-login" action="member-register.html" method="POST">
+											{% csrf_token %}
+												<h2 class="title24 title-form-account play-font">Login</h2>
+												<p>
+													<label>Email address <span class="required">*</span></label><br>
+													<input type="email" name="username" />
+												</p>
+												<p>
+													<label>Password <span class="required">*</span></label>
+													<br>
+													<input type="password" name="password" />
+												</p>
+												<p>
+													<input type="submit" class="register-button" name="login" value="Login">
+												</p>
+												<p>
+													don't you have an account?<a href="{% url 'user_register' %}">Register</a>
+												</p>
+												<div class="table-custom create-account">
+													<div class="text-left">
+														<p>
+															<input type="checkbox"  id="remember" /> <label for="remember">Remember me</label>
+														</p>
+													</div>
+													<div class="text-right">
+														<a href="#" class="color">Lost your password?</a>
+													</div>
+												</div>
+												<h2 class="title18 social-login-title">Or login with</h2>-->
+												<!---<div class="social-login-block table-custom text-center">
+													<div class="social-login-btn">
+														<a href="#" class="login-fb-link">Facebook</a>
+													</div>
+													<div class="social-login-btn">
+														<a href="#" class="login-goo-link">Google</a>
+													</div>
+												</div>
+											</form>--->
+                                            <form  method="POST" action="{% url 'user_register' %}">
+												{% csrf_token %} 
+												<h2 class="title24 title-form-account play-font">REGISTER</h2>
+												<p>
+													{% for m in messages %}
+												<p>{{ m }}</p>
+												{% endfor %}
+													<!--<p style="color: red;">{{ error_msg }}</p>--->
+													<label>Username <span class="required">*</span></label>
+													<input type="text" name="username" class="form-control" id="check-name" oninput="return validateName()" required />
+                                                     <span id="name-error" style="color: red;"></span>
+												</p>
+
+												<p>
+													<label>Email address <span class="required" >*</span></label>
+													<input type="text" name="email" class="form-control" id="check-email" oninput="return validateEmail()" required />
+                                                    <span id="email-error" style="color: red;"></span>
+												</p>
+                                                 
+												<!--<p>
+													<label>Phone Number <span class="required">*</span></label>
+													<input type="number" name="phone_number" />
+												</p>-->
+
+											    <p>
+                                                   
+													<label>Password <span class="required">*</span></label>
+													<input type="text" name="password" class="form-control" id="check-password" oninput="return validatePassword()" required />
+                                                    <span id="password-error" style="color: red;"></span>
+												</p>
+												<p>
+													<label>Confirm Password <span class="required">*</span></label>
+													<input type="password" name="confirm_password" class="form-control" id="check-confirmpassword" oninput="return validateConfirmPassword()" required />
+                                                    <span id="confirmpassword-error" style="color: red;"></span>
+												</p>
+												<p>
+                                                 
+													<label>Phone number <span class="required">*</span></label>
+													<input type="text"  class="form-control" name="phone_number"/>
+                                                    <span id="password-error" style="color: red;"></span>
+												</p>
+												<p>
+													<input type="submit" class="register-button" name="register" value="Register" id="check-submit" onclick="return validateForm()" required>
+                                                    <span id="submit-error" style="color: red;"></span>
+												</p>
+											</form>
+											
+										</div>
+									</div>
+								</div>
+								<!--<div class="col-md-6 col-sm-6 col-ms-12">
+									<div class="check-address">
+										<div class="form-my-account check-register text-center">
+											<h2 class="title24 title-form-account play-font">Register</h2>
+											<p class="desc">Registering for this site allows you to access your order status and history. Just fill in the fields below, and we’ll get a new account set up for you in no time. We will only ask you for information necessary to make the purchase process faster and easier.</p>
+											<a href="#" class="shop-button bg-dark login-to-register" data-login="Login" data-register="Register">Register</a>
+										</div>
+									</div>		
+								</div>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Content Page -->
+	</div>
+	{% endblock %}
+    
+    <script src="../static/js/validation.js"></script>

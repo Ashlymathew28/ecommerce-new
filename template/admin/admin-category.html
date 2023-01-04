@@ -1,0 +1,92 @@
+{% extends 'admin/admin-index.html'%}
+{% block content %}
+{% load static %}
+
+<!-- <div class="container h-100 py-5"> -->
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10">
+        <div class="container">
+
+          <h1  style="text-align: center;"> Categories</h1>
+             <div class="btns" stye="text-align:center">
+  
+         <!-- <a href="/admin/add-stock-page"> <button class="btn btn-success mt-5">Add Stocks</button></a> -->
+         <a   href="{% url 'admin_addcategory' %}"> <button class="btn btn-success mt-5"> Add Categories</button></a>
+    </div> 
+          <div class="row">
+            <div class="col-12">
+              <table class="table" id="example">
+                <thead>
+                  <tr>
+                  
+                    
+                 
+                    <th>name</th>
+                    <!-- <th>Email</th>-->
+                    
+                    <th>Description</th>
+                    <th></th> 
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                    {% for i in new %}
+                    <!--{% if i.is_superuser %}
+
+                    {% else %} -->
+                  <tr>
+                  
+                 <!-- {% if i.blocked is False %} -->
+                    <td class="w-25">
+                     
+                      <img
+                        src="{{i.category_image}}"
+                        class="img-fluid img-thumbnail w-50 " alt="Sheep">
+                    </td>
+                    <!-- {% else %}
+                                <td class="w-25">
+                                  <img src="https://cdn-icons-png.flaticon.com/128/4205/4205906.png" class="img-fluid img-thumbnail"
+                                    alt="Sheep">
+                                </td>
+
+                                {% endif %} -->
+                    
+                   
+                    <td>{{i.category_name}}</td>
+                    <td>{{i.description}}</td>
+                  
+                   
+                  
+                    <td>
+                 
+                        <!-- {% if i.blocked is False %} -->
+                       
+                        <!-- {% else  %} -->
+                               
+                         <a href="{% url 'edit_category' i.id  %}"    >  <button type="submit" class="btn btn-dark" >Edit</button>
+
+                         </a> 
+                          <a href="{% url 'delete_category' i.id %}">   <button type="submit" class="btn btn-dark">Remove</button>
+                        </a>
+                        <!-- {% endif %} -->
+                   
+
+                    </td>
+
+                  </tr>
+                  <!-- {% endif %} -->
+                  {% endfor %}
+           
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+                    
+        </div>
+      </div>
+    </div>
+  </div>
+<!--</section>-->
+
+{% endblock %}

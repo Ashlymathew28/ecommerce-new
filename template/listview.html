@@ -1,0 +1,708 @@
+
+	{% extends 'index.html'%}
+						{% block content %}
+						{% load static %}
+	<section id="content">
+		<div class="wrap-shop-banner">
+			<div class="container">
+				<div class="banner-slider banner-slider2 banner-slider-shop">
+					<div class="wrap-item" data-navigation="true" data-itemscustom="[[0,1]]">
+						<div class="item-slider item-slider2">
+							<div class="banner-thumb">
+								<a href="#"><img src="{% static 'images/shop/slide1.jpg' %}" alt="" /></a>
+							</div>
+							<div class="banner-info animated text-center" data-animated="zoomIn">
+								<h2 class="title48 play-font font-normal text-uppercase white">up to <strong>45%</strong> off</h2>
+								<h3 class="title18 play-font font-italic white">This unique jewelry is handcrafted on the beautiful island of Nantucket using fine silver and semi precious stones.</h3>
+								<a href="#" class="border-button white title18">Shop now</a>
+							</div>
+						</div>
+						<div class="item-slider item-slider2">
+							<div class="banner-thumb">
+								<a href="#"><img src="{% static 'images/shop/slide2.jpg' %}" alt="" /></a>
+							</div>
+							<div class="banner-info animated text-center" data-animated="bounceIn">
+								<h2 class="title48 play-font font-normal text-uppercase white">Jewelry collection</h2>
+								<h3 class="title18 play-font font-italic white">This unique jewelry is handcrafted on the beautiful island of Nantucket using fine silver and semi precious stones.</h3>
+								<a href="#" class="border-button white title18">Shop now</a>
+							</div>
+						</div>
+						<div class="item-slider item-slider2">
+							<div class="banner-thumb">
+								<a href="#"><img src="{% static 'images/shop/slide3.jpg' %}" alt="" /></a>
+							</div>
+							<div class="banner-info animated text-center" data-animated="tada">
+								<h2 class="title48 play-font font-normal text-uppercase white">happy new year</h2>
+								<h3 class="title18 play-font font-italic white"><strong>up to 70% all items</strong><br>Two for Joy Jewelry creates meaningful jewelry "of the </h3>
+								<a href="#" class="border-button white title18">Shop now</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Shop Banner -->
+		<div class="wrap-bread-crumb">
+			<div class="container">
+				<div class="bread-crumb">
+					<a href="#">Home</a>
+					<a href="#">Shop</a>
+					<!--<strong>Clothing</strong>-->
+				</div>
+			</div>
+		</div>
+		<!-- End Bread Crumb -->
+		<div class="content-page">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 col-sm-4 col-xs-12">
+						<div class="sidebar sidebar-left">
+							<div class="widget widget-category">
+								<h2 class="widget-title title14 font-bold play-font text-uppercase dark">Categories</h2>
+								<div class="widget-content">
+									<ul class="list-category-toggle toggle-tab list-none">
+										{% for i in Category %}
+										<li class="item-toggle-tab active">
+											<a href="{{i.get_url}}" class="toggle-tab-title">{{i.category_name}}</a>
+											<!--<ul class="toggle-tab-content list-none">
+												<li><a href="#">For Men’s <span>25</span></a></li>
+												<li><a href="#">For Men’s <span>09</span></a></li>
+												<li><a href="#">Accessories <span>37</span></a></li>
+											</ul>-->
+										</li>
+										{% endfor %}
+										<!-- <li class="item-toggle-tab">
+											<a href="#" class="toggle-tab-title">Braclets</a> -->
+											<!---<ul class="toggle-tab-content list-none">
+												<li><a href="#">For Men’s <span>25</span></a></li>
+												<li><a href="#">For Men’s <span>09</span></a></li>
+												<li><a href="#">Accessories <span>37</span></a></li>
+											</ul>-->
+										<!-- </li> -->
+										<!-- <li class="item-toggle-tab">
+											<a href="#" class="toggle-tab-title">Earings</a> -->
+											<!---<ul class="toggle-tab-content list-none">
+												<li><a href="#">For Men’s <span>25</span></a></li>
+												<li><a href="#">For Men’s <span>09</span></a></li>
+												<li><a href="#">Accessories <span>37</span></a></li>
+											</ul>-->
+										<!-- </li> -->
+										<!--<li class="item-toggle-tab">
+											<a href="#" class="toggle-tab-title">Jewelry</a>
+											<ul class="toggle-tab-content list-none">
+												<li><a href="#">For Men’s <span>25</span></a></li>
+												<li><a href="#">For Men’s <span>09</span></a></li>
+												<li><a href="#">Accessories <span>37</span></a></li>
+											</ul>
+										</li>-->
+										<!---<li class="item-toggle-tab">
+											<a href="#" class="toggle-tab-title">Rain Coat</a>
+											<ul class="toggle-tab-content list-none">
+												<li><a href="#">For Men’s <span>25</span></a></li>
+												<li><a href="#">For Men’s <span>09</span></a></li>
+												<li><a href="#">Accessories <span>37</span></a></li>
+											</ul>
+										</li>-->
+										<!--<li class="item-toggle-tab">
+											<a href="#" class="toggle-tab-title">Suitcase</a>
+											<ul class="toggle-tab-content list-none">
+												<li><a href="#">For Men’s <span>25</span></a></li>
+												<li><a href="#">For Men’s <span>09</span></a></li>
+												<li><a href="#">Accessories <span>37</span></a></li>
+											</ul>
+										</li>-->
+									</ul>
+								</div>
+							</div>
+							<!-- End Widget -->
+							<div class="widget widget-price">
+								<h2 class="widget-title title14 font-bold play-font text-uppercase dark">Price</h2>
+								<div class="widget-content">
+									<div class="range-filter">
+										<div class="slider-range">
+											<span class="min-price"></span>
+											<span class="max-price"></span>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							<!-- End Widget -->
+							<div class="widget widget-color">
+								<h2 class="widget-title title14 font-bold play-font text-uppercase dark">colors</h2>
+								<div class="widget-content">
+									<ul class="list-none list-attr">
+										<li><a href="#"><i style="background-color:#000000"></i> Black<span>03</span></a></li>
+										<li><a href="#" class="active" data-color="#1476c6"><i style="background-color:#1476c6"></i>Blue<span>05</span></a></li>
+										<li><a href="#"><i style="background-color:#5be5ee"></i>Cyan<span>13</span></a></li>
+										<li><a href="#"><i style="background-color:#e36d55"></i>Beige<span>05</span></a></li>
+										<li><a href="#"><i style="background-color:#ff1b1b"></i>Red<span>07</span></a></li>
+										<li><a href="#"><i style="background-color:#f1ca2d"></i>Yellow<span>05</span></a></li>
+										<li><a href="#"><i style="background-color:#ffffff"></i>White<span>05</span></a></li>
+									</ul>
+								</div>
+							</div>
+							<!-- End Widget -->
+							<div class="widget widget-attr">
+								<h2 class="widget-title title14 font-bold play-font text-uppercase dark">Size</h2>
+								<div class="widget-content">
+									<ul class="list-none list-attr">
+										<li><a href="#">29"<span>05</span></a></li>
+										<li><a href="#" class="active">30"<span>03</span></a></li>
+										<li><a href="#">31"<span>13</span></a></li>
+										<li><a href="#">32"<span>05</span></a></li>
+										<li><a href="#">XS<span>07</span></a></li>
+										<li><a href="#">S<span>05</span></a></li>
+										<li><a href="#">M<span>05</span></a></li>
+										<li><a href="#">L<span>04</span></a></li>
+										<li><a href="#">XL<span>08</span></a></li>
+									</ul>
+								</div>
+							</div>
+							<!-- End Widget -->
+							<div class="widget widget-attr">
+								<h2 class="widget-title title14 font-bold play-font text-uppercase dark">Material</h2>
+								<div class="widget-content">
+									<ul class="list-none list-attr">
+										<li><a href="#">Cotton<span>05</span></a></li>
+										<li><a href="#" class="active">Wool<span>03</span></a></li>
+										<li><a href="#">Lycra<span>13</span></a></li>
+										<li><a href="#">Polyester<span>05</span></a></li>
+										<li><a href="#">Leather<span>07</span></a></li>
+									</ul>
+								</div>
+							</div>
+							<!-- End Widget -->
+							<div class="widget widget-attr">
+								<h2 class="widget-title title14 font-bold play-font text-uppercase dark">Manufacturer</h2>
+								<div class="widget-content">
+									<ul class="list-none list-attr">
+										<li><a href="#">Gucci<span>05</span></a></li>
+										<li><a href="#" class="active">Panda<span>03</span></a></li>
+										<li><a href="#">Mango<span>13</span></a></li>
+										<li><a href="#">Fendi<span>05</span></a></li>
+										<li><a href="#">Lacoste<span>07</span></a></li>
+									</ul>
+								</div>
+							</div>
+							<!-- End Widget -->
+							<div class="widget widget-tags">
+								<h2 class="widget-title title14 font-bold text-uppercase play-font">Tags</h2>
+								<ul class="list-none wg-list-tags">
+									<li><a href="#">$25</a></li>
+									<li><a href="#">$400</a></li>
+									<li><a href="#">Fashion</a></li>
+									<li><a href="#">Electronic</a></li>
+									<li><a href="#">Beauty</a></li>
+									<li><a href="#">Sale</a></li>
+								</ul>
+							</div>
+							<!-- End Widget -->
+							<div class="widget widget-search">
+								<h2 class="widget-title title14 font-bold text-uppercase play-font">Search</h2>
+								<form class="wg-search-form" method="get">
+									<input type="text" name="s" placeholder="Search.." />
+									<input type="submit" value=""/>
+								</form>
+							</div>
+							<!-- End Widget -->
+						</div>
+					</div>
+					<div class="col-md-9 col-sm-8 col-xs-12">
+						<div class="content-blog-page">
+							<div class="title-page">
+								<div class="row">
+									<div class="col-md-12">
+										<h2 class="title30 font-bold text-uppercase pull-left play-font dark">List View</h2>
+										<ul class="sort-pagi-bar list-inline-block pull-right">
+											<li>
+												<div class="sort-by">
+													<span class="gray">Sort:</span>
+													<div class="select-box inline-block">
+														<select>
+															<option value="">Default Sorting</option>
+															<option value="">Price Higher</option>
+															<option value="">Price Lower</option>
+															<option value="">Name Asc</option>
+															<option value="">Name Desc</option>
+														</select>
+													</div>
+												</div>
+											</li>
+											<li>
+												<div class="dropdown-box show-by">
+													<a href="#" class="dropdown-link"><span class="gray">Per Page:</span><span class="silver">12</span></a>
+													<ul class="dropdown-list list-none">
+														<li><a href="#">12</a></li>
+														<li><a href="#">16</a></li>
+														<li><a href="#">20</a></li>
+														<li><a href="#">24</a></li>
+													</ul>
+												</div>
+											</li>
+											<li>
+												<div class="view-type">
+													<span class="gray">View As:</span>
+													<a href="#" class="grid-view"><i class="fa fa-th-large"></i></a>
+													<a href="#" class="list-view active"><i class="fa fa-reorder"></i></a>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- End Title Page -->
+							<div class="product-list-view">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="item-product item-product1 item-product-list">
+											{% for i in products %}
+											<div class="row">
+												<div class="col-md-4 col-sm-4 col-xs-12">
+													<div class="product-thumb">
+														<a href="{{i.get_url}}" class="product-thumb-link zoom-thumb"><img src="/media/{{i.images}}" alt=""></a>
+														<a href="quick-view.html" class="quickview-link fancybox.iframe title12 round white"><i class="fa fa-search"></i></a>
+													</div>
+												</div>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<div class="product-info">
+
+														<div class="table-custom border-bottom title12">
+															<!-- <div class="text-left">
+																<a href="#" class="cat-parent opacity dark text-uppercase">men</a>
+															</div> -->
+															<div class="text-right product-extra-link">
+																<!-- <a href="compare-product.html" class="compare-link fancybox fancybox.iframe dark"><i class="fa fa-copy opacity"></i><span>Compare</span></a> -->
+																<a href="#" class="wishlist-link dark"><i class="fa fa-heart-o opacity"></i><span>Wishlist</span></a>
+															</div>
+														</div>
+														<h3 class="title14 product-title play-font"><a href="{{i.get_url}}" class="dark">{{i.product_name}}</a></h3>
+														<div class="product-price title14 play-font">
+															<del class="silver">$400.67</del>
+															<ins class="dark">${{i.price}}</ins>
+														</div>
+														<ul class="wrap-rating list-inline-block">
+															<li>
+																<div class="product-rate">
+																	<div class="product-rating" style="width:100%"></div>
+																</div>
+															</li>
+															<li>
+																<span class="rate-number silver">(5.0)</span>
+															</li>
+														</ul>
+														<ul class="wrap-qty-cart list-inline-block pull-right">
+															<li><label class="title-attr">Qty:</label></li>
+															<li>
+																<div class="detail-qty border">
+																	<a href="#" class="qty-up"><i class="fa fa-angle-up"></i></a>
+																	<span class="qty-val">1</span>
+																	<a href="#" class="qty-down"><i class="fa fa-angle-down"></i></a>
+																</div>
+															</li>
+															<li><a href="#" class="addcart-link inline-block round title12"><i class="fa fa-shopping-basket opacity"></i></a></li>
+														</ul>
+														<p class="product-desc desc dark opaci">{{i.description}} </p>
+														<a href="#" class="shop-button dark">Read more</a>
+													</div>	
+												</div>
+											</div>
+											{% endfor %}
+										</div>	
+										<!--<div class="item-product item-product1 item-product-list">
+											<div class="row">
+												<div class="col-md-4 col-sm-4 col-xs-12">
+													<div class="product-thumb">
+														<a href="#" class="product-thumb-link zoom-thumb"><img src="{% static 'images/photos/jewelry/dark-light-jewelry-02.jpg' %}" alt=""></a>
+														<a href="quick-view.html" class="quickview-link fancybox.iframe title12 round white"><i class="fa fa-search"></i></a>
+													</div>
+												</div>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<div class="product-info">
+														<div class="table-custom border-bottom title12">
+															<div class="text-left">
+																<a href="#" class="cat-parent opacity dark text-uppercase">men</a>
+															</div>
+															<div class="text-right product-extra-link">
+																<a href="compare-product.html" class="compare-link fancybox fancybox.iframe dark"><i class="fa fa-copy opacity"></i><span>Compare</span></a>
+																<a href="#" class="wishlist-link dark"><i class="fa fa-heart-o opacity"></i><span>Wishlist</span></a>
+															</div>
+														</div>
+														<h3 class="title14 product-title play-font"><a href="#" class="dark">Blue ring in ged palladium finish metal</a></h3>
+														<div class="product-price title14 play-font">
+															<del class="silver">$400.67</del>
+															<ins class="dark">$300.00</ins>
+														</div>
+														<ul class="wrap-rating list-inline-block">
+															<li>
+																<div class="product-rate">
+																	<div class="product-rating" style="width:100%"></div>
+																</div>
+															</li>
+															<li>
+																<span class="rate-number silver">(5.0)</span>
+															</li>
+														</ul>
+														<ul class="wrap-qty-cart list-inline-block pull-right">
+															<li><label class="title-attr">Qty:</label></li>
+															<li>
+																<div class="detail-qty border">
+																	<a href="#" class="qty-up"><i class="fa fa-angle-up"></i></a>
+																	<span class="qty-val">1</span>
+																	<a href="#" class="qty-down"><i class="fa fa-angle-down"></i></a>
+																</div>
+															</li>
+															<li><a href="#" class="addcart-link inline-block round title12"><i class="fa fa-shopping-basket opacity"></i></a></li>
+														</ul>
+														<p class="product-desc desc dark opaci">Our urban and streetwear fashion place is no Old Navy, Banana Republic or a Walmart clothing store, God forbid. We've quickly become the Iowa's and Midwest's biggest online retailers. </p>
+														<a href="#" class="shop-button dark">Read more</a>
+													</div>	
+												</div>
+											</div>
+										</div>--->	
+										<!--<div class="item-product item-product1 item-product-list">
+											<div class="row">
+												<div class="col-md-4 col-sm-4 col-xs-12">
+													<div class="product-thumb">
+														<a href="#" class="product-thumb-link zoom-thumb"><img src="{% static 'images/photos/jewelry/dark-light-jewelry-03.jpg' %}" alt=""></a>
+														<a href="quick-view.html" class="quickview-link fancybox.iframe title12 round white"><i class="fa fa-search"></i></a>
+													</div>
+												</div>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<div class="product-info">
+														<div class="table-custom border-bottom title12">
+															<div class="text-left">
+																<a href="#" class="cat-parent opacity dark text-uppercase">men</a>
+															</div>
+															<div class="text-right product-extra-link">
+																<a href="compare-product.html" class="compare-link fancybox fancybox.iframe dark"><i class="fa fa-copy opacity"></i><span>Compare</span></a>
+																<a href="#" class="wishlist-link dark"><i class="fa fa-heart-o opacity"></i><span>Wishlist</span></a>
+															</div>
+														</div>
+														<h3 class="title14 product-title play-font"><a href="#" class="dark">Blue ring in ged palladium finish metal</a></h3>
+														<div class="product-price title14 play-font">
+															<del class="silver">$400.67</del>
+															<ins class="dark">$300.00</ins>
+														</div>
+														<ul class="wrap-rating list-inline-block">
+															<li>
+																<div class="product-rate">
+																	<div class="product-rating" style="width:100%"></div>
+																</div>
+															</li>
+															<li>
+																<span class="rate-number silver">(5.0)</span>
+															</li>
+														</ul>
+														<ul class="wrap-qty-cart list-inline-block pull-right">
+															<li><label class="title-attr">Qty:</label></li>
+															<li>
+																<div class="detail-qty border">
+																	<a href="#" class="qty-up"><i class="fa fa-angle-up"></i></a>
+																	<span class="qty-val">1</span>
+																	<a href="#" class="qty-down"><i class="fa fa-angle-down"></i></a>
+																</div>
+															</li>
+															<li><a href="#" class="addcart-link inline-block round title12"><i class="fa fa-shopping-basket opacity"></i></a></li>
+														</ul>
+														<p class="product-desc desc dark opaci">Our urban and streetwear fashion place is no Old Navy, Banana Republic or a Walmart clothing store, God forbid. We've quickly become the Iowa's and Midwest's biggest online retailers. </p>
+														<a href="#" class="shop-button dark">Read more</a>
+													</div>	
+												</div>
+											</div>
+										</div>	--->
+										<!--<div class="item-product item-product1 item-product-list">
+											<div class="row">
+												<div class="col-md-4 col-sm-4 col-xs-12">
+													<div class="product-thumb">
+														<a href="#" class="product-thumb-link zoom-thumb"><img src="{% static 'images/photos/jewelry/dark-light-jewelry-04.jpg' %}" alt=""></a>
+														<a href="quick-view.html" class="quickview-link fancybox.iframe title12 round white"><i class="fa fa-search"></i></a>
+													</div>
+												</div>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<div class="product-info">
+														<div class="table-custom border-bottom title12">
+															<div class="text-left">
+																<a href="#" class="cat-parent opacity dark text-uppercase">men</a>
+															</div>
+															<div class="text-right product-extra-link">
+																<a href="compare-product.html" class="compare-link fancybox fancybox.iframe dark"><i class="fa fa-copy opacity"></i><span>Compare</span></a>
+																<a href="#" class="wishlist-link dark"><i class="fa fa-heart-o opacity"></i><span>Wishlist</span></a>
+															</div>
+														</div>
+														<h3 class="title14 product-title play-font"><a href="#" class="dark">Blue ring in ged palladium finish metal</a></h3>
+														<div class="product-price title14 play-font">
+															<del class="silver">$400.67</del>
+															<ins class="dark">$300.00</ins>
+														</div>
+														<ul class="wrap-rating list-inline-block">
+															<li>
+																<div class="product-rate">
+																	<div class="product-rating" style="width:100%"></div>
+																</div>
+															</li>
+															<li>
+																<span class="rate-number silver">(5.0)</span>
+															</li>
+														</ul>
+														<ul class="wrap-qty-cart list-inline-block pull-right">
+															<li><label class="title-attr">Qty:</label></li>
+															<li>
+																<div class="detail-qty border">
+																	<a href="#" class="qty-up"><i class="fa fa-angle-up"></i></a>
+																	<span class="qty-val">1</span>
+																	<a href="#" class="qty-down"><i class="fa fa-angle-down"></i></a>
+																</div>
+															</li>
+															<li><a href="#" class="addcart-link inline-block round title12"><i class="fa fa-shopping-basket opacity"></i></a></li>
+														</ul>
+														<p class="product-desc desc dark opaci">Our urban and streetwear fashion place is no Old Navy, Banana Republic or a Walmart clothing store, God forbid. We've quickly become the Iowa's and Midwest's biggest online retailers. </p>
+														<a href="#" class="shop-button dark">Read more</a>
+													</div>	
+												</div>
+											</div>
+										</div>-->
+										<!--<div class="item-product item-product1 item-product-list">
+											<div class="row">
+												<div class="col-md-4 col-sm-4 col-xs-12">
+													<div class="product-thumb">
+														<a href="#" class="product-thumb-link zoom-thumb"><img src="{% static 'images/photos/jewelry/dark-light-jewelry-05.jpg' %}" alt=""></a>
+														<a href="quick-view.html" class="quickview-link fancybox.iframe title12 round white"><i class="fa fa-search"></i></a>
+													</div>
+												</div>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<div class="product-info">
+														<div class="table-custom border-bottom title12">
+															<div class="text-left">
+																<a href="#" class="cat-parent opacity dark text-uppercase">men</a>
+															</div>
+															<div class="text-right product-extra-link">
+																<a href="compare-product.html" class="compare-link fancybox fancybox.iframe dark"><i class="fa fa-copy opacity"></i><span>Compare</span></a>
+																<a href="#" class="wishlist-link dark"><i class="fa fa-heart-o opacity"></i><span>Wishlist</span></a>
+															</div>
+														</div>
+														<h3 class="title14 product-title play-font"><a href="#" class="dark">Blue ring in ged palladium finish metal</a></h3>
+														<div class="product-price title14 play-font">
+															<del class="silver">$400.67</del>
+															<ins class="dark">$300.00</ins>
+														</div>
+														<ul class="wrap-rating list-inline-block">
+															<li>
+																<div class="product-rate">
+																	<div class="product-rating" style="width:100%"></div>
+																</div>
+															</li>
+															<li>
+																<span class="rate-number silver">(5.0)</span>
+															</li>
+														</ul>
+														<ul class="wrap-qty-cart list-inline-block pull-right">
+															<li><label class="title-attr">Qty:</label></li>
+															<li>
+																<div class="detail-qty border">
+																	<a href="#" class="qty-up"><i class="fa fa-angle-up"></i></a>
+																	<span class="qty-val">1</span>
+																	<a href="#" class="qty-down"><i class="fa fa-angle-down"></i></a>
+																</div>
+															</li>
+															<li><a href="#" class="addcart-link inline-block round title12"><i class="fa fa-shopping-basket opacity"></i></a></li>
+														</ul>
+														<p class="product-desc desc dark opaci">Our urban and streetwear fashion place is no Old Navy, Banana Republic or a Walmart clothing store, God forbid. We've quickly become the Iowa's and Midwest's biggest online retailers. </p>
+														<a href="#" class="shop-button dark">Read more</a>
+													</div>	
+												</div>
+											</div>
+										</div>--->
+										<!--<div class="item-product item-product1 item-product-list">
+											<div class="row">
+												<div class="col-md-4 col-sm-4 col-xs-12">
+													<div class="product-thumb">
+														<a href="#" class="product-thumb-link zoom-thumb"><img src="{% static 'images/photos/jewelry/dark-light-jewelry-06.jpg' %}" alt=""></a>
+														<a href="quick-view.html" class="quickview-link fancybox.iframe title12 round white"><i class="fa fa-search"></i></a>
+													</div>
+												</div>
+												<div class="col-md-8 col-sm-8 col-xs-12">
+													<div class="product-info">
+														<div class="table-custom border-bottom title12">
+															<div class="text-left">
+																<a href="#" class="cat-parent opacity dark text-uppercase">men</a>
+															</div>
+															<div class="text-right product-extra-link">
+																<a href="compare-product.html" class="compare-link fancybox fancybox.iframe dark"><i class="fa fa-copy opacity"></i><span>Compare</span></a>
+																<a href="#" class="wishlist-link dark"><i class="fa fa-heart-o opacity"></i><span>Wishlist</span></a>
+															</div>
+														</div>
+														<h3 class="title14 product-title play-font"><a href="#" class="dark">Blue ring in ged palladium finish metal</a></h3>
+														<div class="product-price title14 play-font">
+															<del class="silver">$400.67</del>
+															<ins class="dark">$300.00</ins>
+														</div>
+														<ul class="wrap-rating list-inline-block">
+															<li>
+																<div class="product-rate">
+																	<div class="product-rating" style="width:100%"></div>
+																</div>
+															</li>
+															<li>
+																<span class="rate-number silver">(5.0)</span>
+															</li>
+														</ul>
+														<ul class="wrap-qty-cart list-inline-block pull-right">
+															<li><label class="title-attr">Qty:</label></li>
+															<li>
+																<div class="detail-qty border">
+																	<a href="#" class="qty-up"><i class="fa fa-angle-up"></i></a>
+																	<span class="qty-val">1</span>
+																	<a href="#" class="qty-down"><i class="fa fa-angle-down"></i></a>
+																</div>
+															</li>
+															<li><a href="#" class="addcart-link inline-block round title12"><i class="fa fa-shopping-basket opacity"></i></a></li>
+														</ul>
+														<p class="product-desc desc dark opaci">Our urban and streetwear fashion place is no Old Navy, Banana Republic or a Walmart clothing store, God forbid. We've quickly become the Iowa's and Midwest's biggest online retailers. </p>
+														<a href="#" class="shop-button dark">Read more</a>
+													</div>	
+												</div>
+											</div>
+										</div>-->
+									</div>
+								</div>
+								<div class="pagi-nav text-right">
+									<a href="#" class="current">1</a>
+									<a href="#">2</a>
+									<a href="#">3</a>
+									<a href="#" class="next"><i class="fa fa-angle-right"></i></a>
+								</div>
+								<!-- End Paginav -->
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endblock%}
+	<!-- End Content -->
+	<!--<footer id="footer">
+		<div class="container">
+			<div class="list-service-footer">
+				<ul class="list-none">
+					<li><a href="#"><img src="images/home/jewelry2/icon1.png" alt="" /></a> <span class="opaci">FREE DELIVERY FROM $99</span></li>
+					<li><a href="#"><img src="images/home/jewelry2/icon2.png" alt="" /></a> <span class="opaci">SECURE PAYMENT</span></li>
+					<li><a href="#"><img src="images/home/jewelry2/icon3.png" alt="" /></a> <span class="opaci">100% GUARANTEED</span></li>
+					<li><a href="#"><img src="images/home/jewelry2/icon4.png" alt="" /></a> <span class="opaci">MONEY BACK GUARANTEED</span></li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer2">
+			<div class="container">
+				
+				<div class="main-footer2">
+					<div class="row">
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="block-footer2">
+								<h2 class="title30 dark play-font font-italic">Newsletter</h2>
+								<p class="desc dark opaci">Sign up to our newsletter to receive updates on the art of Coin.</p>
+								<form class="form-newsletter2">
+									<input type="text" placeholder="EMAIL ADDRESS">
+									<input type="submit" value="Subscription">
+								</form>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="block-footer2">
+								<div class="logo logo-footer2 text-center">
+									<a href="index.html">
+										<span class="logo-icon title24 round white bg-dark"><i class="fa fa-diamond"></i></span>
+										<strong class="play-font  title30 dark text-uppercase">BW-</strong>
+										<span class="play-font font-normal title30 dark">Store</span>
+									</a>
+								</div>
+								<h2 class="title18 play-font dark text-center font-italic">Follow Us On</h2>
+								<div class="social-network-footer text-center">
+									<a href="#" class="inline-block round"><i class="fa fa-facebook"></i></a>
+									<a href="#" class="inline-block round"><i class="fa fa-twitter"></i></a>
+									<a href="#" class="inline-block round"><i class="fa fa-pinterest-p"></i></a>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-4 col-xs-12">
+							<div class="block-footer2">
+								<h2 class="title30 dark play-font font-italic">Concierge</h2>
+								<p class="desc dark opaci">Don't hesitate in contacting us for any questions you might have.</p>
+								<ul class="list-none contact-foter2">
+									<li>
+										<i class="fa fa-location-arrow dark"></i>
+										<span class="text-uppercase dark opaci">SHIPPING & RETURNS</span>
+									</li>
+									<li>
+										<i class="fa fa-question dark"></i>
+										<span class="text-uppercase dark opaci">FREQUENTLY ASKED QUESTIONS</span>
+									</li>
+									<li>
+										<i class="fa fa-volume-control-phone dark"></i>
+										<span class="text-uppercase dark opaci">+84 1678 311 160</span>
+									</li>
+									<li>
+										<i class="fa fa-envelope dark"></i>
+										<a class="dark opaci" href="mailto:contact.7uptheme@gmail.com">contact.7uptheme@gmail.com</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>-->
+				<!-- End Main Footer -->
+				<!---<div class="footer-bottom2">
+					<ul class="footer-menu text-uppercase text-center list-inline-block">
+						<li><a href="#" class="dark wobble-top">cONTACT US</a></li>
+						<li><a href="#" class="dark wobble-top">SITEMAP</a></li>
+						<li><a href="#" class="dark wobble-top">CAREERS</a></li>
+						<li><a href="#" class="dark wobble-top">REPRINTS &amp; PERMISSIONS</a></li>
+						<li><a href="#" class="dark wobble-top">Privacy &amp; Cookies</a></li>
+						<li><a href="#" class="dark wobble-top">Terms &amp; Conditions</a></li>
+						<li><a href="#" class="dark wobble-top">About Us</a></li>
+					</ul>
+					<p class="desc copyright-footer text-center"><span class="dark opaci"> Bwstore © 2018 All Rights Reserved. Design by:</span> <a href="http://7uptheme.com" class="dark">7uptheme.com</a></p>
+				</div>
+			</div>
+		</div>
+	</footer>-->
+	<!-- End Footer -->
+	<!---<div class="wishlist-mask">
+		<div class="wishlist-popup">
+			<span class="popup-icon"><i class="fa fa-bullhorn" aria-hidden="true"></i></span>
+			<p class="wishlist-alert">"BW Store Product" was added to wishlist</p>
+			<div class="wishlist-button">
+				<a href="#">Continue Shopping (<span class="wishlist-countdown">5</span>)</a>
+				<a href="#">Go To Shopping Cart</a>
+			</div>
+		</div>
+	</div>-->
+	<!-- End Wishlist Mask -->
+	<!---<div id="loading">
+		<div id="loading-center">
+			<div id="loading-center-absolute">
+				<div class="object" id="object_four"></div>
+				<div class="object" id="object_three"></div>
+				<div class="object" id="object_two"></div>
+				<div class="object" id="object_one"></div>
+			</div>
+		</div>
+	</div>--->
+	<!-- End Preload -->
+	<!----<a href="#" class="scroll-top dark"><i class="fa fa-angle-up"></i></a>
+</div>
+<script src="js/libs/jquery-3.2.1.min.js"></script>
+<script src="js/libs/bootstrap.min.js"></script>
+<script src="js/libs/jquery.fancybox.min.js"></script>
+<script src="js/libs/jquery-ui.min.js"></script>
+<script src="js/libs/owl.carousel.min.js"></script>
+<script src="js/libs/jquery.jcarousellite.min.js"></script>
+<script src="js/libs/jquery.mCustomScrollbar.min.js"></script>
+<script src="js/libs/jquery.elevatezoom.min.js"></script>
+<script src="js/libs/popup.min.js"></script>
+<script src="js/libs/timecircles.min.js"></script>
+<script src="js/libs/wow.min.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>
