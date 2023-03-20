@@ -281,6 +281,9 @@
   .form-my-account > p {
     max-width: none;
   }
+  /* .new{
+    float: right;
+  } */
   .check-address .form-my-account {
     float: none;
     margin-top: 30px;

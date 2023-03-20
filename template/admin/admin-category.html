@@ -26,6 +26,7 @@
                     
                     <th>Description</th>
                     <th></th> 
+                    <th>Offer</th> 
                   </tr>
                 </thead>
                 <tbody>
@@ -73,6 +74,22 @@
 
                     </td>
 
+                    <td>
+                 
+                      <!-- {% if i.blocked is False %} -->
+                     
+                      <!-- {% else  %} -->
+                             
+                       <a href="{% url 'add_catOffer' i.id  %}"   >  <button type="submit" class="btn btn-success" >add</button>
+
+                       </a> 
+                        <a href="{% url 'delete_category' i.id %}">   <button type="submit" class="btn btn-danger">Remove</button>
+                      </a>
+                      <!-- {% endif %} -->
+                 
+
+                  </td>
+
                   </tr>
                   <!-- {% endif %} -->
                   {% endfor %}
@@ -82,7 +99,6 @@
               </table>
             </div>
           </div>
-                    
         </div>
       </div>
     </div>

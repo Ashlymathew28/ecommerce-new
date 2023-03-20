@@ -1,0 +1,60 @@
+{% extends 'admin/admin-index.html'%}
+{% block content %}
+{% load static %}
+
+<h2><center>Coupons</center> </h2>
+
+<div class="btns">
+  
+    <a href="{% url 'admin_addcoupon' %}"> <button class="btn btn-success mt-5">Add Coupon</button></a>
+
+</div>
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <!-- <th scope="col" style="width: 25%">Image</th> -->
+        <th scope="col" style="width: 30%">Name of the Coupon</th>
+        <!-- <th scope="col">Color</th> -->
+        <th scope="col" style="width: 15%">Coupon Code</th>
+        <th scope="col" style="width: 15%">Discount</th>
+        
+        <th scope="col" style="width: 15%">Starting  Date</th>
+        <th scope="col" style="width: 15%">Expiry Date</th>
+        <th scope="col">Active</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in coupon %}
+      <tr >
+        
+        <!-- <td ><img src="/media/{{i.images}}" alt="..." class=" w-25 h-25"></td> -->
+        <td>{{i.coupon_name }}</td>
+        <td>{{ i.coupon_code }}</td>
+       <td>{{i.discount}}</td>
+       <td>{{ i.valid_from }}</td>
+       <td>{{ i.valid_to }}</td>
+       <td>{{ i.active }}</td>
+        <td>
+             <a href="{% url 'edit_product' i.id %}" ><button class="btn btn-warning mb-3" id="my-button" >Edit </button></a><br> 
+             <a href="{% url 'remove_product' i.id  %}" ><button class="btn btn-warning mb-3" id="my-button" >Remove </button></a><br> 
+            <!-- <form action="" method="post">
+              <input name="stock" value="<%= product.stock %>" hidden> -->
+             <!--- <% if ( product.stock) { %>
+                <button type="submit" class="btn btn-danger" >Unlist</button>
+               
+                  <%} else { %>
+                   
+                    <button type="submit" class="btn btn-success" >List</button>
+                    <% } %>
+          </form>-->
+
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+{% endblock %}

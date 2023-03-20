@@ -1,0 +1,145 @@
+{% extends 'index.html'%}
+						{% block content %}
+						{% load static %}
+
+
+                        <div class="wrap-bread-crumb">
+                            <div class="container">
+                                <div class="bread-crumb">
+                                    <a href="{% url 'userdetails' %}">User Profile</a>
+                                    <!-- <a href="">Wishlist</a> -->
+                                    <a href="{% url 'useraddress' %}">Address</a>
+                                    <a href="{% url ' my_order' %}">Order Details</a>
+
+                                    <!--<strong>Clothing</strong>-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <section id="content">
+                            <div class="content-page">
+                                <div class="container">
+                                    <div class="content-about content-contact-page">
+                                        <h2 class="title30 play-font dark font-bold text-uppercase">Haii, {{address.fname}}</h2>
+                                        <p class="contact-submit">
+                                            <!-- <form action=""> -->
+                                            <a href="{% url 'userAddAddress' %}" class="shop-button white mx-auto bg-dark" role="button"> Add new Address</a>
+                                            
+                                            <!-- </form> -->
+                                        </p>
+                                       
+                                      
+                                             {% if address %}
+                                             {% for i in address %}  <div class="contact-page-info blockquote">
+                                            <div class="row">
+                                                <div class="col-md-5 col-sm-12 col-xs-12">
+                                                    <div class="contact-box contact-address-box">
+                                                        <span class="dark"><i class="fa fa-home"></i></span>
+                                                        <label class="title16 dark">ADDRESS:</label>
+                                                        <p class="desc">{{i.fname}} {{i.lname}}</p>
+                                                        <p class="desc">{{i.Address}}</p>
+                                                        <p class="desc">{{i.city}},{{i.state}},{{i.country}},{{i.pincode}}</p>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-7 col-xs-12">
+                                                    <div class="contact-box">
+                                                        <span class="dark"><i class="fa fa-phone"></i></span>
+                                                        <ul class="list-inline-block">
+                                                            <li>
+                                                                <label class="title16 dark">PHONES:</label>
+                                                            </li>
+                                                            <li>
+                                                                <span class="dark">{{i.user.phone_number}}</span>
+                                                                <!-- <span class="dark">800-8866-404</span> -->
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- <div class="contact-box">
+                                                        <span class="dark"><i class="fa fa-print"></i></span>
+                                                        <ul class="list-inline-block">
+                                                            <li>
+                                                                <label class="title16 dark">Fax:</label>
+                                                            </li>
+                                                            <li>
+                                                                <span class="dark">800-6969-0044;</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div> -->
+                                                </div>
+                                                <div class="col-md-3 col-sm-5 col-xs-12">
+                                                    <div class="contact-box contact-email-box">
+                                                        <span class="dark"><i class="fa fa-envelope"></i></span>
+                                                        <label class="title16 dark">e-mail:</label>
+                                                        <p class="desc"><a href="#" class="dark">{{i.email}}</a></p>
+                                                    </div>
+                                                </div>
+                                            </div></div>
+                                        {% endfor %}
+                                        {% else %}
+                                       
+                                        <p>No Address</p>
+
+                                        {% endif %}
+                                     
+                                        <!-- End Contact Info -->
+                                        <!-- <div class="contact-form-faq">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="contact-form-page">
+                                                        <h2 class="title18 dark font-bold text-uppercase play-font">Contact Form</h2>
+                                                        <form class="contact-form">
+                                                            <p class="contact-name">
+                                                                <input class="dark border" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" value="User name*" type="text">
+                                                            </p>
+                                                            <p class="contact-email">
+                                                                <input class="dark border" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" value="Email*" type="text">
+                                                            </p>
+                                                            <p class="contact-message">
+                                                                <textarea class="dark border" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" cols="30" rows="10">Your comment*</textarea>
+                                                            </p>
+                                                            <p class="contact-submit">
+                                                                <input  class="shop-button white bg-dark" type="submit" value="Post Comment">
+                                                            </p>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="contact-faq">
+                                                        <h2 class="title18 dark font-bold text-uppercase play-font">FAQs</h2>
+                                                        <div class="contact-accordion toggle-tab">
+                                                            <div class="item-toggle-tab active">
+                                                                <h2 class="toggle-tab-title dark">At vero eos et accusamus et iusto</h2>
+                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
+                                                            </div>
+                                                            <div class="item-toggle-tab">
+                                                                <h2 class="toggle-tab-title dark">Dignissimos ducimus qui blanditiis</h2>
+                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
+                                                            </div>
+                                                            <div class="item-toggle-tab">
+                                                                <h2 class="toggle-tab-title dark">Raesentium voluptatum deleniti</h2>
+                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
+                                                            </div>
+                                                            <div class="item-toggle-tab">
+                                                                <h2 class="toggle-tab-title dark">At vero eos et accusamus et iusto</h2>
+                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
+                                                            </div>
+                                                            <div class="item-toggle-tab">
+                                                                <h2 class="toggle-tab-title dark">Dignissimos ducimus qui blanditiis</h2>
+                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
+                                                            </div>
+                                                            <div class="item-toggle-tab">
+                                                                <h2 class="toggle-tab-title dark">Raesentium voluptatum deleniti</h2>
+                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </section>
+
+        {% endblock %}

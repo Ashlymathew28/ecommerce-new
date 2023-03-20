@@ -1,0 +1,41 @@
+{% extends 'index.html'%}
+{% block content %}
+{% load static %}
+
+
+ 
+<section class="bg-gradient-primary section-padding">
+    <div class="container">
+        <div class="row py-lg-5">
+            <div class="col-md-6 mx-auto text-center">
+                <h1 class="text-black mb-3">Coupons</h1>
+                <h6 class="text-black-50 mb-0"></h6>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section-padding">
+    <div class="container">
+        <div class="row pt-lg-4">
+            <!-- <% coupondata.forEach(function(data, i){ %> -->
+                {% for i in coupon %}
+                <div class="card" class="mr-3" style="width: 18rem;">
+                    <div class="card-body">
+                      <h3 class="card-title">{{i.discount}}%</h3>
+                      <h6 class="card-subtitle mb-2 text-muted">{{i.coupon_name}}</h6>
+                      <h5 class="card-title">{{i.coupon_code}}</h5>
+
+                      <p class="card-text">{{i.valid_from}}</p>
+                      <p class="card-text">{{i.valid_to}}</p>
+
+                      <!-- <a href="#" class="card-link">Card link</a>
+                      <a href="#" class="card-link">Another link</a> -->
+                    </div>
+                  </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g(#4s&562p98xmw=re4a#fot!$mx&fhy((4*1%!-k2ux9&m(jz'
+SECRET_KEY = config('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG',default=True,cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -43,6 +45,9 @@ INSTALLED_APPS = [
     'accounts',
     'adminapp',
     'cart',
+    'orders',
+    'userptofile',
+    'offers',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +76,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',
+                'cart.context_processor.counter'
             ],
         },
     },
@@ -139,3 +145,8 @@ STATICFILES_DIRS=[
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ACCOUNT_SID = config('account_sid')
+AUTH_TOKEN = config('auth_token')
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'

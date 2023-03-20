@@ -15,6 +15,9 @@ class Product(models.Model):
     category=models.ForeignKey(category,on_delete=models.CASCADE)
     created_date=models.DateTimeField(auto_now=True)
     modified_date=models.DateTimeField(auto_now=True)
+    p_offer=models.FloatField(blank=True,default=0)
+    cat_offer=models.FloatField(blank=True, default=0)
+                                
 
     def get_url(self):
         return reverse('product_detail',args=[self.category.cat_slug,self.prod_slug])

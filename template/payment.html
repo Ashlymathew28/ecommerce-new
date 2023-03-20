@@ -1,0 +1,151 @@
+{% extends 'index.html'%}
+						{% block content %}
+						{% load static %}
+	
+		
+	
+	<!-- End Header -->
+	<section id="content">
+		<div class="content-page">
+			<div class="container">
+				<div class="content-about content-checkout-page woocommerce">
+					<h2 class="title30 play-font font-bold text-uppercase text-center dark">Make Payment</h2>
+					<div class="row">
+						<form method="POST" action="{% url 'place_order' %}" class="form-my-account  ">
+							{% csrf_token %}
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="row">
+								
+								<div class=" new col-md-12 col-sm-12 col-ms-12">
+									<div class="check-address">
+										<!-- <form class="form-my-account" method="POST">  -->
+											<!-- {% csrf_token %} -->
+											<div class="card">
+												<h5 class="card-header title title18 font-bold text-uppercase">Billing Details</h5>
+
+												<div class="card-body">
+												  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>												  
+												</div>
+											  </div>
+
+                                              <br><br>
+
+											  <div class="card">
+												<h5 class="card-header title title18 font-bold text-uppercase">Billing Details</h5>
+
+												<div class="card-body">
+												  <!-- <h5 class="card-title">Special title treatment</h5> -->
+												  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+												  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+												</div>
+											  </div>
+
+
+											
+										<!-- </form> -->
+									</div>		
+								</div>
+							</div>
+							<h3 class="order_review_heading bg-dark text-center">Your order</h3>
+							<div class="woocommerce-checkout-review-order" id="order_review">
+								<!---<div class="table-responsive">
+									<table class="shop_table woocommerce-checkout-review-order-table">
+										<thead>
+											<tr>
+												<th class="product-name">Product</th>
+												<th class="product-total">Total</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for i in cart_item %}
+											<tr class="cart_item">
+												<td class="product-name">
+													{{i.product.product_name}}<span class="product-quantity">  * {{i.quantity}}</span>
+												</td>
+												<td class="product-total">
+													<span class="amount">${{i.sub_total}}</span>						
+												</td>
+											</tr>
+											{% endfor %}
+											<!-- <tr class="cart_item">
+												<td class="product-name">
+													Theme Fusion item name <span class="product-quantity">× 2</span>
+												</td>
+												<td class="product-total">
+													<span class="amount">$38.00</span>
+												</td>
+											</tr> -->
+										</tbody>
+										<tfoot>
+											<tr class="cart-subtotal">
+												<th>Subtotal</th>
+												<td><strong class="amount">${{total}}</strong></td>
+											</tr>
+											<tr class="cart-subtotal">
+												<th>Tax</th>
+												<td><strong class="amount">${{tax}}</strong></td>
+											</tr>
+											<!---<tr class="shipping">
+												<th>Shipping</th>
+												<td>
+													<ul class="list-none" id="shipping_method">
+														<li>
+															<input type="radio" class="shipping_method" checked="checked" value="free_shipping" id="shipping_method_0_free_shipping" data-index="0" name="shipping_method[0]">
+															<label for="shipping_method_0_free_shipping">Free Shipping</label>
+														</li>
+														<li>
+															<input type="radio" class="shipping_method" value="local_delivery" id="shipping_method_0_local_delivery" data-index="0" name="shipping_method[0]">
+															<label for="shipping_method_0_local_delivery">Local Delivery (Free)</label>
+														</li>
+														<li>
+															<input type="radio" class="shipping_method" value="local_pickup" id="shipping_method_0_local_pickup" data-index="0" name="shipping_method[0]">
+															<label for="shipping_method_0_local_pickup">Local Pickup (Free)</label>
+														</li>
+													</ul>
+												</td>
+											</tr>---->
+											<tr class="order-total">
+												<th>Total</th>
+												<td><strong><span class="amount">${{grand_total}}</span></strong> </td>
+											</tr>
+										</tfoot>
+									</table>
+								</div>----?
+								<div class="woocommerce-checkout-payment" id="payment">
+									<!-- <ul class="payment_methods methods list-none"> -->
+										
+
+
+										<!-- <li class="payment_method_paypal">
+											<input type="radio" data-order_button_text="Proceed to PayPal" value="paypal" name="payment_method" class="input-radio" id="payment_method_paypal">
+											<label for="payment_method_paypal">
+												PayPal <img alt="PayPal Acceptance Mark" src="{% static 'images/page/payment.png' %}"><a title="What is PayPal?" onclick="javascript:window.open('https://www.paypal.com/gb/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;" class="about_paypal" href="https://www.paypal.com/gb/webapps/mpp/paypal-popup">What is PayPal?</a>	
+											</label>
+											<div style="display:none;" class="payment_box payment_method_paypal">
+												<p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+											</div>
+										</li> -->
+									<!-- </ul> -->
+									<div class="form-row place-order">
+										<!-- <a href="{% url 'place_order' %}">---->
+											<!-- <input type="submit" data-value="Place order" value="Place order" id="place_order" name="woocommerce_checkout_place_order" class="button alt bg-color"> -->
+											<button type="submit">Place order</button>
+									<!-- </a> -->
+										</div>
+								</div>
+							</div>
+						</div>
+						{{form.errors}}
+						</form>
+					</div>
+			
+				</div>	
+			</div>
+		</div>
+	
+		<!-- End Content Pages -->
+	</section>
+
+    {% endblock %}
+	<!-- End Content -->
+	

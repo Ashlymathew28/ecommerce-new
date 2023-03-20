@@ -7,7 +7,6 @@ class category(models.Model):
     cat_slug=models.SlugField(max_length=100,unique=True)
     description=models.TextField(max_length=300,null=True)
     category_image=models.ImageField(upload_to='media',blank=True,null=True)
-    
     class Meta:
         verbose_name='category'
         verbose_name_plural='categories'

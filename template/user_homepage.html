@@ -12,7 +12,7 @@
 					<div class="banner-info animated text-center" data-animated="zoomIn">
 						<h2 class="title48 play-font font-normal text-uppercase white">up to <strong>45%</strong> off</h2>
 						<h3 class="title18 play-font font-italic white">This unique jewelry is handcrafted on the beautiful island of Nantucket using fine silver and semi precious stones.</h3>
-						<a href="#" class="border-button white title18">Shop now</a>
+						<a href="{% url 'user_shop' %}" class="border-button white title18">Shop now</a>
 					</div>
 				</div>
 				<div class="item-slider item-slider2">
@@ -47,7 +47,7 @@
 							<div class="banner-info text-center">
 								<h2 class="white title30 play-font font-italic">Bracelets</h2>
 								<p class="desc white opaci">Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod</p>
-								<a href="#" class="border-button white title14">shop now</a>
+								<!-- <a href="#" class="border-button white title14">shop now</a> -->
 							</div>
 						</div>
 					</div>
@@ -60,7 +60,7 @@
 							<div class="banner-info text-center">
 								<h2 class="dark title30 play-font font-italic">Rings</h2>
 								<p class="desc dark opaci">Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod</p>
-								<a href="#" class="border-button dark title14">shop now</a>
+								<!-- <a href="#" class="border-button dark title14">shop now</a> -->
 							</div>
 						</div>
 					</div>
@@ -70,7 +70,7 @@
 							<div class="banner-info text-center">
 								<h2 class="white title30 play-font font-italic">Earrings</h2>
 								<p class="desc white opaci">Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod</p>
-								<a href="#" class="border-button white title14">shop now</a>
+								<!-- <a href="#" class="border-button white title14">shop now</a> -->
 							</div>
 						</div>
 					</div>
@@ -92,8 +92,8 @@
 								<div class="cat-thumb"><a href="#"><img src="{{i.category_image.url}}" alt="" /></a></div>
 								<div class="cat-info">
 									<h3 class="title18 dark play-font font-italic"></h3>
-									<p class="desc dark opacity">{{i.category_name}}</p>
-									<a href="#"><i class="fa-regular fa-arrow-right"></i></a>
+									<p class="desc dark opacity" >{{i.category_name}}</p>
+									<a href="{{i.get_url}}"><i class="fa-solid fa-arrow-right"></i></a>
 								</div>
 								
 							</div>
@@ -142,9 +142,15 @@
 											</ul>
 											<div class="product-extra-link4 title18">
 												<!-- <a href="compare-product.html" class="compare-link inline-block black fancybox fancybox.iframe"><i class="icon ion-ios-loop-strong"></i><span class="title10 white text-uppercase">Compare</span></a> -->
-												<a href="#" class="addcart-link black inline-block"><i class="fa-solid fa-cart-shopping"></i><span class="title10 white text-uppercase">Add to cart</span></a>
+												{% if product.stock >= 1 %}
+												<a href="{% url 'add_cart' product.id %}" class="addcart-link black inline-block"><i class="fa-solid fa-cart-shopping"></i><span class="title10 white text-uppercase">Add to cart</span></a>
+			
 												<a href="#" class="wishlist-link black inline-block"><i class="fa-solid fa-heart"></i><span class="title10 white text-uppercase">Wishlist</span></a>
-											</div>
+											{% else %}
+											<a href="#" class="wishlist-link black inline-block"><i class="fa-solid fa-heart"></i><span class="title10 white text-uppercase">Wishlist</span></a>
+												{% endif %}
+											
+										</div>
 										</div>
 									
 									</div>

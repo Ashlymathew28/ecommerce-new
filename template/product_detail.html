@@ -137,7 +137,7 @@
 									<div class="col-md-5 col-sm-12 col-xs-12">
 										<div class="detail-gallery">
 											<div class="mid">
-												<a href=""><img src="/media/{{single_product.images}}" alt=""/></a>
+												<a href="" class="active"><img src="/media/{{single_product.images}}" alt=""/></a>
 											</div>
 											<div class="gallery-control">
 												<!-- <a href="#" class="prev"><i class="fa fa-angle-left"></i></a> -->
@@ -168,8 +168,23 @@
 										<div class="detail-info">
 											<h2 class="product-title title24 text-uppercase dark font-bold play-font">{{single_product.product_name}}</h2>
 											<div class="product-price play-font">
-												<del class="dark opaci title14">$84.00</del>
-												<ins class="title18 color font-bold">${{single_product.price}}</ins>
+												{% if single_product.p_offer > 0  or single_product.cat_offer > 0 %}
+															   <del class="silver">${{single_product.price}}</del>
+
+																{% if single_product.p_offer < single_product.cat_offer and single_product.p_offer >= 1 and single_product.cat_offer >= 1 %}
+																		
+																	<ins class="dark">${{single_product.p_offer}}</ins>
+
+																	{% else %}
+																	<ins class="dark">${{single_product.cat_offer}}</ins>
+
+																{% endif %}
+
+															{% else %}
+															<ins class="dark">${{single_product.price}}</ins>
+															{% endif %}	
+												<!-- <del class="dark opaci title14">$84.00</del>
+												<ins class="title18 color font-bold">${{single_product.price}}</ins> -->
 											</div>
 											<ul class="wrap-rating list-inline-block">
 												<li>
@@ -207,15 +222,26 @@
 												</div>
 											</div>--->
 											<div class="detail-attr qty-cart">
-												<label class="title-attr">Qty:</label>
-												<div class="detail-qty border">
+												<!-- <label class="title-attr">Qty:</label> -->
+												<!-- <div class="detail-qty border">
 													<a href="#" class="qty-up"><i class="fa fa-angle-up"></i></a>
 													<span class="qty-val">1</span>
 													<a href="#" class="qty-down"><i class="fa fa-angle-down"></i></a>
-												</div>
+												</div> -->
+                                               
+												<!-- <div class="item-product-meta-info product-available-info"> -->
+												{% if single_product.stock <= 0 %}
+												       <h4 style="color:red;">Out of stock</h4>
+												{% else %}
+												        {% if in_cart %}
+														<a href="" class="shop-button bg-dark addcart-link font-bold text-uppercase"><i class="fa fa-check"> Added to Cart</i></a>    
+														<a href="{% url 'add_cart' single_product.id %}" class="shop-button bg-dark addcart-link font-bold text-uppercase"><i class="fa fa-eye"> View Cart</i></a>    
+														{% else %}
+												        <a href="{% url 'add_cart' single_product.id %}" class="shop-button bg-dark addcart-link font-bold text-uppercase">Add to Cart</a>
+											    {% endif %}
+												{% endif %}
 											
-												<a href="{% url 'add_cart' single_product.id %}" class="shop-button bg-dark addcart-link font-bold text-uppercase">Add to Cart</a>
-											
+												<!-- </div> -->
 											</div>
 											<div class="detail-extra-link">
 												<a href="#" class="wishlist-link"><i class="fa fa-heart-o"></i><span>Add to Wishlist</span></a>
@@ -228,7 +254,7 @@
 														<span>SUK01</span>
 													</div>
 												</li>
-												<li>
+												<!-- <li>
 													<div class="item-product-meta-info product-available-info">
 														<label>Availability:</label>
 														{% if single_product.stock <= 0 %}
@@ -237,7 +263,7 @@
 														<span>In stock</span>
 														{% endif %}
 													</div>
-												</li>
+												</li> -->
 												<li>
 													<div class="item-product-meta-info product-category-info">
 														<label>Categories:</label>

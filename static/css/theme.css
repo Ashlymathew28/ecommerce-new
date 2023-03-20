@@ -5795,14 +5795,14 @@ a.dark {
   color: #999;
   height: 40px;
   padding: 0 20px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   width: 100%;
 }
 .form-my-account .title {
   margin-bottom: 26px;
 }
 .form-my-account {
-  max-width: 500px;
+  /* max-width: 500px; */
   width: 100%;
 }
 .account-register {
@@ -5824,7 +5824,7 @@ a.dark {
 }
 .form-my-account > p {
   margin-bottom: 20px;
-  max-width: 500px;
+  /* max-width: 500px; */
   position: relative;
 }
 .form-my-account label {
@@ -5886,13 +5886,13 @@ a.dark {
   border: 1px solid #e5e5e5;
   color: #999;
   padding: 10px 15px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   width: 100%;
 }
 .ship-address > label {
   font-size: 18px;
   font-weight: 700;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 .check-billing {
   border-right: 1px solid #e5e5e5;
@@ -5912,7 +5912,7 @@ a.dark {
   margin: 50px 0 -1px;
   padding: 20px;
   position: relative;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 .shop_table.woocommerce-checkout-review-order-table thread {
   position: relative;
@@ -6039,14 +6039,14 @@ td.product-thumbnail img {
   color: #999;
   height: 40px;
   padding: 0 20px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   width: 100%;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 .form-my-account select option {
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-weight: 400;
   padding: 10px 20px;
 }
@@ -6127,7 +6127,7 @@ td.product-thumbnail img {
 .register-content-box .register-button {
   display: block;
   width: 100%;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   border: none;
   background: #333;
   transition: all 0.5s ease-out 0s;
@@ -6165,7 +6165,7 @@ input.register-button.save-change {
 }
 .form-my-account .title18 {
   margin-bottom: 26px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 .register-content-box .form-my-account p {
   margin-bottom: 15px;

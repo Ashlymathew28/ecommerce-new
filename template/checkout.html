@@ -1,0 +1,267 @@
+{% extends 'index.html'%}
+{% block content %}
+{% load static %}
+
+
+
+<!-- End Header -->
+<section id="content">
+	<div class="content-page">
+		<div class="container">
+			<div class="content-about content-checkout-page woocommerce">
+				<h2 class="title30 play-font font-bold text-uppercase text-center dark">Checkout</h2>
+				<div class="row">
+					<form id="checkout-form" class="form-my-account  ">
+						{% csrf_token %}
+						<div class="col-md-12 col-sm-12 col-xs-12">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-ms-12">
+									<div class="check-billing">
+										<!-- <form class="form-my-account" method="POST" action="{% url 'place_order' %}"> -->
+										<!-- {% csrf_token %} -->
+
+										<h2 class="title title18 font-bold text-uppercase">Billing Details</h2>
+										<a href="{% url 'userAddAddress' %}" class="shop-button white mx-auto bg-dark"
+											role="button"> Add new Address</a>
+
+										{% if address %}
+										{% for i in address %}
+										<div class="card">
+											<!-- <h5 class="card-header title title18 font-bold text-uppercase">Billing Details</h5> -->
+
+											<div class="card-body">
+												<input type="radio"  value="{{ i.id }}" name="address"
+													class="address float-left  mr-2" style="height:2rem;width:1rem;">
+												<!-- <h5 class="card-title">Special title treatment</h5> -->
+												<!-- <p class="card-text px-5">{{i.Address}}</p> -->
+												<p class="desc">{{i.fname}} {{i.lname}}</p>
+												<p class="desc">{{i.Address}}</p>
+												<p class="desc">{{i.city}},{{i.state}},{{i.country}},{{i.pincode}}</p>
+												<!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+											</div>
+										</div>
+										<br>
+
+										{% endfor %}
+
+										{% else %}
+										
+		
+										
+										{% endif %}
+										
+									</div>
+								</div>
+								<div class=" new col-md-12 col-sm-12 col-ms-12">
+									<div class="check-address">
+										<!-- <form class="form-my-account" method="POST">  -->
+										<!-- {% csrf_token %} -->
+										<!-- <p class="ship-address">
+												<input type="checkbox"  id="address" /> <label for="address">Ship to a different address?</label>
+											</p> -->
+										<!-- <p>
+												<textarea cols="30" rows="10" name="address_line_2" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''">Address</textarea>
+											</p> -->
+										<p class="ship-address">
+											<label for="address">Order Notes</label>
+										</p>
+										<p>
+											<textarea cols="20" rows="6" name="order_note"
+												onblur="if (this.value=='') this.value = this.defaultValue"
+												onfocus="if (this.value==this.defaultValue) this.value = ''">Order Notes</textarea>
+										</p>
+										<!-- </form> -->
+									</div>
+								</div>
+							</div>
+							<h3 class="order_review_heading bg-dark text-center">Your order</h3>
+							<div class="woocommerce-checkout-review-order" id="order_review">
+								<div class="table-responsive">
+									<table class="shop_table woocommerce-checkout-review-order-table">
+										<thead>
+											<tr>
+												<th class="product-name">Product</th>
+												<th class="product-total">Total</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for i in cart_item %}
+											<tr class="cart_item">
+												<td class="product-name">
+													{{i.product.product_name}}<span class="product-quantity"> *
+														{{i.quantity}}</span>
+												</td>
+												<td class="product-total">
+													<span class="amount">${{i.sub_total}}</span>
+												</td>
+											</tr>
+											{% endfor %}
+											
+											<!-- <tr class="cart_item">
+												<td class="product-name">
+													Theme Fusion item name <span class="product-quantity">× 2</span>
+												</td>
+												<td class="product-total">
+													<span class="amount">$38.00</span>
+												</td>
+											</tr> -->
+										</tbody>
+										<tfoot>
+											<tr class="cart-subtotal">
+												<th>Subtotal</th>
+												<td><strong class="amount">${{total}}</strong></td>
+											</tr>
+											<tr class="cart-subtotal">
+												<th>Tax</th>
+												<td><strong class="amount">${{tax}}</strong></td>
+											</tr>
+											<!---<tr class="shipping">
+												<th>Shipping</th>
+												<td>
+													<ul class="list-none" id="shipping_method">
+														<li>
+															<input type="radio" class="shipping_method" checked="checked" value="free_shipping" id="shipping_method_0_free_shipping" data-index="0" name="shipping_method[0]">
+															<label for="shipping_method_0_free_shipping">Free Shipping</label>
+														</li>
+														<li>
+															<input type="radio" class="shipping_method" value="local_delivery" id="shipping_method_0_local_delivery" data-index="0" name="shipping_method[0]">
+															<label for="shipping_method_0_local_delivery">Local Delivery (Free)</label>
+														</li>
+														
+													</ul>
+												</td>
+											</tr>---->
+											<tr class="order-total">
+												<th>Total</th>
+												<td><strong><span class="amount" id="grand_total">${{grand_total}}</span></strong> </td>
+											</tr>
+											<td class="actions" colspan="6">
+												<div class="coupon">
+													<label for="coupon_code">Coupon:</label> 
+													<input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code"> 
+													<input type="button" value="Apply Coupon" onclick="applycoupon()" name="apply_coupon" class="button bg-color">
+												</div>
+												<a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button bg-color">	View Coupons</a>		
+
+												</td>
+										</tfoot>
+									</table>
+								</div>
+								
+								<div class="woocommerce-checkout-payment" id="payment">
+									<!-- <ul class="payment_methods methods list-none"> -->
+
+									<!-- <li class="payment_method_cheque">
+											<input type="radio" data-order_button_text="" value="cheque" name="payment_method" class="input-radio" id="payment_method_cheque">
+											<label for="payment_method_cheque">Cheque Payment 	</label>
+												<div style="display:none;" class="payment_box payment_method_cheque">
+												<p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+											</div>
+										</li> -->
+
+									<!-- <li class="payment_method_cod"> -->
+									<!-- <a class="btn btn-dark" href="{% url 'place_order' %}" role="button">Cash on Delivery</a> -->
+
+									<!-- <input type="radio" data-order_button_text="" value="cod" name="cash" class="input-radio" id="payment_method_cod"> -->
+									<!-- <label for="payment_method_cod">Cash on Delivery 	</label> -->
+
+									<!-- <div style="display:none;" class="payment_box payment_method_cod">
+												<p>Pay with cash upon delivery.</p>
+											</div> -->
+									<!-- </li> -->
+
+									<!-- <li class="payment_method_paypal"> -->
+
+									<!-- <a class="btn btn-dark" href="{% url 'user_shop' %}" role="button">Pay with RazorPay</a> -->
+
+									<!-- <input type="radio" data-order_button_text="Proceed to PayPal" value="paypal" name="payment_method" class="input-radio" id="payment_method_paypal">
+											<label for="payment_method_paypal">
+												PayPal <img alt="PayPal Acceptance Mark" src="{% static 'images/page/payment.png' %}"><a title="What is PayPal?" onclick="javascript:window.open('https://www.paypal.com/gb/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;" class="about_paypal" href="https://www.paypal.com/gb/webapps/mpp/paypal-popup">What is PayPal?</a>	
+											</label>
+											<div style="display:none;" class="payment_box payment_method_paypal">
+												<p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p> -->
+									<!-- </div> -->
+									<!-- </li> -->
+									<!-- </ul> -->
+									<div class="form-row place-order">
+										<!-- <a href="{% url 'place_order' %}">---->
+										<!-- <input type="submit" data-value="Place order" value="Place order" id="place_order" name="woocommerce_checkout_place_order" class="button alt bg-color"> -->
+										<!-- <button type="submit">Place order</button> -->
+										<button class="btn btn-dark payWithRazorpay"  type="button" >Pay with  RazorPay</button>
+										<button class="btn btn-dark" type="submit" >Cash on
+											Delivery</button>
+											<input type="hidden" value="COD" name="pay_method">
+
+										<!-- </a> -->
+									</div>
+								</div>
+							</div>
+						</div>
+						{{form.errors}}
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- End Content Pages -->
+</section>
+<script>
+	$(document).ready(function () {
+
+		$("#checkout-form").submit((e) => {
+			e.preventDefault();
+			var address = $("[name='address']:checked").val(); // get selected address
+			 if (!address) { // check if an address is selected
+					console.log(address,'Mwonuseee evide und.....');
+					Swal.fire('Error', 'Please select an address.', 'error'); // display error message
+					return false;
+				}
+			
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					
+					$.ajax({
+						url: "{% url 'place_order' %}",
+						method: "post",
+						headers: {
+							'X-CSRFToken': '{{ csrf_token }}'
+						},
+						data: $("#checkout-form").serialize()
+					}).done((res) => {
+						Swal.fire(
+							'Successfull!',
+							'Your order has been place.',
+							'success'
+						).then(() =>{
+							location.href = "/cart/"
+						})
+					}).fail((err) => {
+
+					})
+
+				}
+			})
+		})
+		
+	})
+</script>
+
+{% endblock  %}
+<!-- 
+{% block scripts %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
+
+<!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
+
+<!-- {% endblock scripts %} -->
+<!-- End Content -->

@@ -23,6 +23,7 @@ class UserManager(BaseUserManager):
              password=password
          )
          user.is_admin=True
+        #  print(user.is_admin)
          user.is_superuser=True
          user.is_staff=True
          user.is_superadmin=True

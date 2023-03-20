@@ -13,14 +13,15 @@ class Account(AbstractBaseUser):
     phone_number=models.CharField(max_length=50)
     blocked=models.BooleanField(default=False)
 
-    objects  = UserManager()
 
     date_joined=models.DateTimeField(auto_now_add=True)
     last_login=models.DateTimeField(auto_now_add=True)
     is_superuser=models.BooleanField(default=False)
     is_staff=models.BooleanField(default=False)
     is_superadmin=models.BooleanField(default=False)
+    is_admin=models.BooleanField(default=False)
   
+    objects  = UserManager()
     USERNAME_FIELD='email'
     #REQUIRED_FIELDS= ['email']
         

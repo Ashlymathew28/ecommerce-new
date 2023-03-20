@@ -1,8 +1,15 @@
 from django.shortcuts import render,redirect
 from .models import Account
+from .otp import MessageHandler
+from cart.views import _cart_id
 from django.views.decorators.cache import never_cache
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from twilio.rest import Client
+from cart.models import *
+import requests
+
+import random
 # Create your views here.
 
 def homepage(request):
@@ -25,9 +32,33 @@ def user_login(request):
         print(user)
         print("111")
         if user is not None:
+            try:
+                cart = Cart.objects.get(_cart_id=_cart_id(request))
+                is_cart_item_exists = CartItem.objects.filter( cart=cart).exists
+                if is_cart_item_exists:
+                    cart_item = CartItem.objects.filter(cart=cart)
+                    for item in cart_item:
+                        item.user = user
+                        item.save()
+            except:
+                 print('entered in expect ')
+                 pass
+
             login(request,user)
             print("111")
-            return redirect('homepage')
+            messages.success(request,'You are now logged in !!!')
+            url = request.META.get('HTTP_REFERER')
+            try:
+                query=requests.utils.urlparse(url).query
+                print('query= ',query)
+                params=dict(x.split('=')for x in query.split('&'))
+                if 'next' in params:
+                    nextPage=params['next']
+                    return redirect(nextPage)
+                
+            except:
+                return redirect('homepage')
+          
         else:
             messages.error(request,'Invalid credentilas')
             return redirect('user_login')
@@ -37,7 +68,7 @@ def user_login(request):
 def user_register(request):
     if request.method =='POST':
         user_email=request.POST['email']
-        user_name=request.POST['username']
+        user_name=request.POST.get('username')
         phone_number=request.POST['phone_number']
         password=request.POST['password']
         #confirm_password=request.POST['confirm_password']
@@ -48,16 +79,62 @@ def user_register(request):
              #return render(request,'member-register.html',{'error_msg':"This email have already an account!!"})
 
         else:
-            user=Account.objects.create_user(username=user_name,email=user_email,password=password,phone_number=phone_number)
-            user.save()
+            otp = 1
+            message_handler=MessageHandler(phone_number,otp).send_otp()
+            # user=Account.objects.create_user(username=user_name,email=user_email,password=password,phone_number=phone_number)
+            # user.save()
            # print(password)
-            login(request,user)
-            print('user reated')
-            return redirect('homepage')
+            # login(request,user)
+            # print('user reated')
+            # return redirect('homepage')
+            context={
+
+                'phone_number':phone_number,
+                'user_email':user_email,
+                'user_name':user_name,
+                'password': password
+
+
+            }
+            return render(request,'otp.html',context)
         #else:
             #return render(request,'member-register.html',{'error_msg':"Wrong passord"})
     else:
         return render(request,'member-register.html')
+
+def otp_validate(request):
+    if request.method == 'POST' and request.POST['otpnumber']:
+        print('ttttttttttttttttttttttttttt')
+        otp1 = request.POST['otpnumber']
+        print(otp1)
+        phone_number = request.POST['phone_number']
+        user_name=request.POST['user_name']
+        user_email=request.POST.get('user_email')
+        password=request.POST.get('password')
+        validate=MessageHandler(phone_number,otp1).validate()
+        print(validate,'jjjjjjjjjjjjjjjjjjjjj')
+
+        if validate == 'approved':
+            print('oooooooooooooooooo')
+            user=Account.objects.create_user(username=user_name,email=user_email,password=password,phone_number=phone_number)
+            user.save() 
+            messages.info(request,"Account Created")
+            print('user reated')
+            return redirect('homepage')
+        else:
+            messages.info(request,'Wrong OTP')
+            context={
+
+                'phone_number':phone_number,
+                'user_email':user_email,
+                'user_name':user_name,
+                'password': password
+
+            }
+            return render(request,'otp.html',context)
+    return render(request,'otp.html')
+        
+
 def user_logout(request):
     if request.user.is_authenticated:
         logout(request)

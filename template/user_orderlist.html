@@ -1,0 +1,100 @@
+{% extends 'index.html'%}
+						{% block content %}
+						{% load static %}
+
+
+                        <div class="wrap-bread-crumb">
+                            <div class="container">
+                                <div class="bread-crumb">
+                                    <a href="{% url 'userdetails' %}">User Profile</a>
+                                    <!-- <a href="">Wishlist</a> -->
+                                    <a href="{% url 'useraddress' %}">Address</a>
+                                    <a href="{% url 'my_order' %}">Order Details</a>
+
+                                    <!--<strong>Clothing</strong>-->
+                                </div>
+                            </div>
+                        </div>
+
+       <!-- OrderList starting -->
+       <section id="content">
+		<div class="content-page">
+			<div class="container">
+       <div class="content-about content-cart-page woocommerce product_data">
+        <h2 class="title30 play-font text-uppercase font-bold dark" style="text-align: center;">Order List</h2>
+
+                        <div class="table-responsive ">
+							<table class="shop_table cart table">
+								<thead>
+									<tr>
+										<th class="product-remove">Order Date</th>
+										<th class="product-remove">Picture</th>
+
+										<th class="product-name">Product</th>
+                                        
+										<th class="product-price">Price</th>
+										<th class="product-thumbnail">Quantity</th>
+										<th class="product-quantity">Status</th>
+										<th class="product-subtotal">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+                                    {% for i in order %}
+									<tr class="cart_item">
+										<td class="product-remove">
+                                            <span class="amount">{{i.created_at}}</span>					
+
+										</td>
+										<td class="product-thumbnail">
+											<a href="#"><img  src="/media/{{i.product.images}}" alt=""/></a>					
+										</td>
+										<td class="product-name" data-title="Product">
+											<a href="{{ cart_item.product.get_url }}">{{i.product.product_name}}</a>					
+										</td>
+										<td class="product-price" data-title="Price">
+											<span class="amount">{{i.product.price}}</span>					
+										</td>
+										<td class="product-quantity" data-title="Quantity">
+											<!-- <div class="detail-qty "> -->
+												<span class="amount">{{i.quantity}}</span>					
+
+											   <!-- <div> -->
+												<!-- <button type="button" class="decrement-btn"  onclick='decrementQunatity("quantity_value{{ forloop.counter }}","{{ cart_item.product.id }}","sub_total{{ forloop.counter}}")' style="  border: 3px solid #ccc;"><i class="fa fa-angle-down"></i></button> -->
+												<!-- </div>
+
+												<div> -->
+												<!-- <input type="text" name="quantity" id="quantity_value{{ forloop.counter }}" class="qty-input" min="1" max="10" value="{{ cart_item.quantity}}" maxlength="2" size="1"> -->
+												<!-- </div>
+
+												<div> -->
+												<!-- <button type="button" class="increment-btn" onclick = 'incrementQunatity("quantity_value{{ forloop.counter }}","{{ cart_item.product.id }}","sub_total{{ forloop.counter}}")'  style="  border: 3px solid #ccc;"><i class="fa fa-angle-up"></i></button> -->
+											<!-- </div> -->
+
+											<!-- </div> -->
+										</td>
+										<td class="product-subtotal" data-title="Total">
+											<span class="amount" id="sub_total{{ forloop.counter }}">${{cart_item.sub_total}}</span>
+											
+										</td>
+									</tr>
+                                    {% endfor %}
+								
+									<!-- <tr>
+										<td class="actions" colspan="6">
+											<div class="coupon">
+												<label for="coupon_code">Coupon:</label> 
+												<input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code"> 
+												<input type="submit" value="Apply Coupon" name="apply_coupon" class="button bg-color">
+											</div>
+											<input type="submit" value="Update Cart" name="update_cart" class="button bg-color">			
+										</td>
+									</tr> -->
+									
+								</tbody>
+							</table>
+						</div>
+                        </div>
+                        </div>
+                        </div>
+                        </section>
+{% endblock %}
