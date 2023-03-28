@@ -136,53 +136,56 @@
 								<div class="row">
 									<div class="col-md-5 col-sm-12 col-xs-12">
 										<div class="detail-gallery">
-											<div class="mid">
-												<a href="" class="active"><img src="/media/{{single_product.images}}" alt=""/></a>
+											<div class="mid" >
+												<a href="" class="active"><img src="/media/{{single_product.images}}"></a>
 											</div>
 											<div class="gallery-control">
-												<!-- <a href="#" class="prev"><i class="fa fa-angle-left"></i></a> -->
-												<!---<div class="carousel" data-visible="5">
+												<a href="#" class="prev"><i class="fa fa-angle-left"></i></a>
+												<div class="carousel" data-visible="2">
 													<ul class="list-none">
-														<li><a href="#" class="active"><img src="images/photos/jewelry/dark-light-jewelry-01.jpg" alt=""></a></li>
-														<li><a href="#"><img src="images/photos/jewelry/dark-light-jewelry-02.jpg" alt=""></a></li>
-														<li><a href="#"><img src="images/photos/jewelry/dark-light-jewelry-03.jpg" alt=""></a></li>
-														<li><a href="#"><img src="images/photos/jewelry/dark-light-jewelry-04.jpg" alt=""></a></li>
-														<li><a href="#"><img src="images/photos/jewelry/dark-light-jewelry-05.jpg" alt=""></a></li>
+														<li><a href="#" class="active"><img src="/media/{{single_product.images}}" alt=""></a></li>
+														<li><a href="#"><img src="/media/{{single_product.image1}}" alt=""></a></li>
+														<li><a href="#"><img src="/media/{{single_product.image2}}" alt=""></a></li>
+														<!-- <li><a href="#"><img src="images/photos/jewelry/dark-light-jewelry-04.jpg" alt=""></a></li> -->
+														<!-- <li><a href="#"><img src="images/photos/jewelry/dark-light-jewelry-05.jpg" alt=""></a></li>
 														<li><a href="#"><img src="images/photos/jewelry/dark-light-jewelry-06.jpg" alt=""></a></li>
-														<li><a href="#"><img src="images/photos/jewelry/dark-light-jewelry-07.jpg" alt=""></a></li>
+														<li><a href="#"><img src="images/photos/jewelry/dark-light-jewelry-07.jpg" alt=""></a></li> -->
 													</ul>
-												</div>--->
-												<!-- <a href="#" class="next"><i class="fa fa-angle-right"></i></a> -->
+												</div>
+												<a href="#" class="next"><i class="fa fa-angle-right"></i></a>
 											</div>
 										</div> 
 										<!-- End Gallery -->
-										<div class="detail-share-social text-center">
+										<!-- <div class="detail-share-social text-center">
 											<span>Share</span>
 											<a href="#" class="float-shadow"><img src="images/icon/icon-email.png" alt="" /></a>
 											<a href="#" class="float-shadow"><img src="images/icon/icon-facebook.png" alt="" /></a>
 											<a href="#" class="float-shadow"><img src="images/icon/icon-twitter.png" alt="" /></a>
 											<a href="#" class="float-shadow"><img src="images/icon/icon-pinterest.png" alt="" /></a>
-										</div>
+										</div> -->
 									</div>
 									<div class="col-md-7 col-sm-12 col-xs-12">
 										<div class="detail-info">
 											<h2 class="product-title title24 text-uppercase dark font-bold play-font">{{single_product.product_name}}</h2>
 											<div class="product-price play-font">
-												{% if single_product.p_offer > 0  or single_product.cat_offer > 0 %}
+												
+												{% if single_product.price !=   single_product.user_price %}
+												
 															   <del class="silver">${{single_product.price}}</del>
 
-																{% if single_product.p_offer < single_product.cat_offer and single_product.p_offer >= 1 and single_product.cat_offer >= 1 %}
+															   <ins class="dark">${{single_product.user_price}}</ins>
+																<!-- {% if single_product.p_offer < single_product.cat_offer and single_product.p_offer >= 1 and single_product.cat_offer >= 1 %} -->
 																		
-																	<ins class="dark">${{single_product.p_offer}}</ins>
+																	<!-- <ins class="dark">${{single_product.p_offer}}</ins> -->
 
 																	{% else %}
-																	<ins class="dark">${{single_product.cat_offer}}</ins>
+																	<ins class="dark">${{single_product.user_price}}</ins>
 
 																{% endif %}
 
-															{% else %}
+															<!-- {% else %}
 															<ins class="dark">${{single_product.price}}</ins>
-															{% endif %}	
+															{% endif %}	 -->
 												<!-- <del class="dark opaci title14">$84.00</del>
 												<ins class="title18 color font-bold">${{single_product.price}}</ins> -->
 											</div>
@@ -235,7 +238,7 @@
 												{% else %}
 												        {% if in_cart %}
 														<a href="" class="shop-button bg-dark addcart-link font-bold text-uppercase"><i class="fa fa-check"> Added to Cart</i></a>    
-														<a href="{% url 'add_cart' single_product.id %}" class="shop-button bg-dark addcart-link font-bold text-uppercase"><i class="fa fa-eye"> View Cart</i></a>    
+														<a href="{% url 'cart'  %}" class="shop-button bg-dark addcart-link font-bold text-uppercase"><i class="fa fa-eye"> View Cart</i></a>    
 														{% else %}
 												        <a href="{% url 'add_cart' single_product.id %}" class="shop-button bg-dark addcart-link font-bold text-uppercase">Add to Cart</a>
 											    {% endif %}
@@ -248,12 +251,12 @@
 												<!-- <a href="compare-product.html" class="compare-link fancybox fancybox.iframe"><i class="fa fa-copy"></i><span>Add to Compare</span></a> -->
 											</div>
 											<ul class="list-none product-meta-info">
-												<li>
+												<!-- <li>
 													<div class="item-product-meta-info product-code-info">
 														<label>Product Code:</label>
 														<span>SUK01</span>
 													</div>
-												</li>
+												</li> -->
 												<!-- <li>
 													<div class="item-product-meta-info product-available-info">
 														<label>Availability:</label>
@@ -268,7 +271,7 @@
 													<div class="item-product-meta-info product-category-info">
 														<label>Categories:</label>
 														{% for i in Category %}
-														<a href="">{{i.category_name}}</a>
+														<a href="{{i.get_url}}">{{i.category_name}}</a>
 														{% endfor %}
 														
 													</div>
@@ -295,11 +298,11 @@
 								<!-- <div class="detail-tab-content">
 									<div class="tab-content"> -->
 										<!--<div id="tab1" class="tab-pane active">
-											<!--<div class="detail-tab-desc clearfix">
+											<div class="detail-tab-desc clearfix">
 												<div class="img-detail pull-right"><img src="images/shop/detail.jpg" alt="" /></div>
-												<!-- <p class="desc">Our planet is something unbelievable. It is so diverse and beautiful, so unique and controversial. Earth is worth our admiring. The easiest way to explore all wonders and unique places of our planet is travelling. It is very romantic and it takes one's breath away because new emotions are always</p> -->
+												 <p class="desc">Our planet is something unbelievable. It is so diverse and beautiful, so unique and controversial. Earth is worth our admiring. The easiest way to explore all wonders and unique places of our planet is travelling. It is very romantic and it takes one's breath away because new emotions are always</p> -->
 												<!-- <ul class="silver">
-													<!-- <li>The globe and the map are the small model of our world. Nowadays maps are very useful thing especially when you want to explore some wild spots. </li> -->
+													<li>The globe and the map are the small model of our world. Nowadays maps are very useful thing especially when you want to explore some wild spots. </li> -->
 													<!--<li>Of course you can rely on your GPS system but we must never forget our</li>--->
 												<!--</ul> -->
 											<!--</div>--->
@@ -421,7 +424,7 @@
 								</div>
 							</div>---->
 							<!-- End Tabs -->
-							<div class="related-tabs">
+							<!-- <div class="related-tabs">
 								<ul class="list-inline-block related-tab-title font-bold text-uppercase play-font">
 									<li class="active"><a href="#ral1" data-toggle="tab">Latest products</a></li>
 									<li><a href="#ral2" data-toggle="tab">Uppsell Products</a></li>
@@ -776,7 +779,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							<!-- End Related Tabs -->
 						</div>
 					</div>	

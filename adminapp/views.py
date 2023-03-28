@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.template import context
 from accounts.models import Account
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 
 from django.contrib.auth import authenticate,login,logout
 from django.utils.text import slugify
@@ -9,6 +10,7 @@ from store.models import Product
 from django.contrib import messages
 from category.models import category
 from orders.models import *
+from django.http import JsonResponse
 from offers.models import Coupon,product_offer,cat_offer
 # Create your views here.
 
@@ -36,7 +38,9 @@ def admin_login(request):
 def admin_home(request):
     if request.user.is_superuser==True:
        print('haiiiii')
+        
        return render(request,'admin/admin-home.html')
+    return redirect('admin_login')
 
 def admin_logout(request):
     logout(request)
@@ -47,10 +51,13 @@ def admin_logout(request):
 def admin_userlist(request):
     print('>>>>>>>>>>')
     new=Account.objects.all()
-    
+    paginator=Paginator(new,2)
+    page=request.GET.get('page')
+    paged_new=paginator.get_page(page)
     #context={'userlist':new}
     #print(context)
-    return render(request,'admin/admin-user.html',{'new':new})
+    print(paged_new)
+    return render(request,'admin/admin-user.html',{'new':paged_new})
 
 #for blocking user
 def admin_block(request,id):
@@ -65,10 +72,10 @@ def admin_block(request,id):
 #for unblocking user
 def admin_unblock(request,id):
     print('unblocked')
-    user=Account.objects.get(id=id)
-    user.blocked=False
-    user.save()
-    print(user)
+    users=Account.objects.get(id=id)
+    users.blocked=False
+    users.save()
+    print(users)
     return redirect('admin_userlist')
 
 #to see the categorylist
@@ -76,6 +83,7 @@ def admin_unblock(request,id):
 def admin_category(request):
     print('}}}}}}}}}}}}}}')
     new=category.objects.all()
+    
     return render(request,'admin/admin-category.html',{'new':new})
 
 #adding category
@@ -126,7 +134,10 @@ def update_category(request,id):
 @login_required(login_url='admin_login')
 def admin_productlist(request):
     product=Product.objects.all()
-    return render(request,'admin/admin-productlist.html',{'product':product})
+    paginator=Paginator(product,4)
+    page=request.GET.get('page')
+    paged_products=paginator.get_page(page)
+    return render(request,'admin/admin-productlist.html',{'product':paged_products})
 
 
 @login_required(login_url='admin_login')
@@ -144,15 +155,24 @@ def admin_addproduct(request):
         cat=request.POST['category']
         print(cat,'//////////////')
         stock=request.POST['stock']
-        product=Product()
-        product.slug=slugify(product_name)
+        slug=slugify(product_name)
+        slug_compare=Product.objects.filter(prod_slug=slug)
+        if slug == slug_compare:
+            return redirect('admin_add')
+        product=Product() 
+        product.prod_slug=slugify(product_name)
         product.product_name=product_name
         product.description=description
         product.price=price
+        product.user_price=price
         product.category_id=cat
         product.stock=stock
         if 'Image' in request.FILES:
               product.images=request.FILES['Image']
+        if 'Image1' in request.FILES:
+              product.image1=request.FILES['Image1']
+        if 'Image2' in request.FILES:
+              product.image2=request.FILES['Image2']
         product.save()
         return redirect('admin_productlist')
 
@@ -173,14 +193,19 @@ def edit_product(request,id):
         product_name=request.POST.get('productname')
         description=request.POST.get('description')
         price=request.POST.get('price')     
-        image=request.FILES.get('Image')
+        images=request.FILES.get('Image')
+        image1=request.FILES.get('Image1')
+        image2=request.FILES.get('Image2')
         cat=request.POST.get('category')
         stock=request.POST.get('stock')
 
         product.product_name=product_name
         product.description=description
         product.price=price
-        product.images=image
+        product.user_price=price
+        product.images=images
+        product.image1=image1
+        product.image2=image2
         product.stock=stock
         product.save()
         return redirect('admin_productlist')
@@ -197,8 +222,7 @@ def addproduct_Offer(request,id):
         prod_offer.name=request.POST.get('productofferName')
         prod_offer.offer=request.POST.get('offer')
         prod_offer.offer_type=request.POST.get('offerType')
-        prod_offer.start_date=request.POST.get('startDate')
-        prod_offer.end_date=request.POST.get('endDate')
+    
         prod_offer.product_id=id
         prod_offer.save()
         offer_price=(prod_offer.product.price)-(prod_offer.product.price*(int(prod_offer.offer)/100))
@@ -206,12 +230,120 @@ def addproduct_Offer(request,id):
         print(offer_price)
         print("product offer kandu pidichu kutta ")
         print(prod_offer.product.p_offer)
-        prod_offer.save()
+        prod_offer.product.save()
+
+        if prod_offer.product.p_offer < 1 and prod_offer.product.cat_offer < 1:
+            prod_offer.product.user_price = prod_offer.product.price
+
+        elif prod_offer.product.p_offer < prod_offer.product.cat_offer and prod_offer.product.p_offer > 1:
+            prod_offer.product.user_price = prod_offer.product.p_offer
+        
+        elif prod_offer.product.cat_offer < prod_offer.product.p_offer and prod_offer.product.cat_offer > 1:
+            prod_offer.product.user_price = prod_offer.product.cat_offer
+
+        elif prod_offer.product.cat_offer > 1 and prod_offer.product.p_offer == 0:
+            prod_offer.product.user_price =prod_offer.product.cat_offer
+        
+        elif prod_offer.product.p_offer > 1 and prod_offer.product.cat_offer == 0:
+            prod_offer.product.user_price = prod_offer.product.p_offer
+        
+        else:
+            prod_offer.product.user_price = prod_offer.product.cat_offer
+        
+        prod_offer.product.save()
+
+
         return redirect('admin_productlist')
 
     else:
         product=Product.objects.get(id=id)
         return render(request,'admin/admin-prodOffer.html',{'product':product})
+    
+# for editing product Offer
+def edit_prodOffer(request,id):
+    
+    if request.method =='POST':
+        print(id)
+        prod_offer=product_offer.objects.get(id=id)
+        print("editttttttt")
+        print(prod_offer)
+        prod_offer.name=request.POST.get('productofferName')
+        prod_offer.offer=request.POST.get('offer')
+        prod_offer.offer_type=request.POST.get('offerType')
+    
+        # prod_offer.product_id=id
+        prod_offer.save()
+        offer_price=(prod_offer.product.price)-(prod_offer.product.price*(int(prod_offer.offer)/100))
+        prod_offer.product.p_offer=offer_price
+        print(offer_price)
+        print("product offer kandu pidichu kutta ")
+        print(prod_offer.product.p_offer)
+        prod_offer.product.save()
+
+        if prod_offer.product.p_offer < 1 and prod_offer.product.cat_offer < 1:
+            prod_offer.product.user_price = prod_offer.product.price
+
+        elif prod_offer.product.p_offer < prod_offer.product.cat_offer and prod_offer.product.p_offer > 1:
+            prod_offer.product.user_price = prod_offer.product.p_offer
+        
+        elif prod_offer.product.cat_offer < prod_offer.product.p_offer and prod_offer.product.cat_offer > 1:
+            prod_offer.product.user_price = prod_offer.product.cat_offer
+
+        elif prod_offer.product.cat_offer > 1 and prod_offer.product.p_offer == 0:
+            prod_offer.product.user_price =prod_offer.product.cat_offer
+        
+        elif prod_offer.product.p_offer > 1 and prod_offer.product.cat_offer == 0:
+            prod_offer.product.user_price = prod_offer.product.p_offer
+        
+        else:
+            prod_offer.product.user_price = prod_offer.product.cat_offer
+        
+        prod_offer.product.save()
+
+
+        return redirect('admin_productlist')
+
+    else:
+        print(id)
+        offer=product_offer.objects.get(product_id=id)
+        print(offer)
+        return render(request,'admin/edit_productOffer.html',{'offer':offer})
+
+
+# removing prodOffer
+def remove_productOffer(request):
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    print("keriiii")
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    id=request.GET.get('id')
+    print(id)
+    prod_offer=product_offer.objects.get(product_id=id)
+    prod_offer.product.p_offer = 0
+    prod_offer.product.save()
+    
+    if prod_offer.product.p_offer < 1 and prod_offer.product.cat_offer < 1:
+        prod_offer.product.user_price = prod_offer.product.price
+
+    elif prod_offer.product.p_offer < prod_offer.product.cat_offer and prod_offer.product.p_offer > 1:
+        prod_offer.product.user_price = prod_offer.product.p_offer
+        
+    elif prod_offer.product.cat_offer < prod_offer.product.p_offer and prod_offer.product.cat_offer > 1:
+        prod_offer.product.user_price = prod_offer.product.cat_offer
+
+    elif prod_offer.product.cat_offer > 1 and prod_offer.product.p_offer == 0:
+        prod_offer.product.user_price =prod_offer.product.cat_offer
+    
+    elif prod_offer.product.p_offer > 1 and prod_offer.product.cat_offer == 0:
+        prod_offer.product.user_price = prod_offer.product.p_offer
+        
+    else:
+        prod_offer.product.user_price = prod_offer.product.cat_offer
+        
+    prod_offer.product.save()
+    prod_offer.delete()
+
+    return JsonResponse({'status':'true'})
+
 
 def add_catOffer(request,id):
     if request.method =='POST':
@@ -219,29 +351,99 @@ def add_catOffer(request,id):
         catedory_offer.name=request.POST.get('productofferName')
         catedory_offer.offer=request.POST.get('offer')
         catedory_offer.offer_type=request.POST.get('offerType')
-        catedory_offer.start_date=request.POST.get('startDate')
-        catedory_offer.end_date=request.POST.get('endDate')
+      
         catedory_offer.category_id=id
         catedory_offer.save()
         print("category offer save aayito")
-        # offer_price=(catedory_offer.category.price)-(catedory_offer.category.price*(int(prod_offer.offer)/100))
-        # catedory_offer.product.p_offer=offer_price
-        # print(offer_price)
-        # print("product offer kandu pidichu kutta ")
-        # print(prod_offer.product.p_offer)
-        # prod_offer.save()
-        # return redirect('admin_productlist')
+        catedory_offer.category.c_offer=True
+        catedory_offer.category.save()
+
         prod=Product.objects.filter(category_id=id)
 
         for i in prod:
             i.cat_offer=i.price-(i.price*(int(catedory_offer.offer)/100))
             i.save()
-            print("category offer calculate aaki")
+
+            if i.p_offer < 1 and i.cat_offer < 1:
+                i.user_price = i.price
+
+            elif i.p_offer < i.cat_offer and i.p_offer > 1:
+                i.user_price = i.p_offer
+        
+            elif i.cat_offer < i.p_offer and i.cat_offer > 1:
+                i.user_price = i.cat_offer
+
+            elif i.cat_offer > 1 and i.p_offer == 0:
+                i.user_price =i.cat_offer
+        
+            elif i.p_offer > 1 and i.cat_offer == 0:
+                i.user_price = i.p_offer
+        
+            else:
+                i.user_price = i.cat_offer
+                print("category offer calculate aaki")
+            i.save()
         return redirect('admin_category')
 
     else:
         Category=category.objects.get(id=id)
         return render(request,'admin/admin-CatOffer.html',{'Category':Category})
+
+# for editing cat offer
+def edit_catOffer(request,id):
+    if request.method =='POST':
+        catedory_offer=cat_offer.objects.get(id=id)
+        catedory_offer.name=request.POST.get('productofferName')
+        catedory_offer.offer=request.POST.get('offer')
+        catedory_offer.offer_type=request.POST.get('offerType')
+      
+        
+        catedory_offer.save()
+        c_id=catedory_offer.category_id
+        print("iddddddddddddddddd",c_id)
+        print("category offer save aayito")
+        catedory_offer.category.c_offer=True
+        catedory_offer.category.save()
+
+        prod=Product.objects.filter(category_id=c_id)
+        print("forrrrrrrrrrrrrrrrr")
+        print(prod)
+        for i in prod:
+            print("proddddddddddddddddddd")
+            i.cat_offer=i.price-(i.price*(int(float(catedory_offer.offer))/100))
+            i.save()
+
+            if i.p_offer < 1 and i.cat_offer < 1:
+                i.user_price = i.price
+
+            elif i.p_offer < i.cat_offer and i.p_offer > 1:
+                i.user_price = i.p_offer
+        
+            elif i.cat_offer < i.p_offer and i.cat_offer > 1:
+                i.user_price = i.cat_offer
+
+            elif i.cat_offer > 1 and i.p_offer == 0:
+                i.user_price =i.cat_offer
+        
+            elif i.p_offer > 1 and i.cat_offer == 0:
+                i.user_price = i.p_offer
+        
+            else:
+                i.user_price = i.cat_offer
+                print("category offer calculate aaki")
+            i.save()
+        return redirect('admin_category')
+        
+
+    else:
+        cate_offer=cat_offer.objects.get(category_id=id)
+        return render(request,'admin/editCatOffer.html',{'cate_offer':cate_offer})
+
+
+# for removing cat offer
+def remove_catOffer(request):
+    pass
+
 #for seeing coupons 
 def admin_coupons(request):
     coupon=Coupon.objects.all()
@@ -264,6 +466,9 @@ def admin_addcoupon(request):
 # for seeing order list
 def admin_orderlist(request):
     orderlist = OrderProduct.objects.all()
+    paginator=Paginator(orderlist,10)
+    page=request.GET.get('page')
+    paged_orderlist=paginator.get_page(page)
 
-    return render(request,'admin/orderList.html',{'orderlist':orderlist} )
+    return render(request,'admin/orderList.html',{'orderlist':paged_orderlist} )
 

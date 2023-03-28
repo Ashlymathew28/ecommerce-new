@@ -25,7 +25,7 @@
                     <!-- <th>Email</th>-->
                     
                     <th>Description</th>
-                    <th></th> 
+                    <th>Action</th> 
                     <th>Offer</th> 
                   </tr>
                 </thead>
@@ -76,17 +76,19 @@
 
                     <td>
                  
-                      <!-- {% if i.blocked is False %} -->
-                     
-                      <!-- {% else  %} -->
-                             
+                      
+                             {% if i.c_offer == False %}
                        <a href="{% url 'add_catOffer' i.id  %}"   >  <button type="submit" class="btn btn-success" >add</button>
+                        </a>
+                     
+                        {% else %}
 
-                       </a> 
-                        <a href="{% url 'delete_category' i.id %}">   <button type="submit" class="btn btn-danger">Remove</button>
+                        <a href="{% url 'edit_catOffer' i.id %}">   <button type="submit" class="btn btn-info">Edit</button>
+                          <button type="submit" class="btn btn-danger" onclick="">Remove</button>
                       </a>
-                      <!-- {% endif %} -->
-                 
+                      {% endif %}
+
+                      
 
                   </td>
 

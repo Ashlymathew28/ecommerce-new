@@ -1,79 +1,119 @@
-{% extends 'index.html'%}
-{% block content %}
-{% load static %}
-	<!-- End Header -->
-	<section id="content">
-		<div class="content-page">
-			<div class="container">
-			<h2 class="title30 play-font text-uppercase font-bold dark" style="text-align: center;">Cart</h2>
-			<a class="btn btn-dark" href="{% url 'user_shop' %}" role="button">Continue Shopping</a>
-			
-				{% if not cart_item %}
-				
-					
-		       <h2 class="text-center">Your shopping cart is empty</h2>	
-			   <br>
-			   <!-- <div class="text-center">
+{% extends 'index.html'%} {% block content %} {% load static %}
+<!-- End Header -->
+<section id="content">
+  <div class="content-page">
+    <div class="container">
+      <h2
+        class="title30 play-font text-uppercase font-bold dark"
+        style="text-align: center"
+      >
+        Cart
+      </h2>
+      <a class="btn btn-dark" href="{% url 'user_shop' %}" role="button"
+        >Continue Shopping</a
+      >
+
+      {% if not cart_item %}
+
+      <h2 class="text-center">Your shopping cart is empty</h2>
+      <br />
+      <!-- <div class="text-center">
 				<a href="{% url 'user_shop' %}" class="btn btn-dark">Continue Shopping</a>
 
 			   </div>		 -->
-          
-					{% else %}
-					<div class="content-about content-cart-page woocommerce product_data">
-					<form>
-						
-						<div class="table-responsive ">
-							<table class="shop_table cart table">
-								<thead>
-									<tr>
-										<th class="product-remove">&nbsp;</th>
-										<th class="product-thumbnail">&nbsp;</th>
-										<th class="product-name">Product</th>
-										<th class="product-price">Price</th>
-										<th class="product-quantity">Quantity</th>
-										<th class="product-subtotal">Total</th>
-									</tr>
-								</thead>
-								<tbody>
-                                    {% for cart_item in cart_item %}
-									<tr class="cart_item">
-										<td class="product-remove">
-											<a class="remove" href="{% url 'remove_cart_item' cart_item.product_id %}"><i class="fa fa-trash"></i></a>
-										</td>
-										<td class="product-thumbnail">
-											<a href="#"><img  src="/media/{{cart_item.product.images}}" alt=""/></a>					
-										</td>
-										<td class="product-name" data-title="Product">
-											<a href="{{ cart_item.product.get_url }}">{{cart_item.product.product_name}}</a>					
-										</td>
-										<td class="product-price" data-title="Price">
-											<span class="amount">${{cart_item.product.price}}</span>					
-										</td>
-										<td class="product-quantity" data-title="Quantity">
-											<div class="detail-qty ">
-												
-											   <!-- <div> -->
-												<button type="button" class="decrement-btn"  onclick='decrementQunatity("quantity_value{{ forloop.counter }}","{{ cart_item.product.id }}","sub_total{{ forloop.counter}}")' style="  border: 3px solid #ccc;"><i class="fa fa-angle-down"></i></button>
-												<!-- </div>
 
-												<div> -->
-												<input type="text" name="quantity" id="quantity_value{{ forloop.counter }}" class="qty-input" min="1" max="10" value="{{ cart_item.quantity}}" maxlength="2" size="1">
-												<!-- </div>
+      {% else %}
+      <div class="content-about content-cart-page woocommerce product_data">
+        <form>
+          <div class="table-responsive">
+            <table class="shop_table cart table">
+              <thead>
+                <tr>
+                  <th class="product-remove">&nbsp;</th>
+                  <th class="product-thumbnail">&nbsp;</th>
+                  <th class="product-name">Product</th>
+                  <th class="product-price">Price</th>
+                  <th class="product-quantity">Quantity</th>
+                  <th class="product-subtotal">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for cart_item in cart_item %}
+                <tr class="cart_item">
+                  <td class="product-remove">
+                    <a
+                      class="remove"
+                      href="{% url 'remove_cart_item' cart_item.product_id %}"
+                      ><i class="fa fa-trash"></i
+                    ></a>
+                  </td>
+                  <td class="product-thumbnail">
+                    <a href="#"
+                      ><img src="/media/{{cart_item.product.images}}" alt=""
+                    /></a>
+                  </td>
+                  <td class="product-name" data-title="Product">
+                    <a href="{{ cart_item.product.get_url }}"
+                      >{{cart_item.product.product_name}}</a
+                    >
+                  </td>
+                  <td class="product-price" data-title="Price">
+                    <span class="amount">₹{{cart_item.product.user_price}}</span>
+                  </td>
+                  <td class="product-quantity" data-title="Quantity">
+                    <div class="detail-qty">
+                      <!-- <div> -->
 
-												<div> -->
-												<button type="button" class="increment-btn" onclick = 'incrementQunatity("quantity_value{{ forloop.counter }}","{{ cart_item.product.id }}","sub_total{{ forloop.counter}}")'  style="  border: 3px solid #ccc;"><i class="fa fa-angle-up"></i></button>
-											<!-- </div> -->
-
-											</div>
-										</td>
-										<td class="product-subtotal" data-title="Total">
-											<span class="amount" id="sub_total{{ forloop.counter }}">${{cart_item.sub_total}}</span>
+                      <button
+                        type="button"
+                        class="decrement-btn"
+                        min="1"
+                        id="minus"
+                        onclick='decrementQunatity("quantity_value{{ forloop.counter }}","{{ cart_item.quantity }}","{{ cart_item.product.id }}","sub_total{{ forloop.counter}}")'
+                        style="border: 3px solid #ccc"
+                      >
+                        <i class="fa fa-angle-down"></i>
+                      </button>
+                      <!-- </div>
 											
-										</td>
-									</tr>
-                                    {% endfor %}
-								
-									<!-- <tr>
+
+												<div> -->
+
+                      <input
+                        type="text"
+                        name="quantity"
+                        id="quantity_value{{ forloop.counter }}"
+                        class="qty-input"
+                        min="1"
+                        max="10"
+                        value="{{ cart_item.quantity}}"
+                        maxlength="2"
+                        size="1"
+                      />
+                      <!-- </div>
+
+												<div> -->
+                      <button
+                        type="button"
+                        class="increment-btn"
+                        max="10"
+                        onclick='incrementQunatity("quantity_value{{ forloop.counter }}","{{ cart_item.product.id }}","sub_total{{ forloop.counter}}")'
+                        style="border: 3px solid #ccc"
+                      >
+                        <i class="fa fa-angle-up"></i>
+                      </button>
+                      <!-- </div> -->
+                    </div>
+                  </td>
+                  <td class="product-subtotal" data-title="Total">
+                    <span class="amount" id="sub_total{{ forloop.counter }}">₹{{cart_item.sub_total}}</span>
+ 
+                    
+                  </td>
+                </tr>
+                {% endfor %}
+
+                <!-- <tr>
 										<td class="actions" colspan="6">
 											<div class="coupon">
 												
@@ -84,27 +124,34 @@
 											<a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button bg-color">	View Coupons</a>		
 										</td>
 									</tr> -->
-									
-								</tbody>
-							</table>
-						</div>
-					</form>
-					<div class="cart-collaterals">
-						<div class="cart_totals ">
-							<h2>Cart Totals</h2>
-							<div class="table-responsive">
-								<table class="table">
-									<tbody>
-										<tr class="cart-subtotal">
-											<th>Subtotal</th>
-											<td><strong id="total" class="amount">${{total}}</strong></td>
-										</tr>
-										<!-- <tr class="cart-subtotal">
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="cart-collaterals">
+          <div class="cart_totals">
+            <h2>Cart Totals</h2>
+            <div class="table-responsive">
+              <table class="table">
+                <tbody>
+                  <tr class="cart-subtotal">
+                    <th>Subtotal</th>
+                    <td>
+                      <strong id="total{{ forloop.counter }}" class="amount">₹{{total}}</strong>
+                    </td>
+                  </tr>
+                  <tr class="cart-subtotal">
+                    <th>Tax</th>
+                    <td>
+                      <strong id="tax{{forloop.counter}}" class="amount">₹{{tax}}</strong>
+                    </td>
+                  </tr>
+                  <!-- <tr class="cart-subtotal">
 											<th>Tax</th>
 											<td><strong class="amount">${{tax}}</strong></td>
 										</tr> -->
 
-										<!-- <tr class="shipping">
+                  <!-- <tr class="shipping">
 											<th>Shipping</th>
 											<td>
 												<ul class="list-none" id="shipping_method">
@@ -123,24 +170,31 @@
 												</ul>
 											</td>
 										</tr> -->
-										<tr class="order-total">
-											<th>Grand Total</th>
-											<td><strong><span class="amount">${{grand_total}}</span></strong> </td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<div class="wc-proceed-to-checkout">
-								<a class="checkout-button button alt wc-forward bg-color" href="{% url 'checkout' %}">Proceed to Checkout</a>
-							</div>
-						</div>
-					</div>
+                  <tr class="order-total">
+                    <th>Grand Total</th>
+                    <td>
+                      <strong><span id="grand_total{{forloop.counter}}" class="amount">${{grand_total}}</span></strong
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="wc-proceed-to-checkout">
+              <a
+                class="checkout-button button alt wc-forward bg-color"
+                href="{% url 'checkout' %}"
+                >Proceed to Checkout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <!-- End Content Pages -->
+</section>
 
-				</div>	
-				{% endif %}
-			</div>
-		</div>
-		<!-- End Content Pages -->
-	</section>
-	<!-- End Content -->
-	{% endblock %}
+<!-- End Content -->
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Address
 from orders .models import *
+from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 
 # Create your views here.
 
@@ -17,9 +18,21 @@ def useraddress(request):
 
 
 def my_order(request):
-    order=OrderProduct.objects.filter(user=request.user)
-    context = {'order':order}
+    order=Order.objects.filter(user=request.user)
+    paginator=Paginator(order,10)
+    page=request.GET.get('page')
+    paged_order=paginator.get_page(page)
+    context = {'order':paged_order}
     return render(request,'user_orderlist.html',context)
+
+def orderDetails(request,id):
+    print("orderDetails")
+    print(id)
+    # order=Order.objects.filter(id=id)
+    orderItem=OrderProduct.objects.filter(order=id)
+    print(orderItem,'/////////')
+    # print("////////////Address: ",orderItem.order.address.Address)
+    return render(request,'orderDetails.html',{'orderItem':orderItem})
 
 def userAddAddress(request):
     dest = request.META.get('HTTP_REFERER')

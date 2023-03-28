@@ -1211,8 +1211,8 @@ div.table .product-info .product-title {
 }
 /*Zoom Product*/
 .product-thumb:hover .zoom-thumb img {
-  transform: scale(1.15);
-  -webkit-transform: scale(1.15);
+  transform: scale(2.15);
+  -webkit-transform: scale(2.15);
 }
 /*Zoomout Product*/
 .zoomout-thumb img:last-child {
@@ -1224,8 +1224,8 @@ div.table .product-info .product-title {
   -webkit-transform: scale(3);
 }
 .product-thumb:hover .zoomout-thumb img:last-child {
-  transform: scale(1);
-  -webkit-transform: scale(1);
+  transform: scale(2);
+  -webkit-transform: scale(2);
   opacity: 1;
 }
 /*Rotate Product*/
@@ -2299,8 +2299,8 @@ a.opaci:hover {
 }
 .product-thumb > .quickview-link {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 80px;
+  height: 80px;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -2389,8 +2389,8 @@ a.opaci:hover {
   top: 50%;
   margin-top: -10px;
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 80px;
+  height: 80px;
   text-align: center;
   line-height: 20px;
   color: #000;

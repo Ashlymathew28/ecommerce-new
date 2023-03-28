@@ -15,12 +15,16 @@ urlpatterns = [
     path('edit_product <int:id>/',views. edit_product,name='edit_product'),
     path('remove_product <int:id>',views. remove_product,name='remove_product'),
     path('addproduct_Offer <int:id>',views. addproduct_Offer,name='addproduct_Offer'),
+    path('edit_prodOffer <int:id>',views. edit_prodOffer,name='edit_prodOffer'),
+    path('remove_productOffer/',views. remove_productOffer,name='remove_productOffer'),
 
     path('admin_addcategory/',views. admin_addcategory,name='admin_addcategory'),
     path('delete_category <int:id>/',views. delete_category,name='delete_category'),
     path('edit_category <int:id>/',views.edit_category,name='edit_category'),
     path('update_category <int:id>/',views. update_category,name='update_category'),
     path('add_catOffer <int:id>/',views. add_catOffer,name='add_catOffer'),
+    path('edit_catOffer <int:id>/',views. edit_catOffer,name='edit_catOffer'),
+    path('remove_catOffer/',views. remove_catOffer,name='remove_catOffer'),
 
     path('admin_orderlist/',views.admin_orderlist,name='admin_orderlist'),
 

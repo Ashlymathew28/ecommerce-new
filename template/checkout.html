@@ -190,7 +190,7 @@
 										<button class="btn btn-dark payWithRazorpay"  type="button" >Pay with  RazorPay</button>
 										<button class="btn btn-dark" type="submit" >Cash on
 											Delivery</button>
-											<input type="hidden" value="COD" name="pay_method">
+											<input type="hidden" value="COD" name="pay_mode">
 
 										<!-- </a> -->
 									</div>
@@ -240,7 +240,7 @@
 					}).done((res) => {
 						Swal.fire(
 							'Successfull!',
-							'Your order has been place.',
+							'Your order has been placed.',
 							'success'
 						).then(() =>{
 							location.href = "/cart/"

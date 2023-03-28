@@ -54,5 +54,31 @@
                   </tbody>
                 </table>
 
+                <div class="pagi-nav text-right">
+                  
+                  {% if orderlist.has_other_pages %}
+                     {% if orderlist.has_previous %}
+                        <a href="?page={{orderlist.previous_page_number}}" class="next"><i class="fa fa-angle-left"></i></a>
+                      {% else %}
+                           <!-- <a href="#" class="next disabled"><i class="fa fa-angle-left"></i></a> -->
+                      {% endif %}
+
+                      {% for i in  orderlist.paginator.page_range %}
+                        
+                        {% if orderlist.number == i %}
+                             <a href="#" class="current">{{i}}</a>
+                        {% else %}
+                             <a href="?page={{i}}" class="current">{{i}}</a>
+                        {% endif %}
+
+                      {% endfor %}
+                      {% if orderlist.has_next %}
+                       <a href="?page={{orderlist.next_page_number}}" class="next"><i class="fa fa-angle-right"></i></a>
+                      {% else %}
+                      <!-- <a href="#" class="next disabled"><i class="fa fa-angle-right"></i></a> -->
+                       {% endif %}
+
+                       {% endif %}
+              </div>
 
 {% endblock %}

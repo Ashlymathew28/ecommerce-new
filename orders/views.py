@@ -49,17 +49,7 @@ def place_order(request):
             address = Address.objects.get(id=address_id)
             data.address = address
             print(address_id,'Kitida mwoneeee...')
-            # data.address=address_id
             print("address evde ind",data.address)
-            # data.address.fname = request.POST.get('first_name')
-            # data.address.lname = request.POST.get('last_name')
-            # data.phone = request.POST.get('phone')
-            # data.address.email = request.POST.get('email')
-            # data.address.Address = request.POST.get('address_line_1')
-            # data.address_line_2 = request.POST.get('address_line_2')
-            # data.address.country = request.POST.get('country')
-            # data.address.state = request.POST.get('state')
-            # data.address.city = request.POST.get('city')
             data.order_note = request.POST.get('order_note')
            
             if data.order_note:
@@ -75,8 +65,6 @@ def place_order(request):
             data.tax = tax
             print("order total ethatto :",data.order_total)
             print("tax ethatto: ",data.tax)
-            # data.ip = request.META.get('REMOTE_ADDER')
-            
             data.save()
             print("save aaayito details okke ")
             #generate order number
@@ -85,9 +73,9 @@ def place_order(request):
             mt = int(datetime.date.today().strftime('%m'))
             d = datetime.date(yr,mt,dt)
             current_date =d.strftime("%Y%m%d")
-            order_number = current_date + str(data.id)
+            order_number = str('1000') + str(data.id)
             data.order_number = order_number
-            data.status = "Accepted"
+            data.status = "placed"
             data.save()
             print(request.user)
          
@@ -137,3 +125,18 @@ def proceed_to_pay(request):
 
         'total_price':total_price
     })
+
+def order_cancel(request):
+    order_id=request.POST.get('order_id')
+
+    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",order_id)
+    order=OrderProduct.objects.filter(order_id=order_id).first()
+    print(order)
+    order.order.status = 'Cancelled'
+    print(order.order.status)
+    order.order.save()
+    order.product.stock += order.quantity
+    order.product.save()
+
+    print("order cancelled aayito ")
+    return JsonResponse({"status":"Cancelled"})

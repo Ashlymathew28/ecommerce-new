@@ -6,6 +6,5 @@ urlpatterns = [
     path('useraddress/',views.useraddress,name='useraddress'),
     path('userAddAddress/',views.userAddAddress,name='userAddAddress'),
     path('my_order',views.my_order,name='my_order'),
-
-    
+    path('orderDetails <int:id>/', views.orderDetails,name='orderDetails'),
 ]

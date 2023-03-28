@@ -15,7 +15,7 @@ def _cart_id(request):
         cart=request.session.create()
     return cart
 
-
+@login_required(login_url='user_login')
 def add_cart(request,product_id):
 
     current_user=request.user
@@ -60,7 +60,7 @@ def decrement_quantity(request):
         cart_item = CartItem.objects.get(product=product,cart = cart)
         
     
-    if cart_item.quantity:
+    if cart_item.quantity :
         total_price = 0
         total = 0
         
@@ -69,8 +69,8 @@ def decrement_quantity(request):
         cart_item.quantity  = qty
         cart_item.save()
 
-        total_price += (cart_item.product.price * cart_item.quantity)
-        total += (cart_item.product.price * cart_item.quantity)
+        total_price += (cart_item.product.user_price * cart_item.quantity)
+        total += (cart_item.product.user_price * cart_item.quantity)
         cart_item.save()
         sub_total =  cart_item.sub_total()
 
@@ -83,15 +83,31 @@ def decrement_quantity(request):
         total_price_p = 0
 
         for cart_item in cart_items:
-            total_price_p += (cart_item.product.price * cart_item.quantity)
-            total_p += (cart_item.product.price * cart_item.quantity)
+            total_price_p += (cart_item.product.user_price * cart_item.quantity)
+            total_p += (cart_item.product.user_price * cart_item.quantity)
             saved_p = total_price_p - total_p
+    # else:
+    #     cart_item.delete()
+        print("decreement")
+        print("total_price_p",total_price_p)
+        print("total_price",total_price)
+        print("sub_price",sub_total)
+
+        tax=(2 * total_price_p)/100
+        print(tax)
+        grand_total=tax+total_price_p
+        print(grand_total)
+    print
     return JsonResponse({
                 'quantity':qty,
-                'total': total_p,
+                'total': total_price,
+                'grand_total': grand_total,
+                'tax': tax,
                 'sub_total':sub_total,
                 'total_price': total_price_p,
                 'saved':saved_p
+
+                
         
     })
 
@@ -107,7 +123,7 @@ def increment_cart(request):
         cart_item = CartItem.objects.get(product=product,cart = cart)
         print(cart_item.id)
     
-    if cart_item.quantity:
+    if product.stock > 0:
         total_price = 0
         total = 0
 
@@ -116,8 +132,8 @@ def increment_cart(request):
         cart_item.quantity  = qty
         cart_item.save()
 
-        total_price += (cart_item.product.price * cart_item.quantity)
-        total += (cart_item.product.price * cart_item.quantity)
+        total_price += (cart_item.product.user_price * cart_item.quantity)
+        total += (cart_item.product.user_price * cart_item.quantity)
         cart_item.save()
         sub_total =  cart_item.sub_total()
 
@@ -130,14 +146,24 @@ def increment_cart(request):
         total_p = 0
         total_price_p = 0
         for cart_item in cart_items:
-            total_price_p += (cart_item.product.price * cart_item.quantity)
-            total_p += (cart_item.product.price * cart_item.quantity)
+            total_price_p += (cart_item.product.user_price * cart_item.quantity)
+            total_p += (cart_item.product.user_price * cart_item.quantity)
             saved_p = total_price_p - total_p
+
+        print("total_p",total_p)
+        print("sub_total",sub_total)
+        print("total_price",total_price)
+        tax=(2 * total_p)/100
+        print(tax)
+        grand_total=tax+total_p
+        print(grand_total)
     return JsonResponse({
+                'grand_total':grand_total,
                 'quantity':qty,
                 'total': total_p,
                 'sub_total':sub_total,
                 'total_price': total_price_p,
+                'tax':tax,
                 'saved':saved_p
         
     })
@@ -182,9 +208,10 @@ def  cart(request,total=0,quantity=0,cart_items=None):
             cart_items=CartItem.objects.filter(cart=cart,is_active=True)
 
         for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
+
+                total += (cart_item.product.user_price * cart_item.quantity)
         
-            quantity= cart_item.quantity
+                quantity= cart_item.quantity
 
         tax=(2 * total)/100
         grand_total=total+tax
@@ -231,7 +258,7 @@ def checkout(request,total=0,quantity=0,cart_items=None):
             cart_items=CartItem.objects.filter(cart=cart,is_active=True)
 
         for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
+            total += (cart_item.product.user_price * cart_item.quantity)
             quantity= cart_item.quantity
 
         tax=(2 * total)/100

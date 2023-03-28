@@ -1,0 +1,191 @@
+{% extends 'index.html'%}
+{% block content %}
+{% load static %}
+
+
+<div class="wrap-bread-crumb">
+	<div class="container">
+		<div class="bread-crumb">
+			<a href="{% url 'userdetails' %}">User Profile</a>
+			<!-- <a href="">Wishlist</a> -->
+			<a href="{% url 'useraddress' %}">Address</a>
+			<a href="{% url 'my_order' %}">Order Details</a>
+
+			<!--<strong>Clothing</strong>-->
+		</div>
+	</div>
+</div>
+
+<section id="content">
+	<div class="content-page">
+		<div class="container">
+			<div class="content-about content-cart-page woocommerce product_data">
+				<h2 class="title30 play-font text-uppercase font-bold dark" style="text-align: center;">Order Details</h2>
+
+				<!-- <div class="contact-page-info "> -->
+
+					<!-- <div class="row">
+						<div class="col-md-5 col-sm-12 col-xs-12">
+							<div class="contact-box contact-address-box">
+								<span class="dark"><i class="fa fa-home"></i></span>
+								<label class="title16 dark"> SHIPPING ADDRESS:</label>
+								<p class="desc">{{orderItem.order.address.fname}} {{orderItem.order.address.lname}}</p>
+								<p class="desc">{{orderItem.order.address.Address}} </p>
+								<p class="desc"> PIN : {{orderItem.order.address.pincode}},{{orderItem.order.address.city}}, {{orderItem.order.address.state}},{{orderItem.order.address.country}}</p>
+							</div>
+						</div> -->
+						<!-- <div class="col-md-4 col-sm-7 col-xs-12">
+							<div class="contact-box">
+								<span class="dark"><i class="fa fa-phone"></i></span>
+								<ul class="list-inline-block">
+									<li>
+										<label class="title16 dark">PHONES:</label>
+									</li>
+									<li>
+										<span class="dark">800-6688-999;</span>
+										<span class="dark">800-8866-404</span>
+									</li>
+								</ul>
+							</div>
+							<div class="contact-box">
+								<span class="dark"><i class="fa fa-print"></i></span>
+								<ul class="list-inline-block">
+									<li>
+										<label class="title16 dark">Fax:</label>
+									</li>
+									<li>
+										<span class="dark">800-6969-0044;</span>
+									</li>
+								</ul>
+							</div>
+						</div> -->
+						<!-- <div class="col-md-3 col-sm-5 col-xs-12">
+							<div class="contact-box contact-email-box">
+								<span class="dark"><i class="fa fa-envelope"></i></span>
+								<label class="title16 dark">e-mail:</label>
+								<p class="desc"><a href="#" class="dark">themefusion@gmail.com</a></p>
+							</div>
+						</div> -->
+
+					<!-- </div> -->
+
+					<!----product details-->
+
+					<div class="content-about content-cart-page woocommerce product_data">
+						<form>
+							
+							<div class="table-responsive ">
+								<table class="shop_table cart table">
+									<thead>
+										<tr>
+											<th class="product-remove">Date</th>
+											<th class="product-thumbnail">&nbsp;</th>
+											<th class="product-name">Product</th>
+											<th class="product-price">Price</th>
+											<th class="product-quantity">Quantity</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for i in orderItem %}
+										<tr class="cart_item">
+											<td class="product-remove">
+												<p>{{i.created_at}}</p>
+											</td>
+											<td class="product-thumbnail">
+												<a href="#"><img  src="/media/{{i.product.images}}" alt=""/></a>					
+											</td>
+											<td class="product-name" data-title="Product">
+												<a href="{{ cart_item.product.get_url }}">{{i.product.product_name}}</a>					
+											</td>
+											<td class="product-price" data-title="Price">
+												<span class="amount">${{i.product.price}}</span>					
+											</td>
+											<td class="product-quantity" data-title="Quantity">
+												
+	
+												<p>{{i.quantity}}</p>
+											</td>
+											<!-- <td class="product-subtotal" data-title="Total">
+												<span class="amount" id="sub_total{{ forloop.counter }}">${{cart_item.sub_total}}</span>
+												
+											</td> -->
+										</tr>
+										{% endfor %}
+									
+										<!-- <tr>
+											<td class="actions" colspan="6">
+												<div class="coupon">
+													
+													<label for="coupon_code">Coupon:</label> 
+													<input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code"> 
+													<input type="submit" value="Apply Coupon" name="apply_coupon" class="button bg-color">
+												</div>
+												<a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button bg-color">	View Coupons</a>		
+											</td>
+										</tr> -->
+										
+									</tbody>
+								</table>
+
+								
+							</div>
+						</form>
+						<!-- <div class="cart-collaterals">
+							<div class="cart_totals ">
+								<h2>Cart Totals</h2>
+								<div class="table-responsive">
+									<table class="table">
+										<tbody>
+											<tr class="cart-subtotal">
+												<th>Subtotal</th>
+												<td><strong id="total" class="amount">${{total}}</strong></td>
+											</tr>
+											 <tr class="cart-subtotal">
+												<th>Tax</th>
+												<td><strong class="amount">${{tax}}</strong></td>
+											</tr> -->
+	
+											<!-- <tr class="shipping">
+												<th>Shipping</th>
+												<td>
+													<ul class="list-none" id="shipping_method">
+														<li>
+															<input type="radio" class="shipping_method" checked="checked" value="free_shipping" id="shipping_method_0_free_shipping" data-index="0" name="shipping_method[0]">
+															<label for="shipping_method_0_free_shipping">Free Shipping</label>
+														</li>
+														<li>
+															<input type="radio" class="shipping_method" value="local_delivery" id="shipping_method_0_local_delivery" data-index="0" name="shipping_method[0]">
+															<label for="shipping_method_0_local_delivery">Local Delivery (Free)</label>
+														</li>
+														<li>
+															<input type="radio" class="shipping_method" value="local_pickup" id="shipping_method_0_local_pickup" data-index="0" name="shipping_method[0]">
+															<label for="shipping_method_0_local_pickup">Local Pickup (Free)</label>
+														</li>
+													</ul>
+												</td>
+											</tr> -->
+											<!--<tr class="order-total">
+												<th>Grand Total</th>
+												<td><strong><span class="amount">${{grand_total}}</span></strong> </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								
+							</div>
+						</div> -->
+	
+					</div>	
+
+
+				</div>
+
+
+    </div>
+    </div>
+    </div>
+    </section>
+            
+
+
+{% endblock %}

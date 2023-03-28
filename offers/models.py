@@ -22,8 +22,8 @@ class product_offer(models.Model):
     name=models.CharField(max_length=100)
     offer=models.FloatField()
     offer_type = models.CharField(max_length=200,default='Product')
-    start_date=models.DateField()
-    end_date=models.DateField()
+    # start_date=models.DateField()
+    # end_date=models.DateField()
     is_active=models.BooleanField(default=True)
 
 class cat_offer(models.Model):
@@ -31,7 +31,7 @@ class cat_offer(models.Model):
     name=models.CharField(max_length=100)
     offer=models.FloatField()
     offer_type=models.CharField(max_length=100)
-    start_date=models.DateField()
-    end_date=models.DateField()
+    # start_date=models.DateField()
+    # end_date=models.DateField()
     is_active=models.BooleanField(default=True)
     
