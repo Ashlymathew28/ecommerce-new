@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                  
-                    {% for i in new %}
+                {% for i in new %}
                     {% if i.is_superuser %}
 
                     {% else %}
@@ -76,6 +76,36 @@
                 </tbody>
               </table>
             </div>
+
+            <div class="pagi-nav text-right">
+                  
+              {% if new.has_other_pages %}
+                 {% if new.has_previous %}
+                    <a href="?page={{new.previous_page_number}}" class="next"><i class="fa fa-angle-left"></i></a>
+                  {% else %}
+                       <!-- <a href="#" class="next disabled"><i class="fa fa-angle-left"></i></a> -->
+                  {% endif %}
+
+                  {% for i in  new.paginator.page_range %}
+                    
+                    {% if new.number == i %}
+                         <a href="#" class="current">{{i}}</a>
+                    {% else %}
+                         <a href="?page={{i}}" class="current">{{i}}</a>
+                    {% endif %}
+
+                  {% endfor %}
+                  {% if product.has_next %}
+                   <a href="?page={{new.next_page_number}}" class="next"><i class="fa fa-angle-right"></i></a>
+                  {% else %}
+                  <!-- <a href="#" class="next disabled"><i class="fa fa-angle-right"></i></a> -->
+                   {% endif %}
+
+                   {% endif %}
+          </div>
+
+
+
           </div>
                     
         </div>

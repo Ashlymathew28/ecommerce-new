@@ -46,7 +46,7 @@ def user_login(request):
 
             login(request,user)
             print("111")
-            messages.success(request,'You are now logged in !!!')
+          
             url = request.META.get('HTTP_REFERER')
             try:
                 query=requests.utils.urlparse(url).query
@@ -118,7 +118,7 @@ def otp_validate(request):
             print('oooooooooooooooooo')
             user=Account.objects.create_user(username=user_name,email=user_email,password=password,phone_number=phone_number)
             user.save() 
-            messages.info(request,"Account Created")
+            
             print('user reated')
             return redirect('homepage')
         else:

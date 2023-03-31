@@ -1,13 +1,22 @@
 from django.shortcuts import render,redirect
 from django.template import context
+from django.http import HttpResponse
+from django.template.loader import get_template
+from io import BytesIO
+from xhtml2pdf import pisa
+import datetime
+from django.utils import timezone
+from django.db.models import Count,Q
+
 from accounts.models import Account
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
-
+from .models import Banner
 from django.contrib.auth import authenticate,login,logout
 from django.utils.text import slugify
 from store.models import Product
 from django.contrib import messages
+from django.views.generic import View
 from category.models import category
 from orders.models import *
 from django.http import JsonResponse
@@ -37,21 +46,118 @@ def admin_login(request):
 @login_required(login_url='admin_login')
 def admin_home(request):
     if request.user.is_superuser==True:
+       
        print('haiiiii')
+       total_users=Account.objects.filter(blocked=False).count()
+       total_products=Product.objects.filter(is_available=True).count()
+       total_orders=Order.objects.filter(status='Delivered').count()
+       total_revenue=Order.objects.filter(status='Delivered').aggregate(sum('order_total'))
+       
+        # daily sales
+       current_year=timezone.now().year
+       order_details=Order.objects.filter(created_at__lt=datetime.date(current_year,12,31),status="Delivered")
+       monthly_order_count=[]
+       month=timezone.now().month
+       for i in range(1,month+2):
+           monthly_order=order_details.filter(created_at__month=i).count()
+           monthly_order_count.append(monthly_order)
+
+        #    monthly sales
+       today=datetime.datetime.now()
+       dates=Order.objects.filter(created_at__month=today.month).values('created_at__date').annotate(order_items=Count('id')).order_by('created_at__date')
+       returns=Order.objects.filter(created_at__month=today.month).values('created_at__date').annotate(retunrs=Count('id',filter=Q(status='Cancelled'))).order_by('created_at__date')
+       sales=Order.objects.filter(created_at__month=today.month).values('created_at__date').annotate(sales=Count('id',filter=Q(status='Delivered'))).order_by('created_at__date')
+       
+
+    #    Most moving product
+       most_moving_product_count=[]
+       most_moving_product=[]
+       products=Product.objects.all()
+       for i in products:
+           most_moving_product.append(i)
+           most_moving_product_count.append(OrderProduct.objects.filter(product=i).count())
+
+           #  status count
+       placed_count=Order.objects.filter(status='placed').count()
+       shipped_count=Order.objects.filter(status='shipped').count()
+       delivered_count=Order.objects.filter(status='Delivered').count()
+       return_count=Order.objects.filter(status='returned').count()
+       cancelled_count=Order.objects.filter(status='Cancelled').count()
+
+       return render(request,'admin/admin-home.html',{
+       
+            'total_orders':total_orders,
+            'total_products':total_products,
+            'total_users':total_users,
+            'total_revenue':total_revenue,
+            'monthly_order_count': monthly_order_count,
+            'today':today,
+            'sales':sales,
+            'returns':returns,
+            'dates':dates,
+            'most_moving_product':most_moving_product,
+            'most_moving_product_count':most_moving_product_count,
+            'status_count':[
+                placed_count,
+                shipped_count,
+                delivered_count,
+                return_count,
+                cancelled_count,
+             ]
+        })
+           
+
+       
+       
         
-       return render(request,'admin/admin-home.html')
     return redirect('admin_login')
 
 def admin_logout(request):
     logout(request)
     return redirect('admin_login')
 
+# for seeing banners 
+def banners(request):
+    ban=Banner.objects.all()
+    paginator=Paginator(ban,2)
+    page=request.GET.get('page')
+    paged_new=paginator.get_page(page)
+    return render(request,'admin/Banners.html',{'paged_new':paged_new})
+
+def addBanner(request):
+
+    if request. method == 'POST':
+        image=request.FILES.get('Image')
+        ban=Banner()
+        ban.images=image
+        ban.save()
+        return redirect('banners')
+    else:
+        return render(request,'admin/addBanner.html')
+    
+def editBanner(request,id):
+  
+    if request.method == 'POST':
+        print("edit banner")
+
+        ban=Banner.objects.get(id=id)
+        ban.images=request.FILES.get('Image')
+        ban.save()
+        print("post: ",id)
+        return redirect('banners')
+    else:
+        ban=Banner.objects.get(id=id)
+        print(id)
+        return render(request,'admin/editBanner.html',{'ban':ban})
+       
+
+
 #for seeing userlist for admin
 @login_required(login_url='admin_login')
 def admin_userlist(request):
     print('>>>>>>>>>>')
-    new=Account.objects.all()
-    paginator=Paginator(new,2)
+    new=Account.objects.filter(is_superuser=False)
+    paginator=Paginator(new,4)
     page=request.GET.get('page')
     paged_new=paginator.get_page(page)
     #context={'userlist':new}
@@ -97,14 +203,16 @@ def admin_addcategory(request):
            name=request.POST['catname']
            description=request.POST['catdescription']
            image=request.FILES['Image']
+           print("Imageeeee",image)
            
            cat=category()
            cat.category_name=name
-           cat.slug=slugify(name)
+           cat.cat_slug=slugify(name)
            cat.description=description
-           if image in request.FILES:
-              cat.category_image=request.FILES['Image']
+          
+           cat.category_image=request.FILES['Image']
            cat.save()
+           print("fileeeee: ",request.FILES)
            return redirect('admin_category')
 
 def delete_category(request,id):
@@ -123,6 +231,7 @@ def update_category(request,id):
        Category_name=request.POST.get('catname')
        description=request.POST.get('catedescription')
        image=request.FILES.get('Image')
+       print("REQUEST: ",request.FILES)
        Category.category_name=Category_name
        Category.category_image=image
        Category.description=description
@@ -174,6 +283,12 @@ def admin_addproduct(request):
         if 'Image2' in request.FILES:
               product.image2=request.FILES['Image2']
         product.save()
+        if int(product.stock) < 1:
+            product.is_available =False
+        else:
+            product.is_available = True
+        product.save()
+
         return redirect('admin_productlist')
 
 
@@ -203,9 +318,16 @@ def edit_product(request,id):
         product.description=description
         product.price=price
         product.user_price=price
-        product.images=images
-        product.image1=image1
-        product.image2=image2
+
+        if images:
+            product.images=images
+
+        if image1:
+            product.image1=image1
+
+        if image2:
+            product.image2=image2
+
         product.stock=stock
         product.save()
         return redirect('admin_productlist')
@@ -442,7 +564,51 @@ def edit_catOffer(request,id):
 
 # for removing cat offer
 def remove_catOffer(request):
-    pass
+    id=request.GET.get('id')
+    print("idd : ",id)
+    print("############################################################################################################")
+    cate_offer=Product.objects.filter(category_id=id)
+    print("cattttttttttt",cate_offer)
+    print("******************************************************************************************************************")
+    if cate_offer :
+            for cat in cate_offer:
+                cat.cat_offer = 0
+                cat.save()
+                print("???????????????????")
+                print(cat.cat_offer)
+                if cat.p_offer < 1 and cat.cat_offer < 1:
+                    cat.user_price = cat.price
+
+                elif cat.p_offer < cat.cat_offer and cat.p_offer > 1:
+                    cat.user_price = cat.p_offer
+                    
+                elif cat.cat_offer < cat.p_offer and cat.cat_offer > 1:
+                    cat.user_price = cat.cat_offer
+
+                elif cat.cat_offer > 1 and cat.p_offer == 0:
+                    cat.user_price =cat.cat_offer
+                
+                elif cat.p_offer > 1 and cat.cat_offer == 0:
+                    cat.user_price = cat.p_offer
+                    
+                else:
+                    cat.user_price = cat.cat_offer
+                
+                cat.save()
+                print("okke calculate aaki")
+            cater=cat_offer.objects.get(category_id=id)
+            cater.category.c_offer=False
+            cater.category.save()
+            cater.delete()
+    else:   
+        cat=cat_offer.objects.get(category_id=id)
+        cat.category.c_offer=False
+        cat.category.save()
+        
+        cat.delete()
+
+    return JsonResponse({'status':'true'})
+
 
 #for seeing coupons 
 def admin_coupons(request):
@@ -465,10 +631,148 @@ def admin_addcoupon(request):
 
 # for seeing order list
 def admin_orderlist(request):
-    orderlist = OrderProduct.objects.all()
+    print("orders")
+    orderlist = Order.objects.all().order_by('-id')
+    print(orderlist)
     paginator=Paginator(orderlist,10)
     page=request.GET.get('page')
     paged_orderlist=paginator.get_page(page)
 
     return render(request,'admin/orderList.html',{'orderlist':paged_orderlist} )
 
+def viewDetails(request,id):
+    orders=OrderProduct.objects.filter(order_id=id)
+    print(orders)
+    return render(request,'admin/admin_VewDetails.html',{'orders':orders})
+
+
+# for changing  order status
+def editStatus(request):
+    id=request.GET.get('id')
+    stat=request.GET.get('status')
+    print("iddddddd:",id)
+    print("status :",stat)
+
+    order=Order.objects.get(id=id)
+    print(order)
+    if stat == 'Cancel':
+        order.status='Cancelled'
+    elif stat == 'Shipped':
+        order.status = 'Shipped'
+    elif stat == 'Delivered':
+        order.status = 'Delivered'
+    print("ddddddddddddd")
+    order.save()
+    print(order.status)
+    return JsonResponse({})
+
+# Sales Report
+def salesReport(request):
+    orders=Order.objects.all()
+    new_order_list=[]
+    for i in orders:
+        order_item=OrderProduct.objects.filter(order_id=i.id)
+        for j in order_item:
+            item={
+                'id':i.id,
+                'ordered_date':i.created_at,
+                'price':i.order_total,
+                'method':i.pay_method,
+                'user':j.user.username,
+                'status':i.status,
+            }
+            new_order_list.append(item)
+    paginator=Paginator(new_order_list,10)
+    page=request.GET.get('page')
+    paged_orderlist=paginator.get_page(page)
+    return render(request,'admin/salesReport.html',{'order':paged_orderlist})
+
+# sales report by date
+
+def by_date(request):
+    if request.GET.get('from'):
+        sales_date_from=datetime.datetime.strptime(request.GET.get('from'),"%Y-%m-%d")
+        sales_date_to=datetime.datetime.strptime(request.GET.get('to'),"%Y-%m-%d")
+        sales_date_to+=datetime.timedelta(days=1)
+        orders=Order.objects.filter(created_at__range=[sales_date_from,sales_date_to])
+
+        new_order_list=[]
+        for i in orders:
+            order_items=OrderProduct.objects.filter(order_id=i.id)
+            for j in order_items:
+                item={
+                'id':i.id,
+                'ordered_date':i.created_at,
+                'price':i.order_total,
+                'method':i.pay_method,
+                'user':j.user.username,
+                'status':i.status,
+                }
+                new_order_list.append(item)
+    else:
+        messages.error(request,'Select fields before submiting!!!')
+        return redirect('salesReport')
+    
+    return render(request,'admin/salesReport.html',{'order':new_order_list})
+
+# sales report by 
+def by_month(request):
+    month=request.GET.get('month')
+    orders=Order.objects.filter(created_at__month=month)
+    new_order_list=[]
+    for i in orders:
+        order_items=OrderProduct.objects.filter(order_id=i.id)
+        for j in order_items:
+            item={
+                'id':i.id,
+                'ordered_date':i.created_at,
+                'price':i.order_total,
+                'method':i.pay_method,
+                'user':j.user.username,
+                'status':i.status,
+            }
+            new_order_list.append(item)
+    return render(request,'admin/salesReport.html',{'order':new_order_list})
+
+
+# for generates sales report
+class genereateSalesreport(View):
+    def get(self,request,*args,**kwargs):
+        try:
+            orders=Order.objects.all()
+            new_order_list=[]
+            print("sales  Report")
+            print("ordersssssss:",orders)
+            for i in orders:
+                order_item=OrderProduct.objects.filter(order_id=i.id)
+                print("order_items",order_item)
+                for j in order_item:
+                    print("sales Ordersssssss")
+                    item={
+                        'id':i.id,
+                        'ordered_date':i.created_at,
+                        'price':i.order_total,
+                        'method':i.pay_method,
+                        'user':j.user.username,
+                        'status':i.status,
+
+                        }
+                    new_order_list.append(item)
+        except:
+            return HttpResponse("505 not found")
+        data={
+            'order':new_order_list
+        }
+        pdf=render_to_pdf('admin/salesReport_pdf.html',data)
+        return HttpResponse(pdf,content_type='application/pdf')
+
+
+
+def render_to_pdf(template_src,context_dict={}):
+    template=get_template(template_src)
+    html=template.render(context_dict)
+    result=BytesIO()
+    pdf=pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")),result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(),content_type='application/pdf')
+    return None

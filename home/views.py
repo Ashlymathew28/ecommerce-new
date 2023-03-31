@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from django.template import context
 from category.models import category
+from adminapp.models import Banner
 from store.models import Product
 # Create your views here.
 def home(request):
     products=Product.objects.all().filter(is_available=True)[:4]
     Category=category.objects.all()
+    ban=Banner.objects.all()
     context={
         'products':products,
         'category':Category,
+        'ban':ban,
     }
     return render(request,"user_homepage.html",context)
 

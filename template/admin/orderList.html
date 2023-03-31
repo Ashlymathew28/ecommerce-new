@@ -13,11 +13,13 @@
                   <thead>
                     <tr>
                       <!-- <th scope="col" style="width: 25%">Image</th> -->
-                      <th scope="col" style="width: 7%">ID</th>
+                      <th scope="col" style="width: 15%">Order Number</th>
                       <th scope="col" style="width: 15%">Date</th>
                       <th scope="col">Status</th>                    
-                      <th scope="col" style="width: 10%">Price</th>
+                      <th scope="col" style="width: 7%">Total Price</th>
+                      <th scope="col" style="width: 10%">Pay Method</th>
                       <th scope="col" style="width: 15%">Product</th>
+                      
                       <th scope="col" style="width: 20%">User Name</th>
                       <th scope="col" >Edit Status</th>
                     </tr>
@@ -27,13 +29,48 @@
                     <tr >
                       
                       <!-- <td ><img src="/media/{{i.images}}" alt="..." class=" w-25 h-25"></td> -->
-                      <td>{{i.id }}</td>
+                      <td>{{i.order_number }}</td>
                       <td>{{ i.updated_at }}</td>
-                     <td>{{i.order.status}}</td>
-                     <td>{{ i.product_price }}</td>
-                     <td>{{ i.product.product_name }}</td>
+                     <td >{{i.status}}</td>
+                     <td>{{ i.order_total }}</td>
+                     <td>{{ i.pay_method }}</td>
+                     <td><a href="{% url 'viewDetails' i.id %}">View Products</a></td>
                      <td>{{ i.user.username }}</td>
-                     <td></td>
+                     <td>
+
+                      <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <span class="d-none d-md-block dropdown-toggle ps-2"></span>Change
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">            
+                        <li>
+                          <button class="dropdown-item d-flex align-items-center" onclick="EditStatus('Cancel','{{i.id}}')">
+                            <span  >Cancel</span>
+                          </button>
+                        </li>
+                        <li>
+                          <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                          <button class="dropdown-item d-flex align-items-center" onclick="EditStatus('Shipped','{{i.id}}')">
+                            <span  >Shipped</span>
+                          </button>
+                        </li>
+                        <li>
+                          <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                          <button class="dropdown-item d-flex align-items-center" onclick="EditStatus('Delivered','{{i.id}}')">
+                            <span>Delivered</span>
+                          </button>
+                        </li>
+                        
+            
+                      </ul>
+
+
+                     </td>
                       <!-- <td>
                            <a href="{% url 'edit_product' i.id %}" ><button class="btn btn-warning mb-3" id="my-button" >Edit </button></a><br> 
                            <a href="{% url 'remove_product' i.id  %}" ><button class="btn btn-warning mb-3" id="my-button" >Remove </button></a><br>  -->
@@ -80,5 +117,28 @@
 
                        {% endif %}
               </div>
+
+              <script>
+
+                function EditStatus(status,id){
+                  console.log("editttttt")
+                  console.log("idddd:",id)
+                  console.log(status);
+                  $.ajax({
+                    url:"{% url 'editStatus'  %}",
+                    method : "get",
+                    data: {
+                      "status":status,
+                      "id":id,
+
+                    },
+                    success : function(r){
+                      location.reload()
+                      // $('#statusValue').text("₹"+r.total_price)
+
+                    }
+                  })
+                }
+              </script>
 
 {% endblock %}

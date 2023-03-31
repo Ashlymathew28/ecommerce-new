@@ -1,0 +1,60 @@
+
+
+{% extends 'index.html'%}
+{% block content %}
+{% load static %}
+<div class="container">
+
+<!-- <div class="col-md-12 col-sm-12 col-xs-12"> -->
+    <!-- <div class="content-about content-checkout-page woocommerce"> -->
+
+<div class="row">
+    
+<div class="col-md-12 col-sm-12 col-ms-12 ">
+    <div class="check-billing">
+            <form class="form-my-account" method="POST" action="{% url 'edit_address' data.id %}"> 
+            {% csrf_token %}
+            <h2 class="title title18 font-bold text-uppercase " style="text-align: center;">Edit Address</h2>
+            <!-- {% if address %}
+
+            {% else %} -->
+            <p class="clearfix box-col2">
+                <input type="text" name="first_name" value="{{data.fname}}" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+
+                <input type="text" name="last_name" value="{{data.lname}}" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+            </p>
+             <p><input type="text" name="email" value="{{data.email}}" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /> 
+          </p>
+          <p>
+            <input type="text" name="phone" value="{{data.user.phone_number}}" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+
+          </p>
+            <p class="clearfix box-col2">
+                 <input type="text" name= "country" value="{{data.country}}" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /> 
+                 <input type="text" name= "state" value="{{data.state}}" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /> 
+
+                
+            </p>
+            
+            <p><input type="text" name="address_line_1"  required value="{{data.Address}}" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /></p>
+            <!-- <p><input type="text" name="address_line_2" value="Address 2 *" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /></p> -->
+            <p class="clearfix box-col2">
+                <input type="text" name="pincode" value="{{data.pincode}}" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+                <input type="text" name="city" value="{{data.city}}" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+            </p>
+            <!-- {% endif %} -->
+            <!-- <p>
+                <input type="checkbox"  id="remember" /> <label for="remember">Create an account?</label>
+            </p> -->
+
+		    <input type="submit" data-value="Place order" value="Save" id="place_order" name="woocommerce_checkout_place_order" class="button alt bg-color">
+
+        </form>
+        <br>
+    </div>
+</div>
+</div>
+</div>
+
+
+{% endblock %}

@@ -5,9 +5,10 @@
 	<section id="content">
 		<div class="banner-slider banner-jewelry2 bg-slider parallax-slider">
 			<div class="wrap-item" data-navigation="true" data-transition="fade" data-itemscustom="[[0,1]]">
+				{% for i in ban %}
 				<div class="item-slider item-slider2">
 					<div class="banner-thumb">
-						<a href="#"><img src="{% static 'images/home/jewelry2/slide1.jpg' %}" alt="" /></a>
+						<a href="#"><img src="/media/{{i.images }}" alt="" /></a>
 					</div>
 					<div class="banner-info animated text-center" data-animated="zoomIn">
 						<h2 class="title48 play-font font-normal text-uppercase white">up to <strong>45%</strong> off</h2>
@@ -15,7 +16,8 @@
 						<a href="{% url 'user_shop' %}" class="border-button white title18">Shop now</a>
 					</div>
 				</div>
-				<div class="item-slider item-slider2">
+				{% endfor %}
+				<!-- <div class="item-slider item-slider2">
 					<div class="banner-thumb">
 						<a href="#"><img src="{% static 'images/home/jewelry2/slide2.jpg' %}" alt="" /></a>
 					</div>
@@ -24,8 +26,8 @@
 						<h3 class="title18 play-font font-italic white">This unique jewelry is handcrafted on the beautiful island of Nantucket using fine silver and semi precious stones.</h3>
 						<a href="#" class="border-button white title18">Shop now</a>
 					</div>
-				</div>
-				<div class="item-slider item-slider2">
+				</div> -->
+				<!-- <div class="item-slider item-slider2">
 					<div class="banner-thumb">
 						<a href="#"><img src="{% static 'images/home/jewelry2/slide3.jpg' %}" alt="" /></a>
 					</div>
@@ -34,7 +36,7 @@
 						<h3 class="title18 play-font font-italic dark"><strong>up to 70% all items</strong><br>Two for Joy Jewelry creates meaningful jewelry "of the </h3>
 						<a href="#" class="border-button dark title18">Shop now</a>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<!-- End Banner Slider -->
@@ -89,7 +91,7 @@
 							
 							<div class="item-cat2 text-center">
 								
-								<div class="cat-thumb"><a href="#"><img src="{{i.category_image.url}}" alt="" /></a></div>
+								<div class="cat-thumb"><a href="#"><img src="/media/{{ i.category_image}}" alt="" /></a></div>
 								<div class="cat-info">
 									<h3 class="title18 dark play-font font-italic"></h3>
 									<p class="desc dark opacity" >{{i.category_name}}</p>

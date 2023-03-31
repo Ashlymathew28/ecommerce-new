@@ -1,0 +1,147 @@
+{% extends 'admin/admin-index.html'%}
+{% block content %}
+{% load static %}
+
+<h1 style="text-align: center;">Sales Report</h1>
+    <div class="btns">
+  
+         <!-- <a href="{% url 'admin_addproduct' %}"> <button class="btn btn-success mt-5">Add Product</button></a> -->
+   
+    </div>
+
+    {% if order %}
+    <div class="btn-wrapper">
+        <a target="_blank" href="{% url 'genereateSalesreport' %}" role="button" class="btn btn-dark"><i class="icon-printer"></i> Download as PDF</a>
+        <!-- <button onclick="exportHTML()" class="btn btn-info"><i class="icon-printer"></i> Export as Doc</button> -->
+        <!-- <a href="" class="btn btn-primary text-white me-0"><i class="icon-download"></i> Export as Doc</a> -->
+        <!-- <button id="downlaodsalesReportexcel" class="btn mx-3 btn-success text-white me-0"><i class="icon-download"></i> Export as Excel</button> -->
+        
+    </div>
+    {% else %}
+    
+    {% endif %}
+
+        <form action="{% url 'by_date' %}" method="GET">
+            <div class="row mt-5">
+                <div class="col-md-3">
+                    <label>From</label>
+                    <input type="date" class="form-control" name="from">
+                    <br>
+                </div>
+                <div class="col-md-4">
+                    <label>To</label>
+                    <input type="date" class="form-control" name="to">
+                </div>
+                <div class="col-md-4 mt-3">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+
+            </div>
+        </form>      
+
+            <!-- By month -->
+            <form action="{% url 'by_month' %}" method="GET">
+                {% csrf_token %}
+                <div class="row mt-3">
+                    <div class="col-md-4 mt-1">
+                    <select name="month" class="form-control" id="monthDP">
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    </div>
+                    <div class="col-md-4 ">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+
+                </div>
+                </form>
+
+
+                          
+
+
+
+    {% if order %}
+  
+         <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col" style="width: 20%">Order Id</th>
+                      <th scope="col" style="width: 20%">Order Date</th>
+                      <!-- <th scope="col">Color</th> -->
+                      <th scope="col" style="width: 10%">Customer</th>
+                      <!-- <th scope="col">Stock</th> -->
+                      <th scope="col" style="width: 10%">Amount</th>
+                      <th scope="col" style="width: 10%">Payment method</th>
+                      <th scope="col" style="width: 15%">Order Status</th>
+
+                      <!-- <th scope="col" style="width: 15%">Offer</th> -->
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in order %}
+                    <tr >
+                      
+                      <td>{{i.id}}</td>
+                      <td>{{ i.ordered_date }}</td>
+                     <td>{{i.user}}</td>
+                     <td>{{i.price}}</td>
+                     <td>{{i.method}}</td>
+                     <td>{{i.status}}</td>
+                      
+                
+
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+{% else %}
+
+
+<p>NO Sales</p>
+{% endif %}
+
+                <div class="pagi-nav text-right">
+                  
+                  {% if paged_orderlist.has_other_pages %}
+                     {% if paged_orderlistproduct.has_previous %}
+                        <a href="?page={{paged_orderlist.previous_page_number}}" class="next"><i class="fa fa-angle-left"></i></a>
+                      {% else %}
+                           <!-- <a href="#" class="next disabled"><i class="fa fa-angle-left"></i></a> -->
+                      {% endif %}
+
+                      {% for i in  paged_orderlist.paginator.page_range %}
+                        
+                        {% if paged_orderlist.number == i %}
+                             <a href="#" class="current">{{i}}</a>
+                        {% else %}
+                             <a href="?page={{i}}" class="current">{{i}}</a>
+                        {% endif %}
+
+                      {% endfor %}
+                      {% if paged_orderlist.has_next %}
+                       <a href="?page={{paged_orderlist.next_page_number}}" class="next"><i class="fa fa-angle-right"></i></a>
+                      {% else %}
+                      <!-- <a href="#" class="next disabled"><i class="fa fa-angle-right"></i></a> -->
+                       {% endif %}
+
+                       {% endif %}
+              </div>
+
+
+             
+                
+
+{% endblock %}

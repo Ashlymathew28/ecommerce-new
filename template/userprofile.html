@@ -20,37 +20,20 @@
                             <div class="content-page">
                                 <div class="container">
                                     <div class="content-about content-contact-page">
-                                        <h2 class="title30 play-font dark font-bold text-uppercase">Haiiii,</h2>
-                                        <!-- <div class="contact-google-map bg-white border">
-                                            <div id="map" class="map-custom"></div>
-                                            <script>
-                                              function initMap() {
-                                                var myLatLng = {lat: 40.707914, lng: -74.009628};
-                    
-                                                var map = new google.maps.Map(document.getElementById('map'), {
-                                                  zoom: 12,
-                                                  center: myLatLng
-                                                });
-                    
-                                                var marker = new google.maps.Marker({
-                                                  position: myLatLng,
-                                                  map: map,
-                                                });
-                                              }
-                                            </script>
-                                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEkQ6AW_lnHAzPiXPdSNy1GKXiI1I9AGg&callback=initMap" async defer></script>
-                                        </div> -->
-                                        <!-- End Google Map -->
-                                    <div class="contact-page-info blockquote">
+                                        <h2 class="title30 play-font dark font-bold ">Haiiii,  {{user.username}}</h2>
+                                       
+                                    <div class="contact-page-info ">
                                             <div class="row">
                                                 <div class="col-md-5 col-sm-12 col-xs-12">
                                                     <div class="contact-box contact-address-box">
                                                         <span class="dark"><i class="fa fa-home"></i></span>
-                                                        <label class="title16 dark">ADDRESS:</label>
-                                                        <p class="desc">The Company Name Inc. 4320 St Vincent Place,Glasgow, DC 28</p>
+                                                        <label class="title16 dark">Details</label>
+                                                        <p class="desc">{{user.first_name}} {{user.last_name}} </p>
+                                                        <p class="desc">{{user.email}} </p>
+                                                        <p class="desc">{{user.phone_number}} </p>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-sm-7 col-xs-12">
+                                                <!-- <div class="col-md-4 col-sm-7 col-xs-12">
                                                     <div class="contact-box">
                                                         <span class="dark"><i class="fa fa-phone"></i></span>
                                                         <ul class="list-inline-block">
@@ -62,8 +45,8 @@
                                                                 <span class="dark">800-8866-404</span>
                                                             </li>
                                                         </ul>
-                                                    </div>
-                                                    <div class="contact-box">
+                                                    </div> -->
+                                                    <!-- <div class="contact-box">
                                                         <span class="dark"><i class="fa fa-print"></i></span>
                                                         <ul class="list-inline-block">
                                                             <li>
@@ -73,20 +56,82 @@
                                                                 <span class="dark">800-6969-0044;</span>
                                                             </li>
                                                         </ul>
+                                                    </div> -->
+                                                    <!-- <div id="content">
+                                                        <div class="content-page woocommerce"> -->
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-md-6 mx-auto">
+                                                                        <h4 class="title-shop-page dark font-bold play-font">Edit  Profile</h4>
+                                                                        <div class="my-profile-box register-content-box">
+                                                                            <div class="form-my-account">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                                        <p>
+                                                                                            <label>First name <span class="required">*</span></label>
+                                                                                            <input type="text" name="firstname" />
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                                        <p>
+                                                                                            <label>Last name <span class="required">*</span></label>
+                                                                                            <input type="text" name="lastname" />
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <p>
+                                                                                    <label>Email address <span class="required">*</span></label>
+                                                                                    <input type="text" name="email" />
+                                                                                </p>
+                                                                                <h3 class="title18 title-change-pasword">Password change</h3>
+                                                                                <p>
+                                                                                    <label>Current password (leave blank to leave unchanged)</label>
+                                                                                    <input type="text" name="current-password" />
+                                                                                </p>
+                                                                                <p>
+                                                                                    <label>New password (leave blank to leave unchanged)</label>
+                                                                                    <input type="text" name="new-password" />
+                                                                                </p>
+                                                                                <p>
+                                                                                    <label>Confirm new password</label>
+                                                                                    <input type="text" name="confirm-password" />
+                                                                                </p>
+                                                                                <p>
+                                                                                    <input type="submit" class="register-button save-change" name="register" value="Save Changes">
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <!-- </div></div> -->
+                                                        <!-- End Content Page -->
+                                                    
+
+                                                    <!-- <div class="row">
+                                                        <div class="container">
+                                            
+                                                        <div class="col-md-12">
+                                                            <h2 class="title-shop-page dark font-bold play-font">My Profile</h2>
+                                                            <div class="my-profile-box register-content-box">
+                                                                <div class="my-profile-box register-content-box">
+                                                                   
+                                                                  
+                                                                
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-3 col-sm-5 col-xs-12">
-                                                    <div class="contact-box contact-email-box">
-                                                        <span class="dark"><i class="fa fa-envelope"></i></span>
-                                                        <label class="title16 dark">e-mail:</label>
-                                                        <p class="desc"><a href="#" class="dark">themefusion@gmail.com</a></p>
-                                                    </div>
-                                                </div>
+                                                </div> -->
+                                                
                                             </div>
                                         </div>
+                                        </div>
+                                        
+                                        
                                         <!-- End Contact Info -->
                                         <!---<div class="contact-form-faq">
-                                            <div class="row">
+                                            <div class="row">-->
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                                     <div class="contact-form-page">
                                                         <h2 class="title18 dark font-bold text-uppercase play-font">Contact Form</h2>
@@ -106,7 +151,7 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <!---<div class="col-md-6 col-sm-6 col-xs-12">
                                                     <div class="contact-faq">
                                                         <h2 class="title18 dark font-bold text-uppercase play-font">FAQs</h2>
                                                         <div class="contact-accordion toggle-tab">

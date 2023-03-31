@@ -1,0 +1,36 @@
+{% extends 'admin/admin-index.html'%}
+{% block content %}
+{% load static %}
+
+<h1 style="text-align: center;">Edit Banner</h1>
+
+<form action="{% url 'editBanner' ban.id %}" method="POST"  enctype="multipart/form-data">
+    {% csrf_token %}
+   
+     <br><br>
+
+    <div class="row mb-3">
+       
+        <label for="inputPassword" class="col-sm-2 col-form-label"> Current Image</label>
+        <div class="col-sm-10">
+            <img src="/media/{{ban.images}}" alt="..." class=" w-50 h-50">
+        </div>
+    
+    <div class="row mb-3">
+        <label for="inputNumber" class="col-sm-2 col-form-label">EDit Image</label>
+        <div class="col-sm-7">
+            <input class="form-control" type="file" name="Image" id="formFile">
+        </div>
+    </div>
+
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

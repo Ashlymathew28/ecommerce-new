@@ -20,7 +20,7 @@
                             <div class="content-page">
                                 <div class="container">
                                     <div class="content-about content-contact-page">
-                                        <h2 class="title30 play-font dark font-bold text-uppercase">Haii, {{address.fname}}</h2>
+                                        <h2 class="title30 play-font dark font-bold text-uppercase">Haii, {{user.first_name}} {{address.user.last_name}} </h2>
                                         <p class="contact-submit">
                                             <!-- <form action=""> -->
                                             <a href="{% url 'userAddAddress' %}" class="shop-button white mx-auto bg-dark" role="button"> Add new Address</a>
@@ -30,7 +30,8 @@
                                        
                                       
                                              {% if address %}
-                                             {% for i in address %}  <div class="contact-page-info blockquote">
+                                             {% for i in address %} 
+                                              <div class="contact-page-info blockquote">
                                             <div class="row">
                                                 <div class="col-md-5 col-sm-12 col-xs-12">
                                                     <div class="contact-box contact-address-box">
@@ -55,6 +56,7 @@
                                                             </li>
                                                         </ul>
                                                     </div>
+                                                    
                                                     <!-- <div class="contact-box">
                                                         <span class="dark"><i class="fa fa-print"></i></span>
                                                         <ul class="list-inline-block">
@@ -73,8 +75,19 @@
                                                         <label class="title16 dark">e-mail:</label>
                                                         <p class="desc"><a href="#" class="dark">{{i.email}}</a></p>
                                                     </div>
-                                                </div>
-                                            </div></div>
+                                                    
+                                                  
+                                                   <button class="shop-button white mx-auto bg-dark" onclick="AddressRemove('{{i.id}}')" role="button"> Delete</button>
+                                               
+                                                    <a href="{% url 'edit_address' i.id %}" class="shop-button white mx-auto bg-dark" role="button"> Edit Address</a>
+                                                
+                                                
+                                                
+                                                    </div>
+                                               
+
+                                            </div>
+                                        </div>
                                         {% endfor %}
                                         {% else %}
                                        
@@ -82,64 +95,66 @@
 
                                         {% endif %}
                                      
-                                        <!-- End Contact Info -->
-                                        <!-- <div class="contact-form-faq">
-                                            <div class="row">
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <div class="contact-form-page">
-                                                        <h2 class="title18 dark font-bold text-uppercase play-font">Contact Form</h2>
-                                                        <form class="contact-form">
-                                                            <p class="contact-name">
-                                                                <input class="dark border" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" value="User name*" type="text">
-                                                            </p>
-                                                            <p class="contact-email">
-                                                                <input class="dark border" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" value="Email*" type="text">
-                                                            </p>
-                                                            <p class="contact-message">
-                                                                <textarea class="dark border" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" cols="30" rows="10">Your comment*</textarea>
-                                                            </p>
-                                                            <p class="contact-submit">
-                                                                <input  class="shop-button white bg-dark" type="submit" value="Post Comment">
-                                                            </p>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <div class="contact-faq">
-                                                        <h2 class="title18 dark font-bold text-uppercase play-font">FAQs</h2>
-                                                        <div class="contact-accordion toggle-tab">
-                                                            <div class="item-toggle-tab active">
-                                                                <h2 class="toggle-tab-title dark">At vero eos et accusamus et iusto</h2>
-                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
-                                                            </div>
-                                                            <div class="item-toggle-tab">
-                                                                <h2 class="toggle-tab-title dark">Dignissimos ducimus qui blanditiis</h2>
-                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
-                                                            </div>
-                                                            <div class="item-toggle-tab">
-                                                                <h2 class="toggle-tab-title dark">Raesentium voluptatum deleniti</h2>
-                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
-                                                            </div>
-                                                            <div class="item-toggle-tab">
-                                                                <h2 class="toggle-tab-title dark">At vero eos et accusamus et iusto</h2>
-                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
-                                                            </div>
-                                                            <div class="item-toggle-tab">
-                                                                <h2 class="toggle-tab-title dark">Dignissimos ducimus qui blanditiis</h2>
-                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
-                                                            </div>
-                                                            <div class="item-toggle-tab">
-                                                                <h2 class="toggle-tab-title dark">Raesentium voluptatum deleniti</h2>
-                                                                <p class="desc toggle-tab-content dark opaci">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid animi archi tecto aspernatur assumenda cum inventore labore magnam </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
-                            </div>
+                        </div>
                         </section>
+        <script>
+
+        function AddressRemove(id) {
+                        let ids = Number(id)
+                        console.log("remove")
+                        console.log(typeof id)
+                        console.log("swaalll");
+
+                        Swal.fire({
+        
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes'
+
+                        }).then((result) => {
+
+                        if (result.isConfirmed) {
+                            console.log("ajax");
+
+                            $.ajax({
+                            url: "{% url  'deleteAddress' %}",
+                            method: "get",
+                            // headers: {
+                            //   'X-CSRFToken': '{{ csrf_token }}'
+                            // },
+                            data: {
+                                "id": Number(id) 
+                            }
+                            }).done((res) => {
+                            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                            console.log(res)
+                            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                            if(res){
+
+                                console.log("done");
+                                Swal.fire(
+                                'Successfull!',
+                                'Category Offer is Deleted!!',
+                                'success'
+                                ).then(() => {
+                                location.reload()
+                                console.log(res.status)
+                                $(status_id).text(res.status)
+
+                                })
+                            }
+                            }).fail((err) => {
+
+                            })
+
+                        }
+                        })
+                    }
+
+        </script>
 
         {% endblock %}

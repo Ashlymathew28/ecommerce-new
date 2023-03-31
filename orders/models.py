@@ -47,8 +47,7 @@ class Order(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
-    def __str__(self):
-        return self.first_name
+    
 
 class OrderProduct(models.Model):
       order = models.ForeignKey(Order, on_delete=models.CASCADE)
