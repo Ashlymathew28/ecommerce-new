@@ -55,10 +55,11 @@ class OrderProduct(models.Model):
       user = models.ForeignKey(Account,on_delete=models.CASCADE)
       product = models.ForeignKey(Product, on_delete=models.CASCADE)
       quantity = models.IntegerField()
+      status=models.CharField(max_length=20,null=True,default="placed")
       product_price = models.FloatField()
       ordered = models.BooleanField(default=False)
-      created_at = models.DateField(auto_now_add=True)
-      updated_at = models.DateField(auto_now=True)
+      created_at = models.DateTimeField(auto_now_add=True)
+      updated_at = models.DateTimeField(auto_now=True)
 
       def full_name(self):
           return f'{self.first_name} {self.last_name}'  

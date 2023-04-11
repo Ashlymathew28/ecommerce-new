@@ -3,7 +3,6 @@
 {% load static %}
 
 
-
 <!-- End Header -->
 <section id="content">
 	<div class="content-page">
@@ -74,6 +73,23 @@
 									</div>
 								</div>
 							</div>
+							<div style="display: flex;">
+								{% if not Coupon %}
+								<a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button btn-dark">	View Coupons</a>
+
+								{% else %}
+								<button name="update_cart" class="button btn-dark" onclick="removeCoupon()">	Delete Coupon</button>
+
+								{% endif %}
+							    <div class="coupon" style="display: flex;" class="">
+
+									<label for="coupon_code">Coupon:</label> 
+									<input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code"> 
+									<input type="button" value="Apply Coupon" onclick="applycoupon()" name="apply_coupon" class="button btn-dark">
+								</div>
+								<!-- <a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button btn-dark">	View Coupons</a> -->
+							</div>
+
 							<h3 class="order_review_heading bg-dark text-center">Your order</h3>
 							<div class="woocommerce-checkout-review-order" id="order_review">
 								<div class="table-responsive">
@@ -92,7 +108,7 @@
 														{{i.quantity}}</span>
 												</td>
 												<td class="product-total">
-													<span class="amount">${{i.sub_total}}</span>
+													<span class="amount">₹{{i.sub_total}}</span>
 												</td>
 											</tr>
 											{% endfor %}
@@ -109,12 +125,27 @@
 										<tfoot>
 											<tr class="cart-subtotal">
 												<th>Subtotal</th>
-												<td><strong class="amount">${{total}}</strong></td>
+												<td><strong class="amount" >₹{{total}}</strong></td>
+												<input type="hidden" name="total" id="total" value="{{total}}">
+
+											</tr>
+											<tr class="cart-subtotal">
+												<th>Coupon Code</th>
+												<td><strong class="amount" id="Coupon_code">{{Coupon_code}}</strong></td>
+											</tr>
+
+											<tr class="cart-subtotal">
+												<th>Coupon</th>
+												<td><strong class="amount" id="Coupon">₹{{Coupon}}</strong></td>
 											</tr>
 											<tr class="cart-subtotal">
 												<th>Tax</th>
-												<td><strong class="amount">${{tax}}</strong></td>
+												<td><strong class="amount" >₹{{tax}}</strong></td>
+												<input type="hidden" name="total" id="tax" value="{{tax}}">
+
 											</tr>
+
+											
 											<!---<tr class="shipping">
 												<th>Shipping</th>
 												<td>
@@ -133,17 +164,17 @@
 											</tr>---->
 											<tr class="order-total">
 												<th>Total</th>
-												<td><strong><span class="amount" id="grand_total">${{grand_total}}</span></strong> </td>
+												<td><strong><span class="amount" id="grand_total">₹{{grand_total}}</span></strong> </td>
 											</tr>
-											<td class="actions" colspan="6">
-												<div class="coupon">
+											<!-- <td class="actions"  colspan="6">
+												<div class="coupon" style="display: inline-flex;">
 													<label for="coupon_code">Coupon:</label> 
 													<input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code"> 
-													<input type="button" value="Apply Coupon" onclick="applycoupon()" name="apply_coupon" class="button bg-color">
+													<input type="button" value="Apply Coupon" onclick="applycoupon()" name="apply_coupon" class="button btn-dark">
 												</div>
-												<a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button bg-color">	View Coupons</a>		
+												<a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button btn-dark">	View Coupons</a>		
 
-												</td>
+												</td> -->
 										</tfoot>
 									</table>
 								</div>
@@ -207,7 +238,9 @@
 
 	<!-- End Content Pages -->
 </section>
-<script>
+
+<script >
+
 	$(document).ready(function () {
 
 		$("#checkout-form").submit((e) => {
@@ -238,12 +271,13 @@
 						},
 						data: $("#checkout-form").serialize()
 					}).done((res) => {
+						console.log(res)
 						Swal.fire(
 							'Successfull!',
 							'Your order has been placed.',
 							'success'
 						).then(() =>{
-							location.href = "/cart/"
+							location.href = '/userptofile/orderDetails/'+res.id
 						})
 					}).fail((err) => {
 
@@ -254,14 +288,72 @@
 		})
 		
 	})
+
+	function applycoupon() {
+    var coupon_code=document.getElementById('coupon_code').value
+    var grand_total=document.getElementById('total').value
+    var tax=document.getElementById('tax').value
+	console.log(coupon_code)
+	console.log("total",grand_total)
+    console.log("tax",tax)
+    $.ajax({
+        url:"{% url 'apply_coupon' %}",
+        method:"GET",
+        data:{
+            coupon_code:coupon_code,
+            grand_total:grand_total,
+			tax:tax,
+        },
+        success:(r) =>{
+			console.log(r.Coupon,'jhjhhjjhjhj')
+            $('#grand_total').text("₹"+r.grand_total)
+            $('#Coupon').text("₹"+r.Coupon)
+            $('#Coupon_code').text("₹"+r.Coupon_code)
+        }
+
+    })
+}
+
+
+function removeCoupon() {
+	event.preventDefault()
+    console.log("remove Coupon")
+	Swal.fire({
+                title : 'Are you sure you want to remove coupon?',
+                text:'You can reuse after removing the coupon!',
+                icon:'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor:'#d33',
+                confirmButtonText:'Yes'
+    }).then((result)=>{
+                if(result.isConfirmed){
+    					$.ajax({
+       						url:"{% url 'delete_coupon' %}",
+      						method:"GET",
+        					data:{
+          				 	'0':0,
+        			},
+       				 success:(r) =>{
+					window.location="{% url 'checkout' %}"                            
+
+       				 }
+					});
+				}
+
+  		  })
+		}
 </script>
 
 {% endblock  %}
-<!-- 
+
 {% block scripts %}
+<!-- <script src="{% static '/js/coupon.js' %}"></script>--Custome js file for cart quantity validation -->
+
+{% endblock scripts %}
+<!-- 
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
 
-<!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
-
-<!-- {% endblock scripts %} -->
+<!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> --
 <!-- End Content -->

@@ -9,6 +9,7 @@ class Coupon(models.Model):
     coupon_name = models.CharField(max_length=25)
     coupon_code = models.CharField(max_length=20,unique=True)
     valid_from = models.DateField()
+    limited_price=models.IntegerField(null=True)
     valid_to = models.DateField()
     discount = models.IntegerField(
         validators = [MinValueValidator(0),MaxValueValidator(100)]

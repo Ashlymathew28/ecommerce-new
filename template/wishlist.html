@@ -1,0 +1,163 @@
+{% extends 'index.html'%} {% block content %} {% load static %}
+<!-- End Header -->
+<section id="content">
+  <div class="content-page">
+    <div class="container">
+      <h2
+        class="title30 play-font text-uppercase font-bold dark"
+        style="text-align: center"
+      >
+        Whishlist
+      </h2>
+      <a class="btn btn-dark" href="{% url 'user_shop' %}" role="button"
+        >Continue Shopping</a
+      >
+
+      {% if not wish %}
+
+      <h2 class="text-center">Your shopping Wishlist is empty</h2>
+      <br />
+      <!-- <div class="text-center">
+				<a href="{% url 'user_shop' %}" class="btn btn-dark">Continue Shopping</a>
+
+			   </div>		 -->
+
+      {% else %}
+      <div class="content-about content-cart-page woocommerce product_data">
+        <form>
+          <div class="table-responsive">
+            <table class="shop_table cart table">
+              <thead>
+                <tr>
+                  <th class="product-remove">&nbsp;</th>
+                  <th class="product-thumbnail">&nbsp;</th>
+                  <th class="product-name">Product</th>
+                  <th class="product-price">Price</th>
+                 <th class="product-thumbnail">&nbsp;</th>
+
+                  <!-- <th class="product-quantity">Quantity</th> -->
+                  <!-- <th class="product-subtotal">Total</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in wish %}
+                <tr class="cart_item">
+                  <td class="product-remove">
+                    <a class="remove btn-dark" href="{% url 'removeWish' item.id %}">
+                      <i class="fa fa-trash"></i></a>
+                  </td>
+                  <td class="product-thumbnail">
+                    <a href="#"
+                      ><img src="/media/{{item.product.images}}" alt=""
+                    /></a>
+                  </td>
+                  <td class="product-name" data-title="Product">
+                    <a href="{{ item.product.get_url }}"
+                      >{{item.product.product_name}}</a
+                    >
+                  </td>
+                  <td class="product-price" data-title="Price">
+                    <span class="amount">₹{{item.product.user_price}}</span>
+                  </td>
+                  <td class="product-price" data-title="Price">
+                  {% if item.product.stock >= 1 %}
+                    <a href="{% url 'add_cart' item.product.id %}" class="amount"><b>Add To cart</b></a>
+                    {% else %}
+                    <h5 style="color: brown;"><b>Product Out of Stock</b> </h5>
+
+                    {% endif %}
+                  </td>
+
+                     
+                     
+                    
+                  </td>
+               
+ 
+                    
+                </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+          </div>
+        </form>
+
+
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <!-- End Content Pages -->
+</section>
+
+
+<script>
+function removeCart(id) {
+  event.preventDefault()
+  let ids = Number(id)
+            console.log("remove")
+            console.log(typeof id)
+            console.log("swaalll");
+
+            Swal.fire({
+
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes'
+
+            }).then((result) => {
+
+              if (result.isConfirmed) {
+                console.log("ajax");
+
+                $.ajax({
+                  url: "{% url 'remove_cart_item' %}",
+                  method: "get",
+                  // headers: {
+                  //   'X-CSRFToken': '{{ csrf_token }}'
+                  // },
+                  data: {
+                    "id": Number(id) 
+                  }
+                }).done((res) => {
+                  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                  console.log(res)
+                  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                  if(res){
+
+                    console.log("done");
+                    Swal.fire(
+                      'Successfull!',
+                      'Cart Item is deleted!!',
+                      'success'
+                    ).then(() => {
+                      location.reload()
+                      console.log(res.status)
+                      $(status_id).text(res.status)
+
+                    })
+                  }
+                }).fail((err) => {
+                  
+
+                })
+
+              }
+            })
+          }
+      
+
+
+
+
+
+</script>
+
+<!-- End Content -->
+{% endblock %}

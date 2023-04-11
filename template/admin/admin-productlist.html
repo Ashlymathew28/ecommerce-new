@@ -3,12 +3,22 @@
 {% load static %}
 
 <h1 style="text-align: center;">Product List</h1>
-    <div class="btns">
+    <div class="btns ">
   
          <a href="{% url 'admin_addproduct' %}"> <button class="btn btn-success mt-5">Add Product</button></a>
+         <form action="{% url 'prodsearch' %}">
+        
+          <div class="input-group  "  style="float:right;width: 20rem;">
+            <input type="search" class="form-control rounded" placeholder="Search"  name="s" aria-label="Search" aria-describedby="search-addon"  />
+            <button type="submit" class="btn btn-outline-primary">search</button>
+            <br>
+          </div>
+        
+
+        </form>
    
     </div>
-  
+
          <table class="table table-bordered">
                   <thead>
                     <tr>

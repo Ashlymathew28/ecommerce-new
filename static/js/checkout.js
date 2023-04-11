@@ -32,11 +32,13 @@ $(document).ready(function() {
             url:"/orders/proceed_to_pay",
             success:function(response) {
                 console.log("evide undada kuttaaaa....")
+                console.log("total",response.total_price)
+                console.log("parseInt(response.total_price * 100)",parseInt(response.total_price * 100));
                 var options = {
                     "key": "rzp_test_2OQT5vz8WgTGvO", // Enter the Key ID generated from the Dashboard
-                    "amount": response.total_price*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "amount":parseInt(response.total_price * 100) , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                     "currency": "INR",
-                    "name": "BW-Store", //your business name
+                    "name": "PEARL-White", //your business name
                     "description": "Thank you for buying from us",
                     "image": "https://example.com/your_logo",
                     // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
@@ -54,12 +56,15 @@ $(document).ready(function() {
                             method:"POST",
                             url:"/orders/place_order/",
                             data:data,
+                            headers: {
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
             
                             success:function(responsec){
                             console.log('I am hereeeee........');
                             console.log(responsec)
                              Swal.fire("Congratulations!",`${responsec.status}`,'success').then((value) => {
-                                window.location.href='/userptofile/userdetails/'
+                                window.location.href='/userptofile/orderDetails/'+responsec.id
                             });
                             }
                         });

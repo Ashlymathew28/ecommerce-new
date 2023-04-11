@@ -63,14 +63,16 @@
                             <h2 class="widget-title title14 font-bold play-font text-uppercase dark">Categories</h2>
                             <div class="widget-content">
                                 <ul class="list-category-toggle toggle-tab list-none">
-                                    <li class="item-toggle-tab active">
-                                        <a href="#" class="toggle-tab-title">Clothing</a>
-                                        <ul class="toggle-tab-content list-none">
-                                            <li><a href="#">For Men’s <span>25</span></a></li>
-                                            <li><a href="#">For Men’s <span>09</span></a></li>
-                                            <li><a href="#">Accessories <span>37</span></a></li>
-                                        </ul>
-                                    </li>
+                                    {% for i in Category %}
+										<li class="item-toggle-tab active">
+											<a href="{{i.get_url}}" class="toggle-tab-title">{{i.category_name}}</a>
+											<!--<ul class="toggle-tab-content list-none">
+												<li><a href="#">For Men’s <span>25</span></a></li>
+												<li><a href="#">For Men’s <span>09</span></a></li>
+												<li><a href="#">Accessories <span>37</span></a></li>
+											</ul>-->
+										</li>
+										{% endfor %}
                                     <!-- <li class="item-toggle-tab">
                                         <a href="#" class="toggle-tab-title">Baggage</a>
                                         <ul class="toggle-tab-content list-none">
@@ -79,38 +81,10 @@
                                             <li><a href="#">Accessories <span>37</span></a></li>
                                         </ul>
                                     </li> -->
-                                    <!-- <li class="item-toggle-tab">
-                                        <a href="#" class="toggle-tab-title">Shoes</a>
-                                        <ul class="toggle-tab-content list-none">
-                                            <li><a href="#">For Men’s <span>25</span></a></li>
-                                            <li><a href="#">For Men’s <span>09</span></a></li>
-                                            <li><a href="#">Accessories <span>37</span></a></li>
-                                        </ul>
-                                    </li> -->
-                                    <!-- <li class="item-toggle-tab">
-                                        <a href="#" class="toggle-tab-title">Jewelry</a>
-                                        <ul class="toggle-tab-content list-none">
-                                            <li><a href="#">For Men’s <span>25</span></a></li>
-                                            <li><a href="#">For Men’s <span>09</span></a></li>
-                                            <li><a href="#">Accessories <span>37</span></a></li>
-                                        </ul>
-                                    </li> -->
-                                    <!-- <li class="item-toggle-tab">
-                                        <a href="#" class="toggle-tab-title">Rain Coat</a>
-                                        <ul class="toggle-tab-content list-none">
-                                            <li><a href="#">For Men’s <span>25</span></a></li>
-                                            <li><a href="#">For Men’s <span>09</span></a></li>
-                                            <li><a href="#">Accessories <span>37</span></a></li>
-                                        </ul>
-                                    </li> -->
-                                    <!-- <li class="item-toggle-tab">
-                                        <a href="#" class="toggle-tab-title">Suitcase</a>
-                                        <ul class="toggle-tab-content list-none">
-                                            <li><a href="#">For Men’s <span>25</span></a></li>
-                                            <li><a href="#">For Men’s <span>09</span></a></li>
-                                            <li><a href="#">Accessories <span>37</span></a></li>
-                                        </ul>
-                                    </li> -->
+
+
+
+
                                 </ul>
                             </div>
                         </div>
@@ -198,13 +172,13 @@
                             </ul>
                         </div> -->
                         <!-- End Widget -->
-                        <div class="widget widget-search">
+                        <!-- <div class="widget widget-search">
                             <h2 class="widget-title title14 font-bold text-uppercase play-font">Search</h2>
                             <form class="wg-search-form" method="get">
                                 <input type="text" name="s" placeholder="Search.." />
                                 <input type="submit" value=""/>
                             </form>
-                        </div>
+                        </div> -->
                         <!-- End Widget -->
                     </div>
                 </div>
@@ -267,13 +241,13 @@
                                             <div class="product-price title14 play-font">
                                                 {% if single_product.price !=   single_product.user_price %}
 												
-                                                <del class="silver">${{single_product.price}}</del>
+                                                <del class="silver">₹{{single_product.price}}</del>
 
-                                                <ins class="dark">${{single_product.user_price}}</ins>
+                                                <ins class="dark">₹{{single_product.user_price}}</ins>
 
                                                                 {% else %}
                                             
-                                                                <ins class="dark">${{i.user_price}}</ins>
+                                                                <ins class="dark">₹{{i.user_price}}</ins>
 
                                                                 {% endif %}
 
@@ -290,14 +264,17 @@
                                                     <span class="rate-number silver">(5.0)</span>
                                                 </li>
                                             </ul>
-                                            <!-- <div class="product-extra-link4 title18"> -->
-                                                <!-- <p class="product-desc desc dark opaci">{{i.description}} </p> -->
-														<!-- <a href="{{ i.get_url }}" class="shop-button dark">View Details</a> -->
-
-                                                <!-- <a href="compare-product.html" class="compare-link inline-block black fancybox fancybox.iframe"><i class="icon ion-ios-loop-strong"></i><span class="title10 white text-uppercase">Compare</span></a>--->
-                                                <a href="#" class="addcart-link black inline-block"><i class="fa-solid fa-cart-shopping"></i><span class="title10 white text-uppercase">Add to cart</span></a>
-                                                <a href="#" class="wishlist-link black inline-block"><i class="fa-solid fa-heart"></i><span class="title10 white text-uppercase">Wishlist</span></a> 
-                                            <!-- </div> -->
+                                           <div class="product-extra-link4 title18">
+												<!-- <a href="compare-product.html" class="compare-link inline-block black fancybox fancybox.iframe"><i class="icon ion-ios-loop-strong"></i><span class="title10 white text-uppercase">Compare</span></a> -->
+												{% if i.stock >= 1 %}
+												<a href="{% url 'add_cart' i.id %}" class="addcart-link black inline-block"><i class="fa-solid fa-cart-shopping"></i><span class="title10 white text-uppercase">Add to cart</span></a>
+			
+												<button onclick="addToWishlist('{{i.id}}')" style="border: none;"><i class="fa-solid fa-heart"></i><span class="title10 white text-uppercase"></span></button>
+											{% else %}
+                                            <button onclick="addToWishlist('{{i.id}}')" style="border: none;"><i class="fa-solid fa-heart"></i><span class="title10 white text-uppercase"></span></button>
+                                            {% endif %}
+											
+										</div>
                                         </div>
                                     </div>
                                 </div>

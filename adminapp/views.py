@@ -1,12 +1,17 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.template import context
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 from django.template.loader import get_template
 from io import BytesIO
 from xhtml2pdf import pisa
 import datetime
 from django.utils import timezone
 from django.db.models import Count,Q
+from django.db.models import Sum
+from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 
 from accounts.models import Account
 from django.contrib.auth.decorators import login_required
@@ -19,6 +24,8 @@ from django.contrib import messages
 from django.views.generic import View
 from category.models import category
 from orders.models import *
+from docx import Document
+
 from django.http import JsonResponse
 from offers.models import Coupon,product_offer,cat_offer
 # Create your views here.
@@ -48,13 +55,15 @@ def admin_home(request):
     if request.user.is_superuser==True:
        
        print('haiiiii')
+    #    return render(request,'admin/admin-home.html')
        total_users=Account.objects.filter(blocked=False).count()
        total_products=Product.objects.filter(is_available=True).count()
        total_orders=Order.objects.filter(status='Delivered').count()
-       total_revenue=Order.objects.filter(status='Delivered').aggregate(sum('order_total'))
+       total_revenue=Order.objects.filter(status='Delivered').aggregate(Sum('order_total'))
        
         # daily sales
        current_year=timezone.now().year
+       print("current year : ",current_year)
        order_details=Order.objects.filter(created_at__lt=datetime.date(current_year,12,31),status="Delivered")
        monthly_order_count=[]
        month=timezone.now().month
@@ -64,9 +73,9 @@ def admin_home(request):
 
         #    monthly sales
        today=datetime.datetime.now()
-       dates=Order.objects.filter(created_at__month=today.month).values('created_at__date').annotate(order_items=Count('id')).order_by('created_at__date')
-       returns=Order.objects.filter(created_at__month=today.month).values('created_at__date').annotate(retunrs=Count('id',filter=Q(status='Cancelled'))).order_by('created_at__date')
-       sales=Order.objects.filter(created_at__month=today.month).values('created_at__date').annotate(sales=Count('id',filter=Q(status='Delivered'))).order_by('created_at__date')
+       dates=Order.objects.filter(created_at__month=today.month).values('created_at__day').annotate(order_items=Count('id')).order_by('created_at__day')
+       returns=Order.objects.filter(created_at__month=today.month).values('created_at__day').annotate(retunrs=Count('id',filter=Q(status='Cancelled'))).order_by('created_at__day')
+       sales=Order.objects.filter(created_at__month=today.month).values('created_at__day').annotate(sales=Count('id',filter=Q(status='Delivered'))).order_by('created_at__day')
        
 
     #    Most moving product
@@ -83,7 +92,14 @@ def admin_home(request):
        delivered_count=Order.objects.filter(status='Delivered').count()
        return_count=Order.objects.filter(status='returned').count()
        cancelled_count=Order.objects.filter(status='Cancelled').count()
-
+       print("total_orders",total_orders)
+       print("total_products",total_products)
+       print("total_users",total_users)
+       print("total_revenue",total_revenue)
+       print("monthly_order_count",monthly_order_count)
+       print("today",today)
+       print("dates",today)
+       
        return render(request,'admin/admin-home.html',{
        
             'total_orders':total_orders,
@@ -149,19 +165,32 @@ def editBanner(request,id):
         ban=Banner.objects.get(id=id)
         print(id)
         return render(request,'admin/editBanner.html',{'ban':ban})
-       
+
+def removeBanner(request,id) :
+    ban=Banner.objects.get(id=id)
+    ban.delete()
+    return redirect('banners')
+
 
 
 #for seeing userlist for admin
 @login_required(login_url='admin_login')
 def admin_userlist(request):
     print('>>>>>>>>>>')
-    new=Account.objects.filter(is_superuser=False)
+    new=Account.objects.filter(is_superuser=False).order_by('id')
     paginator=Paginator(new,4)
-    page=request.GET.get('page')
-    paged_new=paginator.get_page(page)
+    page_number=request.GET.get('page')
+
+    if page_number is None:
+        page_number = 1
+    else:
+        page_number = int(page_number)
+
+    paged_new=paginator.get_page(page_number)
     #context={'userlist':new}
     #print(context)
+    if page_number > paginator.num_pages:
+        return HttpResponseRedirect(reverse('admin_userlist')+'?page=' + str(paginator.num_pages))
     print(paged_new)
     return render(request,'admin/admin-user.html',{'new':paged_new})
 
@@ -215,9 +244,10 @@ def admin_addcategory(request):
            print("fileeeee: ",request.FILES)
            return redirect('admin_category')
 
-def delete_category(request,id):
+def delete_category(request):
+    id=request.GET.get('id')
     remove=category.objects.get(id=id).delete()
-    return redirect('admin_category')
+    return JsonResponse({'status':'true'})
 
 def edit_category(request,id):
     cat=category.objects.get(id=id)
@@ -248,6 +278,20 @@ def admin_productlist(request):
     paged_products=paginator.get_page(page)
     return render(request,'admin/admin-productlist.html',{'product':paged_products})
 
+def prodsearch(request):
+    if 's' in request.GET:
+        keyword=request.GET['s']
+        if keyword:
+            products=Product.objects.order_by('id').filter(product_name__icontains=keyword)
+        else:
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    paginator=Paginator(products,4)
+    page=request.GET.get('page')
+    paged_products=paginator.get_page(page)   
+    context={
+        'product':paged_products,
+    }
+    return render(request,'admin/admin-productlist.html',context)
 
 @login_required(login_url='admin_login')
 def admin_addproduct(request):
@@ -628,6 +672,12 @@ def admin_addcoupon(request):
 
     else:    
         return render(request,'admin/admin_addcoupon.html')
+    
+def RemoveCoupon(request,id):
+    coupon=get_object_or_404(Coupon,id=id)
+    coupon.delete()
+    return redirect('admin_coupons')
+
 
 # for seeing order list
 def admin_orderlist(request):
@@ -654,13 +704,22 @@ def editStatus(request):
     print("status :",stat)
 
     order=Order.objects.get(id=id)
+    orderItem=OrderProduct.objects.filter(order_id=id)
+    print("ordersssssss:",orderItem)
     print(order)
     if stat == 'Cancel':
         order.status='Cancelled'
+        for i in orderItem:
+            i.status='Cancelled'
+            i.save()
+            print(i.status)
     elif stat == 'Shipped':
         order.status = 'Shipped'
+        # for i in orderItem:
+            # i.status = 'Shipped'
     elif stat == 'Delivered':
         order.status = 'Delivered'
+    
     print("ddddddddddddd")
     order.save()
     print(order.status)
@@ -668,7 +727,7 @@ def editStatus(request):
 
 # Sales Report
 def salesReport(request):
-    orders=Order.objects.all()
+    orders=Order.objects.filter(status='Delivered').order_by('id')
     new_order_list=[]
     for i in orders:
         order_item=OrderProduct.objects.filter(order_id=i.id)
@@ -694,7 +753,7 @@ def by_date(request):
         sales_date_from=datetime.datetime.strptime(request.GET.get('from'),"%Y-%m-%d")
         sales_date_to=datetime.datetime.strptime(request.GET.get('to'),"%Y-%m-%d")
         sales_date_to+=datetime.timedelta(days=1)
-        orders=Order.objects.filter(created_at__range=[sales_date_from,sales_date_to])
+        orders=Order.objects.filter(created_at__range=[sales_date_from,sales_date_to],status='Delivered').order_by('id')
 
         new_order_list=[]
         for i in orders:
@@ -718,7 +777,8 @@ def by_date(request):
 # sales report by 
 def by_month(request):
     month=request.GET.get('month')
-    orders=Order.objects.filter(created_at__month=month)
+    orders=Order.objects.filter(created_at__month=month,status='Delivered').order_by('id')
+    print(orders)
     new_order_list=[]
     for i in orders:
         order_items=OrderProduct.objects.filter(order_id=i.id)
@@ -766,6 +826,34 @@ class genereateSalesreport(View):
         pdf=render_to_pdf('admin/salesReport_pdf.html',data)
         return HttpResponse(pdf,content_type='application/pdf')
 
+def download_docx(request):
+    document = Document()
+    document.add_heading('Sales Report',0)
+    records = (
+        (3, '101', 'Spam'),
+        (7, '422', 'Eggs'),
+        (4, '631', 'Spam')
+    )
+
+    table = document.add_table(rows=1, cols=3)
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].text = 'Qty'
+    hdr_cells[1].text = 'Id'
+    hdr_cells[2].text = 'Desc'
+
+    for qty, id, desc in records:
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(qty)
+        row_cells[1].text = id
+        row_cells[2].text = desc
+
+    document.add_page_break()
+
+    response = HttpResponse(content_type = 'application/vnd.openxmlformats-officedocuments.wordprocessingml.document')
+    response['Content-Disposition'] = 'attachment; filename=sales-report.docx'
+    document.save(response)
+
+    return response
 
 
 def render_to_pdf(template_src,context_dict={}):

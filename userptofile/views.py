@@ -31,11 +31,20 @@ def orderDetails(request,id):
     print("orderDetails")
     print(id)
     
-    # order=Order.objects.filter(id=id)
+    order=Order.objects.get(id=id)
     orderItem=OrderProduct.objects.filter(order=id)
     print(orderItem,'/////////')
+    context={
+        'orderItem':orderItem,
+        'order':order,
+        }
+
+
+    
     # print("////////////Address: ",orderItem.order.address.Address)
-    return render(request,'orderDetails.html',{'orderItem':orderItem})
+    return render(request,'orderDetails.html',context)
+
+
 
 
 
@@ -99,6 +108,8 @@ def deleteAddress(request):
     id=request.GET.get('id')
     remove=Address.objects.get(id=id).delete()
     return JsonResponse({'status':'true'})
+
+
 
 class PreUrl:
     url = None

@@ -8,5 +8,5 @@ urlpatterns = [
     path('edit_address <int:id>/',views.edit_address,name='edit_address'),
     path('deleteAddress/',views.deleteAddress,name='deleteAddress'),
     path('my_order',views.my_order,name='my_order'),
-    path('orderDetails <int:id>/', views.orderDetails,name='orderDetails'),
+    path('orderDetails/<int:id>', views.orderDetails,name='orderDetails'),
 ]

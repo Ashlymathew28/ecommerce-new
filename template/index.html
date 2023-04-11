@@ -10,6 +10,9 @@
 	<meta name='revisit-after' content='1 days' />
 	<title>BW Store | Index</title>
 	
+	<!----alertify-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" />
+
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<!-- <link href="{% static 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,700%7cPlayfair+Display:400,700,400i,700i' %}" rel="stylesheet"> -->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/libs/font-awesome.min.css' %}"/>
@@ -35,6 +38,7 @@
 	<!-- <link rel="stylesheet" href="https://kit.fontawesome.com/5790326e1d.css" crossorigin="anonymous"> -->
 	<script  src="https://kit.fontawesome.com/c4cf96479d.js" crossorigin="anonymous"></script> 
 	<script  src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script  src="{% static '\js\wishlist.js' %}"></script>
 </head>
 <body class="preload">
 <div class="wrap">
@@ -115,28 +119,26 @@
 							<div class="logo logo1 pull-left">
 								<a href="index.html">
 									<span class="logo-icon title24 round white bg-dark"><i class="fa fa-diamond"></i></span>
-									<strong class="play-font font-italic title30 dark text-uppercase">BW-</strong>
-									<span class="play-font font-italic font-normal title30 dark">Store</span>
+									<strong class="play-font font-italic title30 dark text-uppercase">Pearl-</strong>
+									<span class="play-font font-italic font-normal title30 dark">white</span>
 								</a>
 							</div>
 							<!-- End logo -->
 						</div>
 						<div class="col-md-3 col-sm-4 col-xs-12">
-							<p class="desc free-order pull-right dark">Free delivery order over <strong>$100</strong></p>
+							<p class="desc free-order pull-right dark">Free delivery order over <strong>₹300</strong></p>
 						</div>
-						<div class="col-md-6 col-sm-8 col-xs-12">
-							<form method="get" class="search-form form-round">
-								<div class="dropdown-box">
-									<a href="javascript:void(0)" class="dropdown-link">All Categories</a>
 
-									
-								</div>
+						<div class="col-md-6 col-sm-8 col-xs-12">
+							<form method="get" action="{% url 'search' %}" class="search-form form-round">
+	
 								<input type="text" name="s" placeholder="Search for product...">
 								<div class="submit-form">
 									<input type="submit" value="">
 								</div>
 							</form>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -156,13 +158,13 @@
 										
 									</li>
 
-									<li>
+									<!-- <li>
 										<a href="contact.html">Contact Us</a>
 									</li>
 									
 									<li>
 										<a href="about.html">About Us</a>										
-									</li>
+									</li> -->
 
 								</ul>
 								<a href="#" class="toggle-mobile-menu"><span></span></a>
@@ -173,7 +175,7 @@
 							<ul class="wrap-cart-top2 list-inline-block pull-right">
 								
 								<li>
-									<a href="#" class="title18 wishlist-link" title="Wishlist"><span class="dark"><i class="fa-solid fa-heart"></i></span><sup class="title10 round white bg-dark">0</sup></a>
+									<a href="{% url 'Whislist' %}"><span class="dark"><i class="fa-solid fa-heart"></i></span></a>
 								</li>
 
 								<li>
@@ -280,7 +282,7 @@
 		<div class="container">
 			<div class="list-service-footer">
 				<ul class="list-none">
-					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon1.png' %}" alt="" /></a> <span class="opaci">FREE DELIVERY FROM $99</span></li>
+					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon1.png' %}" alt="" /></a> <span class="opaci">FREE DELIVERY FROM ₹300</span></li>
 					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon2.png' %}" alt="" /></a> <span class="opaci">SECURE PAYMENT</span></li>
 					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon3.png' %}" alt="" /></a> <span class="opaci">100% GUARANTEED</span></li>
 					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon4.png' %}" alt="" /></a> <span class="opaci">MONEY BACK GUARANTEED</span></li>
@@ -293,22 +295,22 @@
 				<div class="main-footer2">
 					<div class="row">
 						<div class="col-md-4 col-sm-4 col-xs-12">
-							<div class="block-footer2">
+							<!-- <div class="block-footer2">
 								<h2 class="title30 dark play-font font-italic">Newsletter</h2>
 								<p class="desc dark opaci">Sign up to our newsletter to receive updates on the art of Coin.</p>
 								<form class="form-newsletter2">
 									<input type="text" placeholder="EMAIL ADDRESS">
 									<input type="submit" value="Subscription">
 								</form>
-							</div>
+							</div> -->
 						</div>
 						<div class="col-md-4 col-sm-4 col-xs-12">
 							<div class="block-footer2">
 								<div class="logo logo-footer2 text-center">
 									<a href="index.html">
 										<span class="logo-icon title24 round white bg-dark"><i class="fa fa-diamond"></i></span>
-										<strong class="play-font  title30 dark text-uppercase">BW-</strong>
-										<span class="play-font font-normal title30 dark">Store</span>
+										<strong class="play-font  title30 dark text-uppercase">Pearl</strong>
+										<span class="play-font font-normal title30 dark">White</span>
 									</a>
 								</div>
 								<h2 class="title18 play-font dark text-center font-italic">Follow Us On</h2>
@@ -319,7 +321,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4 col-sm-4 col-xs-12">
+						<!---<div class="col-md-4 col-sm-4 col-xs-12">
 							<div class="block-footer2">
 								<h2 class="title30 dark play-font font-italic">Concierge</h2>
 								<p class="desc dark opaci">Don't hesitate in contacting us for any questions you might have.</p>
@@ -342,7 +344,7 @@
 									</li>
 								</ul>
 							</div>
-						</div>
+						</div>--->
 					</div>
 				</div>
 				<!-- End Main Footer -->
@@ -356,7 +358,7 @@
 						<li><a href="#" class="dark wobble-top">Terms &amp; Conditions</a></li>
 						<li><a href="#" class="dark wobble-top">About Us</a></li>
 					</ul>
-					<p class="desc copyright-footer text-center"><span class="dark opaci"> Bwstore © 2018 All Rights Reserved. Design by:</span> <a href="http://7uptheme.com" class="dark">7uptheme.com</a></p>
+					<p class="desc copyright-footer text-center"><span class="dark opaci"> PEARL-White © 2018 All Rights Reserved. Design by:</span> <a href="http://7uptheme.com" class="dark">7uptheme.com</a></p>
 				</div>
 			</div>
 		</div>
@@ -365,10 +367,10 @@
 	<div class="wishlist-mask">
 		<div class="wishlist-popup">
 			<span class="popup-icon"><i class="fa fa-bullhorn" aria-hidden="true"></i></span>
-			<p class="wishlist-alert">"BW Store Product" was added to wishlist</p>
+			<p class="wishlist-alert">"PEARL White Product" was added to wishlist</p>
 			<div class="wishlist-button">
-				<a href="#">Continue Shopping (<span class="wishlist-countdown">5</span>)</a>
-				<a href="#">Go To Shopping Cart</a>
+				<a href="{% url 'Whislist' %}">Go tO Wishlist (<span class="wishlist-countdown">5</span>)</a>
+				<a href="{% url 'cart' %}">Go To Shopping Cart</a>
 			</div>
 		</div>
 	</div>
@@ -390,6 +392,8 @@
 <script src="{%static '/js/jquery-3.6.3.min.js' %}"></script><!--Jquery for increment button in cart page-->
 <!-- <script src="{%static '/js/custom.js' %}"></script>Custom Jquery for increment button in cart page -->
 <script src="{% static '/js/cart_qunatity.js' %}"></script><!----Custome js file for cart quantity validation-->
+<script src="{% static '/js/alertify.min.js' %}"></script><!----Custome js file for cart quantity validation-->
+<!-- <script src="{% static '/js/coupon.js' %}"></script>   --Custome js file for coupon validation -->
 
 <script src="https://kit.fontawesome.com/5790326e1d.js" crossorigin="anonymous"></script>
 <script src="{% static 'js/libs/jquery-3.2.1.min.js' %}"></script>
@@ -407,9 +411,9 @@
 <script src="{% static 'js/validation.js' %}"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<!-- {% block scripts %}
+{% block scripts %}
 
-{% endblock scripts %} -->
+{% endblock scripts %}
 <script src="{% static '/js/checkout.js' %}"></script><!----Custome js file for razorpay checkout page-->
 
 

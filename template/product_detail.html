@@ -108,17 +108,17 @@
 								</ul>
 							</div> -->
 							<!-- End Widget -->
-							<div class="widget widget-tags">
+							<!-- <div class="widget widget-tags">
 								<h2 class="widget-title title14 font-bold text-uppercase play-font">Tags</h2>
 								<ul class="list-none wg-list-tags">
 									<li><a href="#">$25</a></li>
-									<li><a href="#">$400</a></li>
+									<li><a href="#">$400</a></li> -->
 									<!-- <li><a href="#">Fashion</a></li>
 									<li><a href="#">Electronic</a></li>
 									<li><a href="#">Beauty</a></li>
 									<li><a href="#">Sale</a></li> -->
-								</ul>
-							</div>
+								<!-- </ul>
+							</div> -->
 							<!-- End Widget -->
 							<!--<div class="widget widget-search">
 								<h2 class="widget-title title14 font-bold text-uppercase play-font">Search</h2>
@@ -171,15 +171,15 @@
 												
 												{% if single_product.price !=   single_product.user_price %}
 												
-															   <del class="silver">${{single_product.price}}</del>
+															   <del class="silver">₹{{single_product.price}}</del>
 
-															   <ins class="dark">${{single_product.user_price}}</ins>
+															   <ins class="dark">₹{{single_product.user_price}}</ins>
 																<!-- {% if single_product.p_offer < single_product.cat_offer and single_product.p_offer >= 1 and single_product.cat_offer >= 1 %} -->
 																		
 																	<!-- <ins class="dark">${{single_product.p_offer}}</ins> -->
 
 																	{% else %}
-																	<ins class="dark">${{single_product.user_price}}</ins>
+																	<ins class="dark">₹{{single_product.user_price}}</ins>
 
 																{% endif %}
 

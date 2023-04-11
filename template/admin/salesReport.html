@@ -12,9 +12,9 @@
     {% if order %}
     <div class="btn-wrapper">
         <a target="_blank" href="{% url 'genereateSalesreport' %}" role="button" class="btn btn-dark"><i class="icon-printer"></i> Download as PDF</a>
-        <!-- <button onclick="exportHTML()" class="btn btn-info"><i class="icon-printer"></i> Export as Doc</button> -->
+        <button onclick="exportHTML()" class="btn btn-info"><i class="icon-printer"></i> Export as Doc</button>
         <!-- <a href="" class="btn btn-primary text-white me-0"><i class="icon-download"></i> Export as Doc</a> -->
-        <!-- <button id="downlaodsalesReportexcel" class="btn mx-3 btn-success text-white me-0"><i class="icon-download"></i> Export as Excel</button> -->
+        <button id="downlaodsalesReportexcel" class="btn mx-3 btn-success text-white me-0"><i class="icon-download"></i> Export as Excel</button>
         
     </div>
     {% else %}
@@ -73,7 +73,7 @@
 
     {% if order %}
   
-         <table class="table table-bordered">
+         <table class="table table-bordered" id="sales-table">
                   <thead>
                     <tr>
                       <th scope="col" style="width: 20%">Order Id</th>
@@ -142,6 +142,44 @@
 
 
              
-                
+              <script src="{% static 'js/table2excel.js'  %}"></script>
 
+              <script>
+                document.getElementById('downlaodsalesReportexcel').addEventListener('click',function(){
+                    var table2excel = new Table2Excel();
+                    table2excel.export(document.querySelectorAll("#sales-table"));
+                })
+            
+            
+              
+                  const year = new Date().getFullYear()
+                  let selectBox = document.getElementById('yearDP')
+                  selectBox.value = year
+            
+                  const month=new Date().getMonth()
+                  let selectMonth=document.getElementById('monthDP')
+                  selectMonth.value=month
+            
+            
+                  
+                    function exportHTML(){
+                       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+                            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+                            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+                            "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+                       var footer = "</body></html>";
+                       var sourceHTML = header+document.getElementById("sales-table").innerHTML+footer;
+                       
+                       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                       var fileDownload = document.createElement("a");
+                       document.body.appendChild(fileDownload);
+                       fileDownload.href = source;
+                       fileDownload.download = 'document.doc';
+                       fileDownload.click();
+                       document.body.removeChild(fileDownload);
+                    }
+                
+            
+              </script>
 {% endblock %}
+

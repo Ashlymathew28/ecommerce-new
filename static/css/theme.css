@@ -5255,7 +5255,7 @@ a.dark {
   right: 0;
 }
 .list-category-toggle .item-toggle-tab.active .toggle-tab-title::after {
-  content: "\f106";
+  content: "";
 }
 .list-category-toggle {
   margin-top: -20px;

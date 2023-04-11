@@ -16,14 +16,15 @@
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
-      <div class="row">
+
+      <!----<div class="row">-->
 
         <!-- Left side columns -->
-        <div class="col-lg-8">
-          <div class="row">
+        <!-- <div class="col-lg-8">
+          <div class="row"> -->
 
             <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
+            <!-- <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
 
                 <div class="filter">
@@ -40,14 +41,14 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Product Count <span>| Today</span></h5>
+                  <h5 class="card-title">Sales <span>| Today</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-cart"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>{{ total_products }}</h6>
+                      <h6>145</h6>
                       <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
                     </div>
@@ -55,45 +56,11 @@
                 </div>
 
               </div>
-            </div><!-- End Sales Card -->
-
-
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Total Orders <span>| This Month</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>{{ total_orders }}</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
+            </div> -->
+            <!-- End Sales Card -->
 
             <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
+            <!-- <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
                 <div class="filter">
@@ -110,30 +77,26 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">tTotal Revenue <span>| This Month</span></h5>
+                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      {% if total_revenue.price__sum %}
-                      <h6> {{total_revenue.price__sum|floatformat:2}}</h6>
+                      <h6>$3,264</h6>
                       <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-                      
-                      {% else %}
-                      0
-                      {% endif %}
+
                     </div>
                   </div>
                 </div>
 
               </div>
-            </div>
+            </div> -->
             <!-- End Revenue Card -->
 
             <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-12">
+            <!-- <div class="col-xxl-4 col-xl-12">
 
               <div class="card info-card customers-card">
 
@@ -159,18 +122,19 @@
                     </div>
                     <div class="ps-3">
                       <h6>{{ total_users }}</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
+                      - <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
+<!-- 
                     </div>
                   </div>
 
                 </div>
-              </div>
+              </div> -->
 
-            </div><!-- End Customers Card -->
+            <!-- </div> -->
+            <!-- End Customers Card -->
 
             <!-- Reports -->
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="card">
 
                 <div class="filter">
@@ -187,12 +151,12 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                  <h5 class="card-title">Reports <span>/Today</span></h5> -->
 
                   <!-- Line Chart -->
-                  <div id="reportsChart"></div>
+                  <!-- <div id="reportsChart"></div> -->
 
-                  <script>
+                  <!-- <script>
                     document.addEventListener("DOMContentLoaded", () => {
                       new ApexCharts(document.querySelector("#reportsChart"), {
                         series: [{
@@ -243,16 +207,17 @@
                         }
                       }).render();
                     });
-                  </script>
+                  </script> -->
                   <!-- End Line Chart -->
 
-                </div>
+                <!-- </div>
 
               </div>
-            </div><!-- End Reports -->
+            </div> -->
+            <!-- End Reports -->
 
             <!-- Recent Sales -->
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="card recent-sales overflow-auto">
 
                 <div class="filter">
@@ -323,10 +288,11 @@
                 </div>
 
               </div>
-            </div><!-- End Recent Sales -->
+            </div> -->
+            <!-- End Recent Sales -->
 
             <!-- Top Selling -->
-            <div class="col-12">
+            <!-- <div class="col-12">
               <div class="card top-selling overflow-auto">
 
                 <div class="filter">
@@ -397,16 +363,18 @@
                 </div>
 
               </div>
-            </div><!-- End Top Selling -->
+            </div> -->
+            <!-- End Top Selling -->
 
-          </div>
-        </div><!-- End Left side columns -->
+          <!-- </div>
+        </div> -->
+        <!-- End Left side columns -->
 
         <!-- Right side columns -->
-        <div class="col-lg-4">
+        <!-- <div class="col-lg-4"> -->
 
           <!-- Recent Activity -->
-          <div class="card">
+          <!-- <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -431,55 +399,62 @@
                   <div class="activity-content">
                     Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
                   </div>
-                </div><!-- End activity item-->
+                </div>-->
+                <!-- End activity item-->
 
-                <div class="activity-item d-flex">
+                <!-- <div class="activity-item d-flex">
                   <div class="activite-label">56 min</div>
                   <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
                   <div class="activity-content">
                     Voluptatem blanditiis blanditiis eveniet
                   </div>
-                </div><!-- End activity item-->
+                </div> -->
+                <!-- End activity item-->
 
-                <div class="activity-item d-flex">
+                <!-- <div class="activity-item d-flex">
                   <div class="activite-label">2 hrs</div>
                   <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
                   <div class="activity-content">
                     Voluptates corrupti molestias voluptatem
                   </div>
-                </div><!-- End activity item-->
+                </div> -->
+                <!-- End activity item-->
 
-                <div class="activity-item d-flex">
+                <!-- <div class="activity-item d-flex">
                   <div class="activite-label">1 day</div>
                   <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
                   <div class="activity-content">
                     Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
                   </div>
-                </div><!-- End activity item-->
+                </div> -->
+                <!-- End activity item-->
 
-                <div class="activity-item d-flex">
+                <!-- <div class="activity-item d-flex">
                   <div class="activite-label">2 days</div>
                   <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
                   <div class="activity-content">
                     Est sit eum reiciendis exercitationem
                   </div>
-                </div><!-- End activity item-->
+                </div> -->
+                <!-- End activity item-->
 
-                <div class="activity-item d-flex">
+                <!-- <div class="activity-item d-flex">
                   <div class="activite-label">4 weeks</div>
                   <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
                   <div class="activity-content">
                     Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
                   </div>
-                </div><!-- End activity item-->
+                </div> -->
+                <!-- End activity item-->
 
-              </div>
+              <!--</div>
 
             </div>
-          </div><!-- End Recent Activity -->
+          </div> -->
+          <!-- End Recent Activity -->
 
           <!-- Budget Report -->
-          <div class="card">
+          <!-- <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -550,10 +525,11 @@
               </script>
 
             </div>
-          </div><!-- End Budget Report -->
+          </div> -->
+          <!-- End Budget Report -->
 
           <!-- Website Traffic -->
-          <div class="card">
+          <!-- <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -628,10 +604,11 @@
               </script>
 
             </div>
-          </div><!-- End Website Traffic -->
+          </div> -->
+          <!-- End Website Traffic -->
 
           <!-- News & Updates Traffic -->
-          <div class="card">
+          <!-- <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -681,13 +658,276 @@
 
               </div><!-- End sidebar recent posts-->
 
+            <!----</div>
+          </div> -->
+          <!-- End News & Updates -->
+
+        <!-- </div> -->
+        <!-- End Right side columns -->
+
+<!--</div> -->
+
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="home-tab">
+        <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+        </div>
+        <div class="tab-content tab-content-basic">
+          <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"> 
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="statistics-details d-flex align-items-center justify-content-between">
+                  <div>
+                    <p class="statistics-title">User Count</p>
+                    <h3 class="rate-percentage text-center">{{ total_users }}</h3>
+                    <!-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-0.5%</span></p> -->
+                  </div>
+                  <div>
+                    <p class="statistics-title">Product Count</p>
+                    <h3 class="rate-percentage text-center">{{ total_products }}</h3>
+                    <!-- <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+0.1%</span></p> -->
+                  </div>
+                  <div>
+                    <p class="statistics-title">Total Orders</p>
+                    <h3 class="rate-percentage text-center">{{ total_orders }}</h3>
+                    <!-- <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p> -->
+                  </div>
+                  <div class="d-none d-md-block">
+                    <p class="statistics-title">Total Revenue</p>
+                    <h3 class="rate-percentage">
+                      {% if total_revenue.order_total__sum %}
+                        {{total_revenue.order_total__sum|floatformat:2}}
+                      {% else %}
+                        0
+                      {% endif %}
+
+                    </h3>
+                  </div>
+                  
+                </div>
+              </div>
+            </div> 
+            <div class="row">
+              <div class="col-lg-8 d-flex flex-column">
+                <div class="row flex-grow">
+                  <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card  ">
+                    <div class="card card-rounded">
+                      <div class="card-body"style="height:35rem;">
+                        <div class="d-sm-flex justify-content-between align-items-start">
+                          <div>
+                            <h4 class="card-title card-title-dash">Daily Sales Graph</h4>
+                          </div>
+                          <div id="Sales Data"></div>
+                        </div>
+                        <div class="chartjs-wrapper mt-5">
+                          <canvas id="sales-data" width="800"height="450"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 d-flex flex-column">
+                <div class="row flex-grow">
+                  
+                  <div class="card card-rounded"style="width:40rem;height:35rem;">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="card-title card-title-dash">Monthly  Sales</h4>
+                          </div>
+                          <canvas class="my-auto mt-2" id="total-sales" width="200"height="200"></canvas>
+                          <div id="doughnut-chart-legend" class="mt-5 text-center"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div><!-- End News & Updates -->
-
-        </div><!-- End Right side columns -->
-
+            <div class="row">
+              <div class="col-lg-8 d-flex flex-column">
+                <div class="row flex-grow">
+                  <div class="col-12 grid-margin stretch-card" style="height:35rem;">
+                    <div class="card card-rounded">
+                      <div class="card-body">
+                        <div class="d-sm-flex justify-content-between align-items-start">
+                          <div>
+                            <h4 class="card-title card-title-dash">Most Moving Product</h4>
+                          </div>
+                          <div>
+                        
+                          </div>
+                        </div>
+                        <div class="d-sm-flex align-items-center mt-1 justify-content-between">
+                          <div class="d-sm-flex align-items-center mt-4 justify-content-between"><h2 class="me-2 fw-bold"></h2><h4 class="me-2"></h4><h4 class="text-success"></h4></div>
+                          <div class="me-3"><div id="marketing-overview-legend"></div></div>
+                        </div>
+                        <div class="chartjs-bar-wrapper mt-3">
+                          <canvas id="most-moving-product"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+              </div>
+              <div class="col-lg-4 d-flex flex-column">
+                <div class="row flex-grow">
+                  
+                </div>
+                <div class="row flex-grow">
+                  <div class="col-12 grid-margin stretch-card">
+                    <div class="card card-rounded">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                              <h4 class="card-title card-title-dash">Status Count</h4>
+                            </div>
+                            <canvas class="my-auto" id="status_count" width="200"height="200"></canvas>
+                            <div id="doughnut-chart-legend" class="mt-5 text-center"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row flex-grow">
+                  <div class="col-12 grid-margin stretch-card">
+                    {% comment %} <div class="card card-rounded">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                              <div>
+                                <h4 class="card-title card-title-dash">Leave Report</h4>
+                              </div>
+                              <div>
+                                <div class="dropdown">
+                                  <button class="btn btn-secondary dropdown-toggle toggle-dark btn-lg mb-0 me-0" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Month Wise </button>
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                                    <h6 class="dropdown-header">week Wise</h6>
+                                    <a class="dropdown-item" href="#">Year Wise</a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="mt-3">
+                              <canvas id="most-moving-product"></canvas>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> {% endcomment %}
+                  </div>
+                </div>
+            
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
     </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script>
+
+      new Chart(document.getElementById("total-sales"), {
+        type: 'doughnut',
+        data: {
+          labels: ["Januvary", "Februvary", "March", "April", "May","June","July","August","September","October","November","December"],
+          datasets: [
+            {
+              label: "Total Sales",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850","#ff6699","#cc6600","#993366","#999966","#66ff33","#00ff99"],
+              data:{{ monthly_order_count }},
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: 'Total sales'
+          }
+        }
+    });
+
+    new Chart(document.getElementById("sales-data"), {
+      type: 'line',
+      data: {
+        labels: [{% for d in dates %}, "{{ d.created_at__day }}", {% endfor %}],
+        datasets: [{ 
+            data: [{% for s in sales %}, "{{ s.sales }}", {% endfor %}],
+            label: "Product Sold",
+            borderColor: "#3e95cd",
+            fill: false
+          }, { 
+            data: [{% for d in dates %},"{{ d.order_items }}", {% endfor %}],
+            label: "Order Placed",
+            borderColor: "#8e5ea2",
+            fill: false
+          }, { 
+            data: [{% for r in returns %}, "{{ r.returns }}", {% endfor %}],
+            label: "Returned Orders",
+            borderColor: "#3cba9f",
+            fill: false
+          },
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          {% comment %} text: 'World population per region (in millions)' {% endcomment %}
+        }
+      }
+    });
+    
+    
+    new Chart(document.getElementById("most-moving-product"), {
+      type: 'horizontalBar',
+      data: {
+        labels: [{% for m in most_moving_product %} "{{m.product_name|slice:":10"}}",{% endfor %}],
+        datasets: [
+          {
+            {% comment %} label: "Population (millions)", {% endcomment %}
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: {{most_moving_product_count}}
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          {% comment %} text: 'Predicted world population (millions) in 2050' {% endcomment %}
+        }
+      }
+    });
+    new Chart(document.getElementById("status_count"), {
+      type: 'pie',
+      data: {
+        labels: ["Placed","Shipped","Delivered","Returned","Cancelled"],
+        datasets: [{
+          {% comment %} label: "Population (millions)", {% endcomment %}
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: {{ status_count }}
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          {% comment %} text: 'Predicted world population (millions) in 2050' {% endcomment %}
+        }
+      }
+    });
+    </script>
 
   <!-- </main> -->
 {% endblock %}

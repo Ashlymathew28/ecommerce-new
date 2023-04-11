@@ -20,7 +20,7 @@
         
         <th scope="col" style="width: 15%">Starting  Date</th>
         <th scope="col" style="width: 15%">Expiry Date</th>
-        <th scope="col">Active</th>
+        <!-- <th scope="col">Active</th> -->
         <th scope="col">Action</th>
 
       </tr>
@@ -35,10 +35,10 @@
        <td>{{i.discount}}</td>
        <td>{{ i.valid_from }}</td>
        <td>{{ i.valid_to }}</td>
-       <td>{{ i.active }}</td>
+       <!-- <td>{{ i.active }}</td> -->
         <td>
-             <a href="{% url 'edit_product' i.id %}" ><button class="btn btn-warning mb-3" id="my-button" >Edit </button></a><br> 
-             <a href="{% url 'remove_product' i.id  %}" ><button class="btn btn-warning mb-3" id="my-button" >Remove </button></a><br> 
+             <!-- <a href="" ><button class="btn btn-warning mb-3" id="my-button" >Edit </button></a><br>  -->
+             <a href="{% url 'RemoveCoupon' i.id %}" ><button class="btn btn-warning mb-3" id="my-button" >Remove </button></a><br> 
             <!-- <form action="" method="post">
               <input name="stock" value="<%= product.stock %>" hidden> -->
              <!--- <% if ( product.stock) { %>

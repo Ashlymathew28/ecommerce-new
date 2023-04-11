@@ -91,7 +91,7 @@
 							
 							<div class="item-cat2 text-center">
 								
-								<div class="cat-thumb"><a href="#"><img src="/media/{{ i.category_image}}" alt="" /></a></div>
+								<div class="cat-thumb"><a href="#"><img src="/media/{{ i.category_image}}" style="height: 30rem;width: 40rem;" alt="" /></a></div>
 								<div class="cat-info">
 									<h3 class="title18 dark play-font font-italic"></h3>
 									<p class="desc dark opacity" >{{i.category_name}}</p>
@@ -129,27 +129,37 @@
 										<div class="product-info">
 											<h3 class="title14 product-title"><a href="{{product.grt_url}}" class="black">{{product.product_name}}</a></h3>
 											<div class="product-price title14 play-font">
-												<del class="silver">$601.00</del>
-												<ins class="black title18">${{product.price}}</ins>
+
+										 {% if product.price !=  product.user_price %}
+
+												<del class="silver">₹{{product.price}}</del>
+												<ins class="black title18">₹{{product.user_price}}</ins>
+											{% else %}
+                                            
+                                                <ins class="dark">₹{{product.user_price}}</ins>
+
+                                            {% endif %}
+
+											
 											</div>
-											<ul class="wrap-rating list-inline-block">
+											<!-- <ul class="wrap-rating list-inline-block">
 												<li>
 													<div class="product-rate">
 														<div class="product-rating" style="width:100%"></div>
 													</div>
-												</li>
-												<li>
+												</li> -->
+												<!-- <li>
 													<span class="rate-number silver">(5.0)</span>
-												</li>
-											</ul>
+												</li> -->
+											<!-- </ul> -->
 											<div class="product-extra-link4 title18">
 												<!-- <a href="compare-product.html" class="compare-link inline-block black fancybox fancybox.iframe"><i class="icon ion-ios-loop-strong"></i><span class="title10 white text-uppercase">Compare</span></a> -->
 												{% if product.stock >= 1 %}
 												<a href="{% url 'add_cart' product.id %}" class="addcart-link black inline-block"><i class="fa-solid fa-cart-shopping"></i><span class="title10 white text-uppercase">Add to cart</span></a>
 			
-												<a href="#" class="wishlist-link black inline-block"><i class="fa-solid fa-heart"></i><span class="title10 white text-uppercase">Wishlist</span></a>
+												<button onclick="addToWishlist('{{product.id}}')" style="border: none;"><i class="fa-solid fa-heart"></i><span class="title10 white text-uppercase"></span></button>
 											{% else %}
-											<a href="#" class="wishlist-link black inline-block"><i class="fa-solid fa-heart"></i><span class="title10 white text-uppercase">Wishlist</span></a>
+											<a href="#" class="wishlist-link black inline-block"><i class="fa-solid fa-heart"></i><span class="title10 white text-uppercase"></span></a>
 												{% endif %}
 											
 										</div>
@@ -166,10 +176,10 @@
 			</div>
 		</div>
 		<!-- End Best Seller -->
-		<div class="container">
+		<!-- <div class="container">
 			<div class="row">
-				<div class="col-sm-8 col-xs-12">
-					<div class="banner-adv banner-countdown gray-image zoom-image jewelry-coundown2">
+				<div class="col-sm-8 col-xs-12"> -->
+					<!-- <div class="banner-adv banner-countdown gray-image zoom-image jewelry-coundown2">
 						<a href="#" class="adv-thumb-link"><img src="{% static 'images/home/jewelry2/deal.jpg' %}" alt="" /></a>
 						<div class="banner-info text-center">
 							<div class="time-countdown timer-banner" data-date="12/12/2019" data-text='["Day","Hour","Min","Sec"]' data-color="#fff" data-bg="rgba(255,0255,255,0.5)" data-width="0.03"></div>
@@ -177,9 +187,9 @@
 							<h2 class="title30 white text-uppercase play-font">upto 60% off</h2>
 							<a href="#" class="link-arrow text-uppercase white wobble-horizontal">Shop all</a>
 						</div>
-					</div>
+					</div> -->
 					<!-- End Banner -->
-				</div>
+				<!-- </div>
 				<div class="col-sm-4 col-xs-12">
 					<div class="banner-adv diamond-collect banner-adv2 zoom-rotate">
 						<a href="#" class="adv-thumb-link"><img src="{% static 'images/home/jewelry2/diamond.jpg' %}" alt=""></a>
@@ -189,8 +199,8 @@
 							<a href="#" class="link-arrow text-uppercase dark wobble-horizontal">Shop all</a>
 						</div>
 					</div>
-				</div>
-			</div>
+				</div> -->
+			<!-- </div> -->
 			<!---<div class="list-cat-jewelry2">
 				<div class="row">
 					<div class="col-sm-4 col-xs-12">
@@ -220,7 +230,7 @@
 				</div>
 			</div>-->
 			<!-- End List Cat -->
-		</div>
+		<!-- </div> -->
 		<!---<div class="product-featured-jewelry2">
 			<div class="container">
 				<div class="title-box2 text-center">
@@ -346,7 +356,7 @@
 			</div>
 		</div>--->
 		<!-- End Featured Product -->
-		<div class="container">
+		<!-- <div class="container">
 			<div class="list-banner-jewelry2">
 				<div class="row">
 					<div class="col-sm-6 col-xs-12">
@@ -452,8 +462,8 @@
 				<!-- End Post Slider -->
 			<!--</div>--->
 			<!-- End Latest Post -->
-		</div>
-		<div class="testimo-jewelry2 parallax" data-image="{% static 'images/home/jewelry2/parallax.jpg' %}">
+		<!---</div> -->
+		<!-- <div class="testimo-jewelry2 parallax" data-image="{% static 'images/home/jewelry2/parallax.jpg' %}">
 			<div class="container">
 				<div class="title-box2 text-center">
 					<h2 class="title24 white play-font font-italic">What People Say</h2>
@@ -479,6 +489,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</section>
 {% endblock %}

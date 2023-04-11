@@ -10,6 +10,7 @@ urlpatterns = [
     path('banners/',views.banners,name='banners'),
     path('addBanner/',views.addBanner,name='addBanner'),
     path('editBanner <int:id>/',views.editBanner,name='editBanner'),
+    path('removeBanner <int:id>/',views.removeBanner,name='removeBanner'),
 
 # users
     path('admin_userlist/',views. admin_userlist,name='admin_userlist'),
@@ -20,6 +21,7 @@ urlpatterns = [
 # product
 
     path('admin_productlist/',views. admin_productlist,name='admin_productlist'),
+    path('prodsearch/',views. prodsearch,name='prodsearch'),
     path('admin_addproduct/',views. admin_addproduct,name='admin_addproduct'),
     path('edit_product <int:id>/',views. edit_product,name='edit_product'),
     path('remove_product <int:id>',views. remove_product,name='remove_product'),
@@ -30,7 +32,7 @@ urlpatterns = [
 # category
 
     path('admin_addcategory/',views. admin_addcategory,name='admin_addcategory'),
-    path('delete_category <int:id>/',views. delete_category,name='delete_category'),
+    path('delete_category/',views. delete_category,name='delete_category'),
     path('edit_category <int:id>/',views.edit_category,name='edit_category'),
     path('update_category <int:id>/',views. update_category,name='update_category'),
     path('add_catOffer <int:id>/',views. add_catOffer,name='add_catOffer'),
@@ -53,5 +55,6 @@ urlpatterns = [
 
     path('admin_coupons/',views.admin_coupons,name='admin_coupons'),
     path('admin_addcoupon/',views.admin_addcoupon,name='admin_addcoupon'),
+    path('RemoveCoupon/<int:id>/',views.RemoveCoupon,name='RemoveCoupon'),
 
 ]

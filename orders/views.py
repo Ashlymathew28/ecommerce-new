@@ -5,6 +5,16 @@ from store .models import Product
 from .forms import OrderForm
 import datetime
 from django.http import JsonResponse
+from django.views.generic import View
+from django.http import HttpResponse
+from django.template.loader import get_template
+from io import BytesIO
+from django.shortcuts import  render
+from xhtml2pdf import pisa
+
+
+
+
 # Create your views here.
 
 
@@ -28,7 +38,7 @@ def place_order(request):
     tax = 0
 
     for cart_item in cart_items:
-        total += (cart_item.product.price * cart_item.quantity)
+        total += (cart_item.product.user_price * cart_item.quantity)
         qunatity += cart_item.quantity
 
     tax = (2 * total)/100
@@ -61,11 +71,17 @@ def place_order(request):
             data.pay_id = request.POST.get('pay_id')
             print(data.pay_method)
             print(data.pay_id)
-            data.order_total = grand_total
+            if 'new_price' in  request.session:
+
+                 data.order_total = request.session['new_price']
+            else:
+                data.order_total =grand_total
             data.tax = tax
+            data.save()
+            print("cod total",data.order_total)
             print("order total ethatto :",data.order_total)
             print("tax ethatto: ",data.tax)
-            data.save()
+            
             print("save aaayito details okke ")
             #generate order number
             yr = int(datetime.date.today().strftime('%Y'))
@@ -98,13 +114,24 @@ def place_order(request):
             
             print("jjjjjjjjjj")
             # payMode=request.POST.get('pay_method')
+            if 'new_price' in request.session:
+                request.session.pop('coupon',None)
+                request.session.pop('new_price',None)
+                request.session.pop('coup_discount',None)
+                request.session.modified = True
+
             pay_method = request.POST.get('pay_mode')
             if ( pay_method== "Razorpay"):
                 print("payMode")
                 return JsonResponse({
-                    'status':"Your order has been placed successfully!"
+                    'status':"Your order has been placed successfully!",
+                    'id':data.id,
                     })
-            return redirect('payments')
+            else:
+                return JsonResponse({
+                    'id':data.id,
+                })
+            # return redirect('payments')
         # else:
           
             # return redirect('checkout')
@@ -118,9 +145,16 @@ def proceed_to_pay(request):
     print('Kuttaaa proceed to payil athitunddd......')
     total_price = 0
     for item in cartitems:
-        total_price += (item.product.price * item.quantity)
+        total_price += (item.product.user_price * item.quantity)
         price = total_price
         total_price = price
+    
+    if 'new_price' in request.session:
+      total_price=request.session['new_price']
+    else:
+        tax=(2*total_price)/100
+        total_price=total_price+tax
+    print("total from proceed to pay",total_price)
     return JsonResponse({
 
         'total_price':total_price
@@ -130,13 +164,56 @@ def order_cancel(request):
     order_id=request.POST.get('order_id')
 
     print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",order_id)
-    order=OrderProduct.objects.filter(order_id=order_id).first()
+    order=OrderProduct.objects.get(id=order_id)
     print(order)
-    order.order.status = 'Cancelled'
-    print(order.order.status)
-    order.order.save()
+    order.status = 'Cancelled'
+    print(order.status)
+    order.save()
     order.product.stock += order.quantity
     order.product.save()
 
-    print("order cancelled aayito ")
+    print("ordered Product cancelled aayito ")
     return JsonResponse({"status":"Cancelled"})
+
+
+def order_return(request):
+    order_id=request.POST.get('order_id')
+    print("order id: ",order_id)
+    order=OrderProduct.objects.get(id=order_id)
+    order.status = 'Returned'
+    order.save()
+    order.product.stock += order.quantity
+    order.product.save()
+    print("order returned >>>>>>>>>>")
+    return JsonResponse({'status':'Returned'})
+
+
+# generating Invoice
+class generateInvoice(View):
+    def get(self,request,id,*args,**kwargs):
+        try:
+            ordersItem=OrderProduct.objects.get(order_id=id,user=request.user)
+        except:
+            return HttpResponse("505 not found")
+        data={
+            'order_id':ordersItem.orders.id,
+            'date':str(ordersItem.orders.created_at),
+            'name':ordersItem.orders.user.first_name,
+            'address':ordersItem.orders.address.Address,
+            'total_price':ordersItem.orders.order_total,
+            'transaction_id':ordersItem.orders.pay_id,
+            'payment_mode':ordersItem.orders.pay_method,
+            'user_email':ordersItem.orders.user.email,
+            'orders':ordersItem.orders
+        }
+        pdf=render_to_pdf('invoice.html',data)
+        return HttpResponse(pdf,content_type='application/pdf')
+    
+def render_to_pdf(template_src,context_dict={}):
+    template=get_template(template_src)
+    html=template.render(context_dict)
+    result=BytesIO()
+    pdf=pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")),result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(),content_type='application/pdf')
+    return None  

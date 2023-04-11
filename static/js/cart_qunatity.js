@@ -54,7 +54,7 @@ function incrementQunatity(qty,id,sub_total){
 
         },
         error:function(r){
-            alert('Error Ocuured')
+            alert('Out of stock')
         }
 
     });

@@ -83,6 +83,9 @@
 											<th class="product-name">Product</th>
 											<th class="product-price">Price</th>
 											<th class="product-quantity">Quantity</th>
+											<th class="product-quantity">Status</th>
+
+											<th class="product-quantity">Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -100,82 +103,59 @@
 											<td class="product-price" data-title="Price">
 												<span class="amount">${{i.product.price}}</span>					
 											</td>
+
 											<td class="product-quantity" data-title="Quantity">
-												
-	
 												<p>{{i.quantity}}</p>
 											</td>
-											<!-- <td class="product-subtotal" data-title="Total">
-												<span class="amount" id="sub_total{{ forloop.counter }}">${{cart_item.sub_total}}</span>
-												
-											</td> -->
+
+											<td class="product-quantity" data-title="Quantity">
+												{% if i.status == 'Cancelled' or i.status == 'Returned' %}
+												<p id="order_status{{ forloop.counter }}">{{i.status}}</p>
+												{% else %}
+
+												{% endif %}
+											</td>
+
+											<td class="product-subtotal" data-title="Total">
+												{% if i.order.status == 'Cancelled' or i.order.status == 'Shipped' or i.status == 'Returned' or i.status == 'Cancelled' %}
+
+												{% elif   i.order.status == 'placed'  %}
+												<a  role="button"  class="btn-bg-dark" onclick="orderCancel('{{i.id}}','order_status{{ forloop.counter }}')"><b>cancel</b></a>
+
+												{% elif i.order.status == 'Delivered' %}
+												<a  role="button"  class="btn-bg-dark" onclick="orderReturn('{{i.id}}','order_status{{ forloop.counter }}')"><b>Return</b></a>
+
+												{% endif %}
+
+
+											</td>
 										</tr>
 										{% endfor %}
 									
-										<!-- <tr>
-											<td class="actions" colspan="6">
-												<div class="coupon">
-													
-													<label for="coupon_code">Coupon:</label> 
-													<input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code"> 
-													<input type="submit" value="Apply Coupon" name="apply_coupon" class="button bg-color">
-												</div>
-												<a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button bg-color">	View Coupons</a>		
-											</td>
-										</tr> -->
+										
 										
 									</tbody>
 								</table>
+								
+								
+							</div>
+						</form></div>
+						<h5>
+							Shipping Address: <b>{{order.address.Address}}</b>
 
-								
-							</div>
-						</form>
-						<!-- <div class="cart-collaterals">
-							<div class="cart_totals ">
-								<h2>Cart Totals</h2>
-								<div class="table-responsive">
-									<table class="table">
-										<tbody>
-											<tr class="cart-subtotal">
-												<th>Subtotal</th>
-												<td><strong id="total" class="amount">${{total}}</strong></td>
-											</tr>
-											 <tr class="cart-subtotal">
-												<th>Tax</th>
-												<td><strong class="amount">${{tax}}</strong></td>
-											</tr> -->
+						</h5>
+						<h5>
+						Order Total : <b>	{{order.order_total}}</b>
+						</h5>
+						<h5>
+							Payment Mode : <b>{{order.pay_method}}</b>
+
+						</h5>
+
+
+					
 	
-											<!-- <tr class="shipping">
-												<th>Shipping</th>
-												<td>
-													<ul class="list-none" id="shipping_method">
-														<li>
-															<input type="radio" class="shipping_method" checked="checked" value="free_shipping" id="shipping_method_0_free_shipping" data-index="0" name="shipping_method[0]">
-															<label for="shipping_method_0_free_shipping">Free Shipping</label>
-														</li>
-														<li>
-															<input type="radio" class="shipping_method" value="local_delivery" id="shipping_method_0_local_delivery" data-index="0" name="shipping_method[0]">
-															<label for="shipping_method_0_local_delivery">Local Delivery (Free)</label>
-														</li>
-														<li>
-															<input type="radio" class="shipping_method" value="local_pickup" id="shipping_method_0_local_pickup" data-index="0" name="shipping_method[0]">
-															<label for="shipping_method_0_local_pickup">Local Pickup (Free)</label>
-														</li>
-													</ul>
-												</td>
-											</tr> -->
-											<!--<tr class="order-total">
-												<th>Grand Total</th>
-												<td><strong><span class="amount">${{grand_total}}</span></strong> </td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								
-							</div>
-						</div> -->
-	
-					</div>	
+						
 
 
 				</div>
@@ -185,6 +165,92 @@
     </div>
     </div>
     </section>
+
+	<script>
+
+function orderCancel(order_id, status) {
+		var status_id = $('#' + status)
+
+		Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes'
+		}).then((result) => {
+			if (result.isConfirmed) {
+
+				$.ajax({
+					url: "{% url 'order_cancel' %}",
+					method: "post",
+					headers: {
+						'X-CSRFToken': '{{ csrf_token }}'
+					},
+					data: {
+						"order_id": order_id
+					}
+				}).done((res) => {
+					Swal.fire(
+						'Successfull!',
+						'Product is cancelled .',
+						'success'
+					).then(() => {
+						location.reload()
+						console.log(res.status)
+						$(status_id).text(res.status)
+
+					})
+				}).fail((err) => {
+
+				})
+
+			}
+		})
+	}
+	function orderReturn(order_id, status) {
+		var status_id = $('#' + status)
+
+		Swal.fire({
+			title: 'Are you sure want to return this?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes'
+		}).then((result) => {
+			if (result.isConfirmed) {
+
+				$.ajax({
+					url: "{% url 'order_return' %}",
+					method: "post",
+					headers: {
+						'X-CSRFToken': '{{ csrf_token }}'
+					},
+					data: {
+						"order_id": order_id
+					}
+				}).done((res) => {
+					Swal.fire(
+						'Returned!',
+						'Your product has been Returned.',
+						'success'
+					).then(() => {
+						location.reload()
+						console.log(res.status)
+						$(status_id).text(res.status)
+
+					})
+				}).fail((err) => {
+
+				})
+
+			}
+		})
+	}
+	</script>
             
 
 

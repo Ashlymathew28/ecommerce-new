@@ -2,10 +2,29 @@ from django.shortcuts import render,get_object_or_404
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 from cart.views import _cart_id
 from .models import Product
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from cart.models import CartItem,Cart
 from category.models import category
 # Create your views here.
+
+
+def search(request):
+    Category=category.objects.all()
+    if 's' in request.GET:
+        keyword=request.GET['s']
+        if keyword:
+            products=Product.objects.order_by('id').filter(product_name__icontains=keyword)
+        else:
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    paginator=Paginator(products,4)
+    page=request.GET.get('page')
+    paged_products=paginator.get_page(page)   
+    context={
+        'products':paged_products,
+        'Category':Category
+    }
+    return render(request,'gridview.html',context)
+ 
 
 
 # #product list for users

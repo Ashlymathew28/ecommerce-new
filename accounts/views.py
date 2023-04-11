@@ -17,7 +17,9 @@ def homepage(request):
     return render(request,'user_homepage.html')
 
 def user_login(request):
- 
+    if request.user.is_superuser:
+        return redirect('admin_login')
+    
     if request.method == 'POST':
         email=request.POST['email']
         #username=request.POST['username']
@@ -31,33 +33,42 @@ def user_login(request):
         
         print(user)
         print("111")
-        if user is not None:
-            try:
-                cart = Cart.objects.get(_cart_id=_cart_id(request))
-                is_cart_item_exists = CartItem.objects.filter( cart=cart).exists
-                if is_cart_item_exists:
-                    cart_item = CartItem.objects.filter(cart=cart)
-                    for item in cart_item:
-                        item.user = user
-                        item.save()
-            except:
-                 print('entered in expect ')
-                 pass
+        if user is not None and user.blocked == False:
+            if user.is_superuser == False:
+                try:
+                    cart = Cart.objects.get(cart_id=_cart_id(request))
+                    is_cart_item_exists = CartItem.objects.filter( cart=cart).exists()
+                    if is_cart_item_exists:
+                        cart_item = CartItem.objects.filter(cart=cart)
+                        for item in cart_item:
+                            item.user = user
+                            if CartItem.objects.filter(product=item.product,user=user).exists():
+                                item_c = CartItem.objects.get(product = item.product,user =user)
+                                item_c.quantity += item.quantity
+                                item.save()
+                            else:
+                                item.save()
+                except:
+                        print('entered in expect ')
+                        pass
 
-            login(request,user)
-            print("111")
-          
-            url = request.META.get('HTTP_REFERER')
-            try:
-                query=requests.utils.urlparse(url).query
-                print('query= ',query)
-                params=dict(x.split('=')for x in query.split('&'))
-                if 'next' in params:
-                    nextPage=params['next']
-                    return redirect(nextPage)
+                login(request,user)
+                print("111")
                 
-            except:
-                return redirect('homepage')
+                url = request.META.get('HTTP_REFERER')
+                try:
+                    print("trryyyyyy")
+                    print("url = ",url)
+                    query=requests.utils.urlparse(url).query
+                    print('query= ',query)
+                    params=dict(x.split('=')for x in query.split('&'))
+                    if 'next' in params:
+                        nextPage=params['next']
+                        return redirect(nextPage)
+                    
+                except:
+                    print("except")
+                    return redirect('homepage')
           
         else:
             messages.error(request,'Invalid credentilas')
@@ -73,6 +84,7 @@ def user_register(request):
         password=request.POST['password']
         #confirm_password=request.POST['confirm_password']
         #if password==confirm_password:
+        print("ottppp register")
         if Account.objects.filter(email=user_email).exists():
             messages.error(request,'This is email has already an account!!')
             return redirect('user_register')

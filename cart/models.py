@@ -20,3 +20,11 @@ class CartItem(models.Model):
 
     def sub_total(self):
         return self.product.user_price*self.quantity
+    
+
+class Wishlist(models.Model):
+    wish_id=models.CharField(max_length=250,blank=True)
+
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE )
+    created_at = models.DateTimeField(auto_now_add=True)
