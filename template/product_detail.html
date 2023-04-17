@@ -174,22 +174,15 @@
 															   <del class="silver">₹{{single_product.price}}</del>
 
 															   <ins class="dark">₹{{single_product.user_price}}</ins>
-																<!-- {% if single_product.p_offer < single_product.cat_offer and single_product.p_offer >= 1 and single_product.cat_offer >= 1 %} -->
-																		
-																	<!-- <ins class="dark">${{single_product.p_offer}}</ins> -->
-
+																
 																	{% else %}
 																	<ins class="dark">₹{{single_product.user_price}}</ins>
 
 																{% endif %}
 
-															<!-- {% else %}
-															<ins class="dark">${{single_product.price}}</ins>
-															{% endif %}	 -->
-												<!-- <del class="dark opaci title14">$84.00</del>
-												<ins class="title18 color font-bold">${{single_product.price}}</ins> -->
+						
 											</div>
-											<ul class="wrap-rating list-inline-block">
+											<!-- <ul class="wrap-rating list-inline-block">
 												<li>
 													<div class="product-rate">
 														<div class="product-rating" style="width:60%"></div>
@@ -198,32 +191,9 @@
 												<li>
 													<span class="rate-number">(3.0)</span>
 												</li>
-											</ul>
+											</ul> -->
 											<p class="desc product-desc">{{single_product.description}} </p>
-											<!---<div class="detail-attr attr-color">
-												<label class="title-attr">Color:</label>
-												<div class="select-box">
-													<select>
-														<option value="">Select Color</option>
-														<option value="">Red</option>
-														<option value="">Blue</option>
-														<option value="">Green</option>
-														<option value="">Black</option>
-													</select>
-												</div>
-											</div>--->
-											<!--<div class="detail-attr attr-size">
-												<label class="title-attr">Size:</label>
-												<div class="select-box">
-													<select>
-														<option value="">Select Size</option>
-														<option value="">Small</option>
-														<option value="">Medium</option>
-														<option value="">Normal</option>
-														<option value="">Large</option>
-													</select>
-												</div>
-											</div>--->
+
 											<div class="detail-attr qty-cart">
 												<!-- <label class="title-attr">Qty:</label> -->
 												<!-- <div class="detail-qty border">
@@ -247,8 +217,9 @@
 												<!-- </div> -->
 											</div>
 											<div class="detail-extra-link">
-												<a href="#" class="wishlist-link"><i class="fa fa-heart-o"></i><span>Add to Wishlist</span></a>
+												<!-- <a href="#" class="wishlist-link"><i class="fa fa-heart-o"></i><span>Add to Wishlist</span></a> -->
 												<!-- <a href="compare-product.html" class="compare-link fancybox fancybox.iframe"><i class="fa fa-copy"></i><span>Add to Compare</span></a> -->
+												<button onclick="addToWishlist('{{product.id}}')" class="wishlist-link" style="border: none;"><i class="fa fa-heart-o"></i><span>Add to Wishlist</span></button>
 											</div>
 											<ul class="list-none product-meta-info">
 												<!-- <li>
@@ -267,7 +238,7 @@
 														{% endif %}
 													</div>
 												</li> -->
-												<li>
+												<!-- <li>
 													<div class="item-product-meta-info product-category-info">
 														<label>Categories:</label>
 														{% for i in Category %}
@@ -275,7 +246,7 @@
 														{% endfor %}
 														
 													</div>
-												</li>
+												</li> -->
 											</ul>
 											<!-- <div class="product-control">
 												<a href="#" class="prev"><i class="fa fa-long-arrow-left"></i></a>

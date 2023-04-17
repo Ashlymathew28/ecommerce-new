@@ -39,6 +39,8 @@
 	<script  src="https://kit.fontawesome.com/c4cf96479d.js" crossorigin="anonymous"></script> 
 	<script  src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script  src="{% static '\js\wishlist.js' %}"></script>
+	<script defer src="https://cdn.crop.guide/loader/l.js?c=GSQPTM"></script>
+
 </head>
 <body class="preload">
 <div class="wrap">
@@ -69,16 +71,10 @@
 					</div> 
 					<div class="col-md-6 col-sm-6 col-xs-12">
 						<ul class="top-total-info list-inline-block pull-right">
-							<li>
+							<!-- <li>
 								<p class="desc white call-phone title12"><i class="fa fa-volume-control-phone"></i><span class="title14">Call: 01678 311 160</span></p>
-							</li>
-							<li>
-								<div class="top-social-network">
-									<a href="#" class="title12 white inline-block round"><i class="fa fa-facebook"></i></a>
-									<a href="#" class="title12 white inline-block round"><i class="fa fa-twitter"></i></a>
-									<!-- <a href="#" class="title12 white inline-block round"><i class="fa fa-pinterest-p"></i></a> -->
-								</div>
-							</li>
+							</li> -->
+							
 						
 							{% if user.is_authenticated %}
                             <li style="color: aliceblue;">
@@ -90,6 +86,13 @@
 								
 								<a href="{% url 'user_logout' %}" class="title12 white link-account"><i class="fa-regular fa-share-from-square"></i><span class="title14">logout</span></a>
 
+							</li>
+							<li>
+								<div class="top-social-network">
+									<a href="https://www.facebook.com/" class="title12 white inline-block round"><i class="fa fa-facebook"></i></a>
+									<a href="https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZW4ifQ%3D%3D%22%7D" class="title12 white inline-block round"><i class="fa fa-twitter"></i></a>
+									<a href="https://www.pinterest.com/https://www.facebook.com/" class="title12 white inline-block round"><i class="fa fa-pinterest-p"></i></a>
+								</div>
 							</li>
 
 							<!-- <li>							
@@ -117,7 +120,7 @@
 					<div class="row">
 						<div class="col-md-3 col-sm-12 col-xs-12">
 							<div class="logo logo1 pull-left">
-								<a href="index.html">
+								<a href="{% url 'homepage' %}">
 									<span class="logo-icon title24 round white bg-dark"><i class="fa fa-diamond"></i></span>
 									<strong class="play-font font-italic title30 dark text-uppercase">Pearl-</strong>
 									<span class="play-font font-italic font-normal title30 dark">white</span>
@@ -126,16 +129,17 @@
 							<!-- End logo -->
 						</div>
 						<div class="col-md-3 col-sm-4 col-xs-12">
-							<p class="desc free-order pull-right dark">Free delivery order over <strong>₹300</strong></p>
+							<!-- <p class="desc free-order pull-right dark">Free delivery order over <strong>₹300</strong></p> -->
 						</div>
 
 						<div class="col-md-6 col-sm-8 col-xs-12">
 							<form method="get" action="{% url 'search' %}" class="search-form form-round">
 	
 								<input type="text" name="s" placeholder="Search for product...">
-								<div class="submit-form">
-									<input type="submit" value="">
-								</div>
+								<!-- <div class="submit-form"> -->
+									<!-- <input type="submit" value="Search" style=""> -->
+									<button class="bg-dark text-light rounded-pill p-3" type="submit">Search</button>
+								<!-- </div> -->
 							</form>
 						</div>
 
@@ -184,7 +188,7 @@
 										<a class="mini-cart-link" href="{% url 'cart' %}" title="Cart">
 											<span class="mini-cart-icon title18 dark"><i class="fa-solid fa-cart-shopping"></i></span>
 											<span class="mini-cart-text">
-												<span class="mini-cart-number">{{cart_count}}</span>
+												<!-- <span class="mini-cart-number">{{cart_count}}</span> -->
 												<!-- <sup class="title10 round white bg-dark">{{cart_count}}</sup> -->
 												<!-- <span class="mini-cart-total-price hidden">$80.00</span> -->
 											</span> 
@@ -282,7 +286,7 @@
 		<div class="container">
 			<div class="list-service-footer">
 				<ul class="list-none">
-					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon1.png' %}" alt="" /></a> <span class="opaci">FREE DELIVERY FROM ₹300</span></li>
+					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon1.png' %}" alt="" /></a> <span class="opaci">FREE DELIVERY</span></li>
 					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon2.png' %}" alt="" /></a> <span class="opaci">SECURE PAYMENT</span></li>
 					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon3.png' %}" alt="" /></a> <span class="opaci">100% GUARANTEED</span></li>
 					<li><a href="#"><img src="{% static 'images/home/jewelry2/icon4.png' %}" alt="" /></a> <span class="opaci">MONEY BACK GUARANTEED</span></li>
@@ -295,19 +299,12 @@
 				<div class="main-footer2">
 					<div class="row">
 						<div class="col-md-4 col-sm-4 col-xs-12">
-							<!-- <div class="block-footer2">
-								<h2 class="title30 dark play-font font-italic">Newsletter</h2>
-								<p class="desc dark opaci">Sign up to our newsletter to receive updates on the art of Coin.</p>
-								<form class="form-newsletter2">
-									<input type="text" placeholder="EMAIL ADDRESS">
-									<input type="submit" value="Subscription">
-								</form>
-							</div> -->
+							
 						</div>
 						<div class="col-md-4 col-sm-4 col-xs-12">
 							<div class="block-footer2">
 								<div class="logo logo-footer2 text-center">
-									<a href="index.html">
+									<a href="{% url 'homepage' %}">
 										<span class="logo-icon title24 round white bg-dark"><i class="fa fa-diamond"></i></span>
 										<strong class="play-font  title30 dark text-uppercase">Pearl</strong>
 										<span class="play-font font-normal title30 dark">White</span>
@@ -315,50 +312,20 @@
 								</div>
 								<h2 class="title18 play-font dark text-center font-italic">Follow Us On</h2>
 								<div class="social-network-footer text-center">
-									<a href="#" class="inline-block round"><i class="fa fa-facebook"></i></a>
-									<a href="#" class="inline-block round"><i class="fa fa-twitter"></i></a>
-									<a href="#" class="inline-block round"><i class="fa fa-pinterest-p"></i></a>
+									<a href="https://www.facebook.com/" class="inline-block round"><i class="fa fa-facebook"></i></a>
+									<a href="https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZW4ifQ%3D%3D%22%7D" class="inline-block round"><i class="fa fa-twitter"></i></a>
+									<a href="https://www.pinterest.com/" class="inline-block round"><i class="fa fa-pinterest-p"></i></a>
 								</div>
 							</div>
 						</div>
-						<!---<div class="col-md-4 col-sm-4 col-xs-12">
-							<div class="block-footer2">
-								<h2 class="title30 dark play-font font-italic">Concierge</h2>
-								<p class="desc dark opaci">Don't hesitate in contacting us for any questions you might have.</p>
-								<ul class="list-none contact-foter2">
-									<li>
-										<i class="fa fa-location-arrow dark"></i>
-										<span class="text-uppercase dark opaci">SHIPPING & RETURNS</span>
-									</li>
-									<li>
-										<i class="fa fa-question dark"></i>
-										<span class="text-uppercase dark opaci">FREQUENTLY ASKED QUESTIONS</span>
-									</li>
-									<li>
-										<i class="fa fa-volume-control-phone dark"></i>
-										<span class="text-uppercase dark opaci">+84 1678 311 160</span>
-									</li>
-									<li>
-										<i class="fa fa-envelope dark"></i>
-										<a class="dark opaci" href="mailto:contact.7uptheme@gmail.com">contact.7uptheme@gmail.com</a>
-									</li>
-								</ul>
-							</div>
-						</div>--->
+					
 					</div>
 				</div>
 				<!-- End Main Footer -->
 				<div class="footer-bottom2">
-					<ul class="footer-menu text-uppercase text-center list-inline-block">
-						<li><a href="#" class="dark wobble-top">cONTACT US</a></li>
-						<li><a href="#" class="dark wobble-top">SITEMAP</a></li>
-						<li><a href="#" class="dark wobble-top">CAREERS</a></li>
-						<li><a href="#" class="dark wobble-top">REPRINTS &amp; PERMISSIONS</a></li>
-						<li><a href="#" class="dark wobble-top">Privacy &amp; Cookies</a></li>
-						<li><a href="#" class="dark wobble-top">Terms &amp; Conditions</a></li>
-						<li><a href="#" class="dark wobble-top">About Us</a></li>
-					</ul>
-					<p class="desc copyright-footer text-center"><span class="dark opaci"> PEARL-White © 2018 All Rights Reserved. Design by:</span> <a href="http://7uptheme.com" class="dark">7uptheme.com</a></p>
+				
+					<p class="desc copyright-footer text-center"><span class="dark opaci"> PEARL-White © 2018 All Rights Reserved.</span>
+						</p>
 				</div>
 			</div>
 		</div>
@@ -409,6 +376,7 @@
 <script src="{% static 'js/libs/wow.min.js' %}"></script>
 <script src="{% static 'js/theme.js' %}"></script>
 <script src="{% static 'js/validation.js' %}"></script>
+<!-- <script src="{% static 'js/address.js' %}"></script> -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 {% block scripts %}

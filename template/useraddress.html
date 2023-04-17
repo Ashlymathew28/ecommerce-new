@@ -76,11 +76,12 @@
                                                         <p class="desc"><a href="#" class="dark">{{i.email}}</a></p>
                                                     </div>
                                                     
-                                                  
+                                                  <div style="display: flex;">
+                
                                                    <button class="shop-button white mx-auto bg-dark" onclick="AddressRemove('{{i.id}}')" role="button"> Delete</button>
                                                
                                                     <a href="{% url 'edit_address' i.id %}" class="shop-button white mx-auto bg-dark" role="button"> Edit Address</a>
-                                                
+                                                </div>
                                                 
                                                 
                                                     </div>
@@ -138,7 +139,7 @@
                                 console.log("done");
                                 Swal.fire(
                                 'Successfull!',
-                                'Category Offer is Deleted!!',
+                                'Address is Deleted!!',
                                 'success'
                                 ).then(() => {
                                 location.reload()

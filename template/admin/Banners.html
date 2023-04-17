@@ -10,53 +10,68 @@
          <a href="{% url 'addBanner' %}"> <button class="btn btn-success mt-5">Add Banner</button></a>
     </div>
   
-         <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col" style="width: 20%">Image</th> 
-                      <th scope="col" style="width: 15%">Action</th>
-                      
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for i in paged_new %}
-                    <tr >
-                      
-                      <td ><img src="/media/{{i.images}}" alt="..." class=" w-50 h-50"></td>
-                    
-                      <td>
-                           <a href="{% url 'editBanner' i.id %}" ><button class="btn btn-info mb-3" id="my-button" >Edit </button></a><br> 
-                           <a href="{% url 'removeBanner' i.id %}" ><button class="btn btn-info mb-3" id="my-button" >Remove </button></a><br> 
-                      </td>
+        
+               
 
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-                <div class="pagi-nav text-right">
+              <div class="row row-cols-1 row-cols-md-3">
+                {% for i in paged_new %}
+                <div class="col mb-4">
+                  <!-- Card -->
+                  <div class="card">
+              
+                    <!--Card image-->
+                    <div class="view overlay">
+                      <img class="card-img-top" src="/media/{{i.images}}"
+                        alt="Card image cap">
+                     
+                    </div>
+              
+                    <!--Card content-->
+                    <div class="card-body mx-auto mx-md-n5" style="display: flex;">
+              
+                      <!--Title-->
+                      <!-- <h4 class="card-title">Card title</h4> -->
+                      <!--Text-->
+                      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p> -->
+                        <a class="px-md-5 mt-5" href="{% url 'editBanner' i.id %}" ><button class="btn btn-info mb-3" id="my-button" >Edit </button></a><br> 
+                        <a class="px-md-5 mt-5" href="{% url 'removeBanner' i.id %}" ><button class="btn btn-info mb-3" id="my-button" >Remove </button></a>
+                      <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                      <!-- <button type="button" class="btn btn-light-blue btn-md">Read more</button> -->
+              
+                    </div>
+              
+                  </div>
+                  <!-- Card -->
+                </div>
+                {% endfor %}
+
+                
+              </div>
+              <div class="pagi-nav text-right">
                   
-                  {% if paged_new.has_other_pages %}
-                     {% if paged_new.has_previous %}
-                        <a href="?page={{paged_new.previous_page_number}}" class="next"><i class="fa fa-angle-left"></i></a>
+                {% if paged_new.has_other_pages %}
+                   {% if paged_new.has_previous %}
+                      <a href="?page={{paged_new.previous_page_number}}" class="next"><i class="fa fa-angle-left"></i></a>
+                    {% else %}
+                         <!-- <a href="#" class="next disabled"><i class="fa fa-angle-left"></i></a> -->
+                    {% endif %}
+
+                    {% for i in  paged_new.paginator.page_range %}
+                      
+                      {% if paged_new.number == i %}
+                           <a href="#" class="current">{{i}}</a>
                       {% else %}
-                           <!-- <a href="#" class="next disabled"><i class="fa fa-angle-left"></i></a> -->
+                           <a href="?page={{i}}" class="current">{{i}}</a>
                       {% endif %}
 
-                      {% for i in  paged_new.paginator.page_range %}
-                        
-                        {% if paged_new.number == i %}
-                             <a href="#" class="current">{{i}}</a>
-                        {% else %}
-                             <a href="?page={{i}}" class="current">{{i}}</a>
-                        {% endif %}
+                    {% endfor %}
+                    {% if paged_new.has_next %}
+                     <a href="?page={{paged_new.next_page_number}}" class="next"><i class="fa fa-angle-right"></i></a>
+                    {% else %}
+                    <!-- <a href="#" class="next disabled"><i class="fa fa-angle-right"></i></a> -->
+                     {% endif %}
 
-                      {% endfor %}
-                      {% if paged_new.has_next %}
-                       <a href="?page={{paged_new.next_page_number}}" class="next"><i class="fa fa-angle-right"></i></a>
-                      {% else %}
-                      <!-- <a href="#" class="next disabled"><i class="fa fa-angle-right"></i></a> -->
-                       {% endif %}
-
-                       {% endif %}
-              </div>
+                     {% endif %}
+            </div>
 {% endblock %}

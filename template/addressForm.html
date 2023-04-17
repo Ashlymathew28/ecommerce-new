@@ -1,6 +1,7 @@
 {% extends 'index.html'%}
 {% block content %}
 {% load static %}
+
 <div class="container">
 
 <!-- <div class="col-md-12 col-sm-12 col-xs-12"> -->
@@ -16,43 +17,69 @@
             <!-- {% if address %}
 
             {% else %} -->
+            <span id="Name-error" style="color: red;"></span>
+            <span id="lname-error" style="color: red;"></span>
             <p class="clearfix box-col2">
-                <input type="text" name="first_name" value="First Name *" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+                <span id="Name-error" style="color: red;"></span>
+                <input type="text" name="first_name" oninput="return validateFName()" id="fname"  placeholder="First Name *" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+                
 
-                <input type="text" name="last_name" value="last name *" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+                <input type="text" name="last_name" id="lname" oninput="return validateLName()" placeholder="last name *" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+                
+
             </p>
-             <p><input type="text" name="email" value="Email *" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /> 
-          </p>
+
+             <p><input type="text" name="email" id="check-email" placeholder="Email *" oninput="return validateEmailAddress()" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /> 
+                <span id="Email-error" style="color: red;"></span>
+
+            </p>
+          
           <p>
-            <input type="text" name="phone" value="phone *" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+            <input type="text" name="phone" id="mobile" placeholder="phone *"  oninput="return validatePhoneNo()" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+            <span id="Phone-error" style="color: red;"></span>
 
           </p>
+          <span id="Country-error" style="color: red;"></span>
+          <span id="State-error" style="color: red;"></span>
             <p class="clearfix box-col2">
-                 <input type="text" name= "country" value="Country *" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /> 
-                 <input type="text" name= "state" value="State *" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /> 
+                 <input type="text" name= "country" id="country" placeholder="Country *" oninput="return validateCountry()" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /> 
+                 
+
+                 <input type="text" id="state" name= "state" placeholder="State *" oninput="return validateState()" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /> 
+                 
 
                 
             </p>
             
-            <p><input type="text" name="address_line_1"  required value="Address  *" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /></p>
+            <p><input type="text" name="address_line_1" id="address"  required placeholder="Address  *" oninput="return validateAddress()" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+                <span id="Address-error" style="color: red;"></span>
+
+            </p>
             <!-- <p><input type="text" name="address_line_2" value="Address 2 *" onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" /></p> -->
+            
+            <span id="Pin-error" style="color: red;"></span>
+            <span id="Town-error" style="color: red;"></span>
             <p class="clearfix box-col2">
-                <input type="text" name="pincode" value="Postcode / Zip" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
-                <input type="text" name="city" value="Town / City *" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+                <input type="text" id="pin" name="pincode" placeholder="Postcode / Zip" oninput="return validatePin()" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+            
+                <input type="text" id="town" name="city" placeholder="Town / City *" oninput="return validateTown()" required onblur="if (this.value=='') this.value = this.defaultValue" onfocus="if (this.value==this.defaultValue) this.value = ''" />
+
             </p>
             <!-- {% endif %} -->
             <!-- <p>
                 <input type="checkbox"  id="remember" /> <label for="remember">Create an account?</label>
             </p> -->
 
-		    <input type="submit" data-value="Place order" value="Save" id="place_order" name="woocommerce_checkout_place_order" class="button alt bg-color">
-
+		    <input id="Confirm-submit" type="submit" onclick="return validateAddressForm()" data-value="Place order" value="Save" id="place_order" name="woocommerce_checkout_place_order" class="button alt bg-color">
+            <span id="SUBMIT" style="color: red;"></span>
         </form>
         <br>
     </div>
 </div>
 </div>
 </div>
+<script src="{% static 'js/address.js' %}"></script>
 
 
 {% endblock %}
+<!-- <script src="../static/js/address.js"></script> -->

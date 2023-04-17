@@ -2,12 +2,12 @@
 {% block content %}
 {% load static %}
 
-<h2>
-    <center>Add Coupon</center>
+<h2 style="text-align: center;">
+   Add Coupon
 </h2>
 
 <div class="btns">
-    <form action="{% url 'admin_addcoupon' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'admin_addcoupon' %}" method="post" id="myForm" enctype="multipart/form-data" onsubmit="return validateForm()">
         {% csrf_token %}
         <div class="row justify-content-center">
             <div class="col-lg-7">
@@ -19,15 +19,25 @@
                 </div>
 
                 <div class="row mb-3">
+                    {% for i in messages %}
+                    <p style="color: red;text-align: center;">{{i}}</p>
+                    {% endfor %}
                     <label for="inputPassword" class="col-sm-2 col-form-label">Code</label>
                     <div class="col-sm-10">
                         <input type="text" name="code" style="width: 420px;" class="form-control">
                     </div>
+                   
                 </div>
                 <div class="row mb-3">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Discount</label>
                     <div class="col-sm-10">
                         <input type="text" name="discount" style="width: 420px;" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Limit</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="limit" style="width: 420px;" class="form-control">
                     </div>
                 </div>
           
@@ -65,5 +75,55 @@
     <!-- <a href="{% url 'admin_addcoupon' %}"> <button class="btn btn-success mt-5">Save</button></a> -->
 
 </div>
+<script>
+    function validateForm() {
+        let couponName = document.forms["myForm"]["couponName"].value;
+        let code = document.forms["myForm"]["code"].value;
+        let discount = document.forms["myForm"]["discount"].value;
+        let limit = document.forms["myForm"]["limit"].value;
+        let validFrom = document.forms["myForm"]["validFrom"].value;
+        let validTo = document.forms["myForm"]["validTo"].value;
+
+        // Check if all fields are filled
+        if (couponName == "" || code == "" || discount == "" || limit == "" || validFrom == "" || validTo == "") {
+            alert("All fields are required");
+            return false;
+        }
+
+        // Check if coupon name is at least 3 characters long
+        if (couponName.length < 3) {
+            alert("Coupon name should be at least 3 characters long");
+            return false;
+        }
+
+        // Check if code is at least 5 characters long
+        if (code.length < 5 || code.include(" ")) {
+            alert("Coupon code is Invalid");
+            return false;
+        }
+
+        // Check if discount is a number between 1 and 99
+        if (isNaN(discount) || discount < 1 || discount > 99) {
+            alert("Discount should be a number between 1 and 99");
+            return false;
+        }
+
+        // Check if limit is a positive integer
+        if (isNaN(limit) || limit < 1 || !Number.isInteger(parseFloat(limit))) {
+            alert("Limit should be a positive integer");
+            return false;
+        }
+
+        // Check if valid from date is before valid to date
+        if (validFrom >= validTo) {
+            alert("Valid from date should be before valid to date");
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+
 
 {% endblock %}

@@ -29,21 +29,19 @@
             <table class="shop_table cart table">
               <thead>
                 <tr>
-                  <th class="product-remove">&nbsp;</th>
+                 
                   <th class="product-thumbnail">&nbsp;</th>
                   <th class="product-name">Product</th>
                   <th class="product-price">Price</th>
                   <th class="product-quantity">Quantity</th>
                   <th class="product-subtotal">Total</th>
+                  <th class="product-remove">&nbsp;</th>
                 </tr>
               </thead>
               <tbody>
                 {% for cart_item in cart_item %}
                 <tr class="cart_item">
-                  <td class="product-remove">
-                    <button class="remove btn-dark" onclick="removeCart('{{cart_item.product_id}}')">
-                      <i class="fa fa-trash"></i></button>
-                  </td>
+                  
                   <td class="product-thumbnail">
                     <a href="#"
                       ><img src="/media/{{cart_item.product.images}}" alt=""
@@ -104,6 +102,10 @@
                     <span class="amount" id="sub_total{{ forloop.counter }}">₹{{cart_item.sub_total}}</span>
  
                     
+                  </td>
+                  <td class="product-remove">
+                    <button class="remove btn-dark" onclick="removeCart('{{cart_item.product_id}}')">
+                      <i class="fa fa-trash"></i></button>
                   </td>
                 </tr>
                 {% endfor %}

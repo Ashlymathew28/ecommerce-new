@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 
-    <div class="container ">
+    <!-- <div class="container ">
       <h1 style="text-align:center">Edit Category Offer</h1>
 
         <form action="{% url 'edit_catOffer' cate_offer.id %}" method="post"  enctype="multipart/form-data">
@@ -14,40 +14,8 @@
                 </div>
             </div>
                         
-            <!-- <div class="row mb-3">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
-                <div class="col-sm-10">
-                    <textarea class="form-control" name="description" style="height: 100px"></textarea>
-                </div>
-            </div> -->
-            <!-- <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Category</label>
-                <div class="col-sm-10">
-                    <select class="form-select" name="category" aria-label="Default select example">
-                                           
-                        <option selected>Select category</option>
-                        {% for i in cat %}  
-                        <option value="{{i.id}}">{{i.category_name}}</option>
-                        <option value="{{cat.id}}">{{cat.category_name}}</option> -->
-                        
-                      <!-- {% endfor %}
-                      
-                    </select>
-                </div>
-            </div> --> 
-            
-            <!-- <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="file" name="Image" id="formFile">
-                </div>
-            </div> -->
-            <!-- <div class="row mb-3">
-                <label for="inputDate" class="col-sm-2 col-form-label">Date of Publish</label>
-                <div class="col-sm-10">
-                    <input type="date" name="dateofpublish" class="form-control">
-                </div>
-            </div> -->
+           
+           
                         <div class="row mb-3">
                 <label for="inputDate" class="col-sm-2 col-form-label">Offer %</label>
                 <div class="col-sm-10">
@@ -73,7 +41,87 @@
             </div>
 
         </form>
+    </div> -->
+   
+
+    <div class="container ">
+      <h1 style="text-align:center">Edit Category Offer</h1>
+
+        <form action="{% url 'edit_catOffer' cate_offer.id %}" method="post"  enctype="multipart/form-data" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">Name of the Category Offer</label>
+                <div class="col-sm-10">
+                    <input type="text" name="productofferName" value="{{cate_offer.name}}" class="form-control" id="offer-name">
+                    <span id="offer-name-error" class="text-danger"></span>
+                </div>
+            </div>
+                        
+           
+           
+            <div class="row mb-3">
+                <label for="inputDate" class="col-sm-2 col-form-label">Offer %</label>
+                <div class="col-sm-10">
+                    <input type="number" name="offer" value="{{cate_offer.offer}}" class="form-control" id="offer-percentage">
+                    <span id="offer-percentage-error" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="inputDate" class="col-sm-2 col-form-label">Offer Type</label>
+                <div class="col-sm-10">
+                    <input type="text" name="offerType" value="{{cate_offer.offer_type}}" class="form-control" id="offer-type">
+                    <span id="offer-type-error" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+
+        </form>
     </div>
+<!-- </section> -->
+
+
+
+<script>
+    function validateForm() {
+        // Get form fields
+        var name = document.getElementById("offer-name").value;
+        var percentage = document.getElementById("offer-percentage").value;
+        var type = document.getElementById("offer-type").value;
+
+        // Set error messages to blank
+        document.getElementById("offer-name-error").innerHTML = "";
+        document.getElementById("offer-percentage-error").innerHTML = "";
+        document.getElementById("offer-type-error").innerHTML = "";
+
+        // Check if name field is empty
+        if (name.trim() == "") {
+            document.getElementById("offer-name-error").innerHTML = "Name of the category offer is required";
+            return false;
+        }
+
+        // Check if percentage field is empty or not a number between 0 and 100
+        if (percentage == "" || isNaN(percentage) || percentage < 0 || percentage > 70) {
+            document.getElementById("offer-percentage-error").innerHTML = "Offer percentage must be a number between 0 and 100";
+            return false;
+        }
+
+        // Check if type field is empty
+        if (type == "") {
+            document.getElementById("offer-type-error").innerHTML = "Offer type is required";
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
 <!-- </section> -->
 
 {% endblock %}

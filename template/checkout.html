@@ -73,9 +73,77 @@
 									</div>
 								</div>
 							</div>
-							<div style="display: flex;">
+                            
+                     <!----Display coupon-->
+							<div class="box-best-seller9">
+				
+								<div class="tab-content">
+									<div id="tab1" class="tab-pane active">
+										<div class="product-slider">
+											{% if coupons %}
+												<h3 style="text-align: center;">Available Coupons</h3>
+											<div class="wrap-item hide-navi" data-pagination="false" data-navigation="true" data-itemscustom="[[0,1],[560,2],[768,3],[990,4]]">
+												
+													
+												{% for i in coupons %}	
+												
+												<div class="item-product item-product4 bg-light text-center">
+										
+													
+													<div class="product-thumb bg-white">
+														<h3 class="card-title">{{i.discount}}%</h3>
+														<!-- <h6 class="card-subtitle mb-2 text-muted">{{i.coupon_name}}</h6> -->
+														<h4 class="card-title" > Use Code : <b>{{i.coupon_code}}</b></h4>
+								  
+													</div>
+
+
+													<div class="product-info">
+														<!-- <h3 class="title14 product-title">{{i.discount}}%</h3> -->
+														<div class="product-price title14 play-font">
+
+															<p class="card-text">Valid From :{{i.valid_from}}</p>
+															<p class="card-text" style="color: grey;"> Expires :{{i.valid_to}}</p>
+													
+														</div>
+														
+														
+													</div>
+												
+												</div>
+													{%  endfor  %}
+													{% else %}
+													<h3>
+														No Coupons Available
+													</h3>
+
+													{% endif %}
+												
+											</div>	
+										</div>	
+									</div>	
+								</div>	
+								</div>
+
+								<!----End coupon-->
+
+
+
+
+
+							<p  id="status" style="color: red;justify-content: center;">
+								{{status}}
+							</p>
+							<div style="display: flex;justify-content: center;" class="mx-auto">
+								
 								{% if not Coupon %}
-								<a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button btn-dark">	View Coupons</a>
+								{% for i in messages %}
+								<p  style="color: red;">
+									{{i}}
+								</p>
+								{% endfor %}
+							
+								<!-- <a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button btn-dark " style="margin-right: 8rem;">	View Coupons</a> -->
 
 								{% else %}
 								<button name="update_cart" class="button btn-dark" onclick="removeCoupon()">	Delete Coupon</button>
@@ -83,9 +151,9 @@
 								{% endif %}
 							    <div class="coupon" style="display: flex;" class="">
 
-									<label for="coupon_code">Coupon:</label> 
-									<input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code"> 
-									<input type="button" value="Apply Coupon" onclick="applycoupon()" name="apply_coupon" class="button btn-dark">
+									<!-- <label for="coupon_code">Coupon:</label>  -->
+									<input type="text" placeholder="Coupon code" value="" id="coupon_code" class="button  input-text" name="coupon_code" style="width: 100%; height: 5rem;"> 
+									<input type="button" value="Apply Coupon" onclick="applycoupon()" name="apply_coupon" class="button btn-dark" style="margin-left: 8rem;">
 								</div>
 								<!-- <a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button btn-dark">	View Coupons</a> -->
 							</div>
@@ -166,15 +234,7 @@
 												<th>Total</th>
 												<td><strong><span class="amount" id="grand_total">₹{{grand_total}}</span></strong> </td>
 											</tr>
-											<!-- <td class="actions"  colspan="6">
-												<div class="coupon" style="display: inline-flex;">
-													<label for="coupon_code">Coupon:</label> 
-													<input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code"> 
-													<input type="button" value="Apply Coupon" onclick="applycoupon()" name="apply_coupon" class="button btn-dark">
-												</div>
-												<a href="{% url 'viewcoupon' %}" name="update_cart" role="button" class="button btn-dark">	View Coupons</a>		
-
-												</td> -->
+			
 										</tfoot>
 									</table>
 								</div>
@@ -182,13 +242,7 @@
 								<div class="woocommerce-checkout-payment" id="payment">
 									<!-- <ul class="payment_methods methods list-none"> -->
 
-									<!-- <li class="payment_method_cheque">
-											<input type="radio" data-order_button_text="" value="cheque" name="payment_method" class="input-radio" id="payment_method_cheque">
-											<label for="payment_method_cheque">Cheque Payment 	</label>
-												<div style="display:none;" class="payment_box payment_method_cheque">
-												<p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-											</div>
-										</li> -->
+									
 
 									<!-- <li class="payment_method_cod"> -->
 									<!-- <a class="btn btn-dark" href="{% url 'place_order' %}" role="button">Cash on Delivery</a> -->
@@ -294,6 +348,11 @@
     var grand_total=document.getElementById('total').value
     var tax=document.getElementById('tax').value
 	console.log(coupon_code)
+	if (!coupon_code) { // check if an address is selected
+					console.log(coupon_code,'Mwonuseee evide und.....');
+					Swal.fire('Error', 'Please enter  a coupon code', 'error'); // display error message
+					return false;
+				}
 	console.log("total",grand_total)
     console.log("tax",tax)
     $.ajax({
@@ -309,6 +368,7 @@
             $('#grand_total').text("₹"+r.grand_total)
             $('#Coupon').text("₹"+r.Coupon)
             $('#Coupon_code').text("₹"+r.Coupon_code)
+            $('#status').text(r.status)
         }
 
     })
@@ -343,7 +403,27 @@ function removeCoupon() {
 
   		  })
 		}
+
+
+	// window.history.forward();
+	// function preventBack() {
+	//   window.history.forward();
+	// }
+	// setTimeout("preventBack()", 10);
+	// window.onunload = function() {
+	//   window.replace('/');
+	// };
 </script>
+<!-- <script>
+	window.history.forward();
+	function preventBack() {
+	  window.history.forward();
+	}
+	setTimeout("preventBack()", 10);
+	window.onunload = function() {
+	  window.replace('/');
+	};
+      </script> -->
 
 {% endblock  %}
 

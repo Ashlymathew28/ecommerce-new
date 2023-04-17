@@ -5,6 +5,8 @@ from cart.models import Cart,CartItem,Wishlist
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from userptofile.models import Address
+from django.contrib import messages
+
 from django.core.paginator import Paginator
 
 from offers.models import Coupon
@@ -102,49 +104,49 @@ def decrement_quantity(request):
 
         cart_item = CartItem.objects.get(product=product,cart = cart)
         
-    if product.stock > 0:
-        if cart_item.quantity :
-            total_price = 0
-            total = 0
-            
-            qty = cart_item.quantity - 1
-            
-            cart_item.quantity  = qty
-            cart_item.product.stock += 1
-            cart_item.product.save()
-            
-            cart_item.save()
+    
+    if cart_item.quantity :
+        total_price = 0
+        total = 0
+        
+        qty = cart_item.quantity - 1
+        
+        cart_item.quantity  = qty
+        cart_item.product.stock += 1
+        cart_item.product.save()
+        
+        cart_item.save()
 
-            total_price += (cart_item.product.user_price * cart_item.quantity)
-            total += (cart_item.product.user_price * cart_item.quantity)
-            cart_item.save()
-            sub_total =  cart_item.sub_total()
+        total_price += (cart_item.product.user_price * cart_item.quantity)
+        total += (cart_item.product.user_price * cart_item.quantity)
+        cart_item.save()
+        sub_total = round( cart_item.sub_total())
 
-            if request.user.is_authenticated:
-                cart_items = CartItem.objects.filter(user = request.user,is_active= True)
-            else:
-                cart_items = CartItem.objects.filter(cart = cart,is_active =True)
+        if request.user.is_authenticated:
+            cart_items = CartItem.objects.filter(user = request.user,is_active= True)
+        else:
+            cart_items = CartItem.objects.filter(cart = cart,is_active =True)
 
-            total_p = 0
-            total_price_p = 0
+        total_p = 0
+        total_price_p = 0
 
-            for cart_item in cart_items:
-                total_price_p += (cart_item.product.user_price * cart_item.quantity)
-                total_p += (cart_item.product.user_price * cart_item.quantity)
-                saved_p = total_price_p - total_p
-        # else:
-        #     cart_item.delete()
-            print("decreement")
-            print("total_price_p",total_price_p)
-            print("total_price",total_price)
-            print("sub_price",sub_total)
+        for cart_item in cart_items:
+            total_price_p += (cart_item.product.user_price * cart_item.quantity)
+            total_p += (cart_item.product.user_price * cart_item.quantity)
+            saved_p = total_price_p - total_p
+    # else:
+    #     cart_item.delete()
+        print("decreement")
+        print("total_price_p",total_price_p)
+        print("total_price",total_price)
+        print("sub_price",sub_total)
 
-            tax=(2 * total_price_p)/100
-            print(tax)
-            grand_total=tax+total_price_p
-            print(grand_total)
-        print
-        return JsonResponse({
+        tax=round((2 * total_price_p)/100)
+        print(tax)
+        grand_total=round(tax+total_price_p)
+        print(grand_total)
+    
+    return JsonResponse({
                     'quantity':qty,
                     'total': total_price,
                     'grand_total': grand_total,
@@ -192,7 +194,7 @@ def increment_cart(request):
         total_price += (cart_item.product.user_price * cart_item.quantity)
         total += (cart_item.product.user_price * cart_item.quantity)
         cart_item.save()
-        sub_total =  cart_item.sub_total()
+        sub_total = round( cart_item.sub_total())
 
         if request.user.is_authenticated:
             print(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
@@ -215,9 +217,9 @@ def increment_cart(request):
         print("total_p",total_p)
         print("sub_total",sub_total)
         print("total_price",total_price)
-        tax=(2 * total_p)/100
+        tax=round((2 * total_p)/100)
         print(tax)
-        grand_total=tax+total_p
+        grand_total=round(tax+total_p)
         print(grand_total)
     return JsonResponse({
                 'grand_total':grand_total,
@@ -276,9 +278,9 @@ def  cart(request,total=0,quantity=0,cart_items=None):
                 total += (cart_item.product.user_price * cart_item.quantity)
         
                 quantity= cart_item.quantity
-
-        tax=(2 * total)/100
-        grand_total=total+tax
+        total=round(total)
+        tax=round((2 * total)/100)
+        grand_total=round(total+tax)
 
     except ObjectDoesNotExist:
         pass
@@ -365,9 +367,12 @@ def apply_coupon(request):
         if code ==  i.coupon_code:
             print(" if ill keri.........")
             verify=i.coupon_code
+
+            
             print("verifyyyy",verify)
     
     if verify == "nil":
+        messages.error(request,'Coupon Doesnot exist')
         return redirect('checkout')
     
     coup=Coupon.objects.get(coupon_code=verify)
@@ -388,7 +393,7 @@ def apply_coupon(request):
             print("new_price : ",new_price)
             coup_discount = coup.limited_price
         else:
-            new_price = discount + tax
+            new_price = round(discount + tax)
             print("coupon koiiiiii : ",new_price)
             coup_discount=(total*coup.discount)/100
         coup.save()
@@ -409,7 +414,8 @@ def apply_coupon(request):
         print(' ]]]]]]]]]]]]]]]]]]]]]]]]]]]]  ')
         return JsonResponse({
             'Coupon':coup_discount,
-            'Coupon_code':'Coupon is not valid !!',
+            'Coupon_code':'Nil',
+            'status':'Coupon is not Valid!!'
 
 
         })
@@ -442,13 +448,15 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         else:
             cart=Cart.objects.get(cart_id=_cart_id(request))
             cart_items=CartItem.objects.filter(cart=cart,is_active=True)
+        if  not cart_items:
+            return redirect('user_shop')
 
         for cart_item in cart_items:
             total += (cart_item.product.user_price * cart_item.quantity)
             quantity= cart_item.quantity
-
-        tax=(2 * total)/100
-        grand_total=total+tax
+        total=round(total)
+        tax=round((2 * total)/100)
+        grand_total=round(total+tax)
         address = Address.objects.filter(user= request.user)
         coupon=0
         if 'new_price' in request.session:
@@ -462,6 +470,7 @@ def checkout(request,total=0,quantity=0,cart_items=None):
             coupon_dis=0
     except ObjectDoesNotExist:
         pass
+    coupons=Coupon.objects.all().order_by('id')
     context={
         'total':total,
         'quantity':quantity,
@@ -471,6 +480,7 @@ def checkout(request,total=0,quantity=0,cart_items=None):
         'Coupon':coupon_dis,
         'address':address,
         'grand_total':grand_total,
+        'coupons':coupons,
 
     }
     return render(request,'checkout.html',context)

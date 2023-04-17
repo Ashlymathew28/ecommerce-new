@@ -5,29 +5,32 @@
     <div class="container ">
       <h1 style="text-align:center">Edit Product Offer</h1>
 
-        <form action="{% url 'edit_prodOffer' offer.id %}" method="post"  enctype="multipart/form-data">
+        <form action="{% url 'edit_prodOffer' offer.id %}" method="post"  enctype="multipart/form-data" onsubmit="return validateForm()">
             {% csrf_token %}
             <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Name of the Product Offer</label>
                 <div class="col-sm-10">
-                    <input type="text" name="productofferName" value="{{offer.name}}" class="form-control">
+                    <input type="text" name="productofferName" value="{{offer.name}}" id="offer-name"  class="form-control">
+                    <span id="offer-name-error" class="text-danger"></span>
                 </div>
             </div>
                         
           
            
            
-                        <div class="row mb-3">
+                <div class="row mb-3">
                 <label for="inputDate" class="col-sm-2 col-form-label">Offer %</label>
                 <div class="col-sm-10">
-                    <input type="number" name="offer" value="{{offer.offer}}" class="form-control">
+                    <input type="number" name="offer" value="{{offer.offer}}"  id="offer-percentage" class="form-control">
+                    <span id="offer-percentage-error" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <label for="inputDate" class="col-sm-2 col-form-label">Offer Type</label>
                 <div class="col-sm-10">
-                    <input type="text" name="offerType" value="{{offer.offer_type}}" class="form-control">
+                    <input type="text" name="offerType" value="{{offer.offer_type}}"  id="offer-type"  class="form-control">
+                    <span id="offer-type-error" class="text-danger"></span>
                 </div>
             </div>
 
@@ -46,5 +49,39 @@
         </form>
     </div>
 <!-- </section> -->
+
+<script>
+    function validateForm() {
+        // Get form fields
+        var name = document.getElementById("offer-name").value;
+        var percentage = document.getElementById("offer-percentage").value;
+        var type = document.getElementById("offer-type").value;
+
+        // Set error messages to blank
+        document.getElementById("offer-name-error").innerHTML = "";
+        document.getElementById("offer-percentage-error").innerHTML = "";
+        document.getElementById("offer-type-error").innerHTML = "";
+
+        // Check if name field is empty
+        if (name.trim() == "") {
+            document.getElementById("offer-name-error").innerHTML = "Name of the category offer is required";
+            return false;
+        }
+
+        // Check if percentage field is empty or not a number between 0 and 100
+        if (percentage == "" || isNaN(percentage) || percentage < 0 || percentage > 70) {
+            document.getElementById("offer-percentage-error").innerHTML = "Offer percentage must be a number between 0 and 70";
+            return false;
+        }
+
+        // Check if type field is empty
+        if (type == "") {
+            document.getElementById("offer-type-error").innerHTML = "Offer type is required";
+            return false;
+        }
+
+        return true;
+    }
+</script>
 
 {% endblock %}

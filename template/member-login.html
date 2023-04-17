@@ -47,25 +47,30 @@
 													<div class="container">
 														<div class="row">
 															<div class="col-md-12">
-																<h2 class="title-shop-page dark font-bold play-font">Login</h2>
 																<div class="my-profile-box register-content-box">
-																	<form  action="{% url 'user_login' %}" method="POST">
-																		{% csrf_token %}
-																	<div class="form-my-account">
-																		<div class="row">
-																			<div class="col-md-12">
+																	<div class="row">
+																		<div class="col-md-6 col-sm-6 col-ms-12 mx-auto">
+																			<div class="check-billing">
+																				<div class="form-my-account mx-auto">
+																				<h2 class="title-shop-page dark font-bold play-font">Login</h2>
+
+																				<form  action="{% url 'user_login' %}" method="POST">
+																					{% csrf_token %}
+																					<!-- <div class="form-my-account">
+																					<div class="row"> -->
+																			
 																				<p>
 																					<label>Email address <span class="required">*</span></label><br>
-																					<input type="email" name="email" />
+																					<input type="email" name="email"  class="form-control" />
 																				</p>
-																			</div>
-																			<div class="col-md-12">
+																			
+																			
 																				<p>
 																					<label>Password <span class="required">*</span></label>
 																					<br>
-																					<input type="password" name="password" />																				</p>
-																			</div>
-																		</div>
+																					<input type="password" name="password"  class="form-control"/>																				</p>
+																			
+																		
 																		
 																		<p>
 																			<input type="submit" class="register-button save-change" name="login" value="Login">
@@ -73,7 +78,10 @@
 																		<p>
 																			don't you have an account?<a href="{% url 'user_register' %}">Register</a>
 																		</p>
-																	</div>
+																		{% for i  in messages %}
+																		<p style="color: red;">{{i}}</p>
+																		{% endfor %}
+																	<!-- </div> -->
 																</form>
 																</div>
 															</div>
@@ -82,6 +90,11 @@
 												</div>
 												<!-- End Content Page -->
 											</div>
+											</div>
+											</div>
+											</div>
+											</div>
+											
 											
 												<!--<h2 class="title18 social-login-title">Or login with</h2>-->
 												<!--<div class="social-login-block table-custom text-center">

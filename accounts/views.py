@@ -16,13 +16,15 @@ def homepage(request):
     #if request.user.is_authenticated:
     return render(request,'user_homepage.html')
 
+@never_cache
 def user_login(request):
     if request.user.is_superuser:
         return redirect('admin_login')
-    
+    if request.user.is_authenticated:
+        return redirect('homepage')
     if request.method == 'POST':
         email=request.POST['email']
-        #username=request.POST['username']
+        # username=request.POST['username']
         
         password=request.POST['password']
         print(email)
@@ -69,7 +71,8 @@ def user_login(request):
                 except:
                     print("except")
                     return redirect('homepage')
-          
+            else:
+                return redirect('admin_login')
         else:
             messages.error(request,'Invalid credentilas')
             return redirect('user_login')
@@ -77,6 +80,8 @@ def user_login(request):
         return render(request,'member-login.html')
 
 def user_register(request):
+    if request.user.is_authenticated:
+        return redirect('homepage')
     if request.method =='POST':
         user_email=request.POST['email']
         user_name=request.POST.get('username')
@@ -91,24 +96,26 @@ def user_register(request):
              #return render(request,'member-register.html',{'error_msg':"This email have already an account!!"})
 
         else:
-            otp = 1
-            message_handler=MessageHandler(phone_number,otp).send_otp()
-            # user=Account.objects.create_user(username=user_name,email=user_email,password=password,phone_number=phone_number)
-            # user.save()
-           # print(password)
-            # login(request,user)
-            # print('user reated')
-            # return redirect('homepage')
-            context={
+            # otp = 1
+            # message_handler=MessageHandler(phone_number,otp).send_otp()
 
-                'phone_number':phone_number,
-                'user_email':user_email,
-                'user_name':user_name,
-                'password': password
+            user=Account.objects.create_user(username=user_name,email=user_email,password=password,phone_number=phone_number)
+            user.save()
+            print(password)
+            login(request,user)
+            print('user reated')
+            return redirect('homepage')
+
+            # context={
+
+            #     'phone_number':phone_number,
+            #     'user_email':user_email,
+            #     'user_name':user_name,
+            #     'password': password
 
 
-            }
-            return render(request,'otp.html',context)
+            # }
+            # return render(request,'otp.html',context)
         #else:
             #return render(request,'member-register.html',{'error_msg':"Wrong passord"})
     else:
@@ -146,9 +153,12 @@ def otp_validate(request):
             return render(request,'otp.html',context)
     return render(request,'otp.html')
         
-
+@never_cache
 def user_logout(request):
     if request.user.is_authenticated:
         logout(request)
+        return redirect('homepage')
+    else:
+        print("user is not authenticated !!!")
         return redirect('homepage')
     

@@ -53,10 +53,10 @@
 												<h2 class="title24 title-form-account play-font">REGISTER</h2>
 												<p>
 													{% for m in messages %}
-												<p>{{ m }}</p>
+												<p style="color: red;">{{ m }}</p>
 												{% endfor %}
 													<!--<p style="color: red;">{{ error_msg }}</p>--->
-													<label>Username <span class="required">*</span></label>
+													<label>Name <span class="required">*</span></label>
 													<input type="text" name="username" class="form-control" id="check-name" oninput="return validateName()" required />
                                                      <span id="name-error" style="color: red;"></span>
 												</p>
@@ -86,7 +86,7 @@
 												<p>
                                                  
 													<label>Phone number <span class="required">*</span></label>
-													<input type="text"  class="form-control" name="phone_number"/>
+													<input type="number"  class="form-control" name="phone_number"/>
                                                     <span id="password-error" style="color: red;"></span>
 												</p>
 												<p>

@@ -1,68 +1,44 @@
 {% extends 'admin/admin-index.html'%}
 {% block content %}
 {% load static %}
-
+<head>
+    <script type="text/javascript">
+        var jQuery_1_7_1 = $.noConflict(true);
+        </script>
+</head>
 <h1 style="text-align: center;">Add Category</h1>
 
 <form action="{% url 'admin_addcategory' %}" method="post"  enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row mb-3">
-        <label for="inputText" class="col-sm-2 col-form-label">Category Name </label>
+        <label for="inputText" class="col-sm-2 col-form-label" >Category Name </label>
         <div class="col-sm-10">
-            <input type="text" name="catname" class="form-control">
+            <input type="text" name="catname" id="catname1" onkeyup="validateLname()" class="form-control">
+            <!-- <span id="catname_error" style="color:red"></span> -->
+            <span id="lastname-error" class="m-l-30"></span>
         </div>
     </div>
-    <!-- <div class="row mb-3">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Size</label>
-        <div class="col-sm-10">
-            <input type="text" name="size" class="form-control">
-        </div>
-    </div>
-    <div class="row mb-3">
-        <label for="inputEmail" class="col-sm-2 col-form-label">Color</label>
-        <div class="col-sm-10">
-            <input type="text" name="Color" class="form-control">
-        </div>
-    </div> -->
+    
     
     <div class="row mb-3">
         <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
         <div class="col-sm-10">
-            <textarea class="form-control" name="catdescription" style="height: 100px"></textarea>
+            <textarea class="form-control" name="catdescription" id="catdescription" style="height: 100px"></textarea>
+            <span id="catdescription_error" style="color:red"></span>
         </div>
     </div>
-    <!-- <div class="row mb-3">
-        <label class="col-sm-2 col-form-label">Category</label>
-        <div class="col-sm-10">
-            <select class="form-select" name="category" aria-label="Default select example">
-                <option selected>Select category</option>
-                <% category.forEach(function(cat, i){ %>
-                <option><%= cat.name %></option>
-                
-                <% }); %>
-              
-            </select>
-        </div>
-    </div> -->
+
     
     <div class="row mb-3">
         <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
         <div class="col-sm-10">
-            <input class="form-control" type="file" name="Image" id="formFile">
+            <input class="form-control" type="file" name="Image" id="image_1" accept="image/*" oninput="checker(this)" onekeyup="validateimage()">
+            <!-- <span id="file_upload_error" style="color:red"></span> -->
+            <span id="image-error" class="text-danger"></span>
         </div>
     </div>
-    <!-- <div class="row mb-3">
-        <label for="inputDate" class="col-sm-2 col-form-label">Date of Publish</label>
-        <div class="col-sm-10">
-            <input type="date" name="dateofpublish" class="form-control">
-        </div>
-    </div> -->
-                <!-- <div class="row mb-3">
-        <label for="inputDate" class="col-sm-2 col-form-label">Price</label>
-        <div class="col-sm-10">
-            <input type="number" name="price" class="form-control">
-        </div>
-    </div> -->
+   
+       
     <div class="row mb-3">
         <label class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
@@ -71,5 +47,130 @@
     </div>
 
 </form>
+
+<script>
+
+var lastnameError = document.getElementById('lastname-error');
+var imageError = document.getElementById('image-error');
+
+
+function validateLname() {
+				var lastname=document.getElementById('catname1').value;
+				var Required=3;
+				var left=Required - lastname.length;
+				if (lastname.length==0) {
+					lastnameError.innerHTML='name is required';
+					lastnameError.style.color='red'
+					return false;
+					}
+				if (left>0){
+				
+					lastnameError.innerHTML =left+ 'more character required';
+					lastnameError.style.color='red'
+					return false;
+				
+				}
+				
+				
+				lastnameError.innerHTML='Name is valid';
+				lastnameError.style.color='green'
+				return true;
+				}
+
+                function validateimage(){
+
+
+var images=document.getElementById('image_1').value
+console.log("A",images)
+if (images.length==0){
+  imageError.innerHTML='select an image';
+  imageError.style.color='red'
+  return false;
+}
+ imageError.innerHTML='valid';
+ imageError.style.color='green'
+ return true;
+
+}
+
+
+
+
+    function validateForm() {
+      var catname = document.forms[0]["catname"].value;
+      var catdescription = document.forms[0]["catdescription"].value;
+      
+      var errorCount = 0;
+      
+      if (catname == "") {
+        document.getElementById("catname_error").innerHTML = "Category name must be filled out";
+        errorCount++;
+      } else {
+        document.getElementById("catname_error").innerHTML = "";
+      }
+      
+      if (catdescription == "") {
+        document.getElementById("catdescription_error").innerHTML = "Description must be filled out";
+        errorCount++;
+      } else {
+        document.getElementById("catdescription_error").innerHTML = "";
+      }
+      
+      // Return true if all fields are valid
+      return errorCount == 0;
+    }
+    
+    
+    function validateFileUpload() {
+      var fileInput = document.getElementById('formFile');
+      var filePath = fileInput.value;
+      var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+      
+      if (!allowedExtensions.exec(filePath)) {
+        document.getElementById("file_upload_error").innerHTML = "Invalid file type. Only JPEG, JPG, and PNG are allowed.";
+        fileInput.value = "";
+      } else {
+        document.getElementById("file_upload_error").innerHTML = "";
+      }
+    }
+
+
+    jQuery_1_7_1(document).on("submit", "form", function (e) {
+				
+				validateLname()
+                validateimage()
+				
+            
+                
+				if ( validateLname() && validateimage()  ) {
+				   
+				} else {
+					e.preventDefault();
+					swal('Invalid data! Ensure You have entered correct data');
+					return true;
+				}
+			});
+
+
+
+
+
+
+           
+
+            function checker(id){
+    img = document.getElementById(id.id).value
+    if(!img.match(/\.(jpg|jpeg|png|gif|pdf)$/)){
+        console.log("lllllllllllllllllllllllllllllllllll");
+    //   swal("image should be jpg , jpeg , png")
+      document.getElementById(id.id).value = "";
+      }
+
+
+    }
+
+    </script>
+
+    
 
 {% endblock %}

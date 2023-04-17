@@ -13,41 +13,11 @@
                     <input type="text" name="productofferName" class="form-control">
                 </div>
             </div>
-                        
-            <!-- <div class="row mb-3">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Description</label>
-                <div class="col-sm-10">
-                    <textarea class="form-control" name="description" style="height: 100px"></textarea>
-                </div>
-            </div> -->
-            <!-- <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Category</label>
-                <div class="col-sm-10">
-                    <select class="form-select" name="category" aria-label="Default select example">
-                                           
-                        <option selected>Select category</option>
-                        {% for i in cat %}  
-                        <option value="{{i.id}}">{{i.category_name}}</option>
-                        <option value="{{cat.id}}">{{cat.category_name}}</option> -->
-                        
-                      <!-- {% endfor %}
-                      
-                    </select>
-                </div>
-            </div> --> 
             
-            <!-- <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="file" name="Image" id="formFile">
-                </div>
-            </div> -->
-            <!-- <div class="row mb-3">
-                <label for="inputDate" class="col-sm-2 col-form-label">Date of Publish</label>
-                <div class="col-sm-10">
-                    <input type="date" name="dateofpublish" class="form-control">
-                </div>
-            </div> -->
+          
+            
+           
+          
                         <div class="row mb-3">
                 <label for="inputDate" class="col-sm-2 col-form-label">Offer %</label>
                 <div class="col-sm-10">
@@ -63,26 +33,16 @@
             </div>
 
 
-            <div class="row mb-3">
+            <!-- <div class="row mb-3">
                 <label for="inputDate" class="col-sm-2 col-form-label">Start Date</label>
                 <div class="col-sm-10">
                     <input type="date" name="startDate" class="form-control">
                 </div>
-            </div>
-
-            <!-- <div class="row mb-3">
-                <label for="inputDate" class="col-sm-2 col-form-label">End Date</label>
-                <div class="col-sm-10">
-                    <input type="date" name="endDate" class="form-control">
-                </div>
             </div> -->
 
-            <!-- <div class="row mb-3">
-                <label for="inputDate" class="col-sm-2 col-form-label">Stock</label>
-                <div class="col-sm-10">
-                    <input type="number" name="stock" class="form-control">
-                </div>
-            </div> -->
+            
+
+          
 
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"></label>
@@ -94,5 +54,23 @@
         </form>
     </div>
 <!-- </section> -->
+<script>
+    const form = document.querySelector('form');
+    const productOfferName = form.elements.productofferName;
+    const offer = form.elements.offer;
+    const offerType = form.elements.offerType;
+    const startDate = form.elements.startDate;
+  
+    form.addEventListener('submit', function(event) {
+      if (!productOfferName.value || !offer.value || !offerType.value || !startDate.value) {
+        event.preventDefault();
+        alert('Please fill out all fields.');
+      } else if (new Date(startDate.value) < new Date()) {
+        event.preventDefault();
+        alert('Start date cannot be in the past.');
+      }
+    });
+  </script>
+  
 
 {% endblock %}

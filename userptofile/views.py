@@ -2,14 +2,49 @@ from django.shortcuts import render,redirect
 from .models import Address
 from django.http import JsonResponse
 from orders .models import *
+from django.contrib import auth
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
-
+from django.contrib import messages
 # Create your views here.
 
 
 def userdetails(request):
-    # user=Account.objects.filter(user=request.user)
-    return render(request,'userprofile.html')
+    print("user profile",request.user) 
+    users=Account.objects.get(email=request.user)
+    print(users,".........................")
+    return render(request,'userprofile.html',{'users':users})
+
+def editProfile(request):
+    print("edit profile")
+    users=Account.objects.get(email=request.user)
+    first=request.GET.get('firstname')
+    ph=request.GET.get('ph')
+    print("phone: ",ph)
+    currentPwd=request.GET.get('current-password')
+    newPwd=request.GET.get('new-password')
+    confirm=request.GET.get('confirm-password')
+    print(users)
+    if first:
+        users.username=first
+    if ph:
+        users.phone_number=ph
+    succes=users.check_password(currentPwd)
+    users.save()
+    if newPwd:
+
+        if succes:
+            print(newPwd)
+            users.set_password(newPwd)
+            users.save()
+            print("passsssss",users.password)
+            messages.success(request,'Password changes Succesfully !!!')
+            return redirect('user_login')
+            
+        else:
+            messages.error(request,'Current Password is  Invalid')
+            # return redirect('userdetails')
+    messages.success(request,'Values Changed succesfully')
+    return redirect('userdetails')
 
 def useraddress(request):
     # if request.method == 'POST':

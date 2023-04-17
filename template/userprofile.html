@@ -65,42 +65,45 @@
                                                                 <div class="row"> -->
                                                                     <div class="col-md-6 mx-auto">
                                                                         <h4 class="title-shop-page dark font-bold play-font">Edit  Profile</h4>
+                                                                        {% for i in messages %}
+                                                                        <p style="color: red;">{{i}}</p>
+                                                                        {% endfor %}
                                                                         <div class="my-profile-box register-content-box">
                                                                             <div class="form-my-account">
-                                                                                <div class="row">
-                                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                                        <p>
-                                                                                            <label>First name <span class="required">*</span></label>
-                                                                                            <input type="text" name="firstname" />
-                                                                                        </p>
-                                                                                    </div>
-                                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                                        <p>
-                                                                                            <label>Last name <span class="required">*</span></label>
-                                                                                            <input type="text" name="lastname" />
-                                                                                        </p>
-                                                                                    </div>
-                                                                                </div>
+                                                                                <form action="{% url 'editProfile' %}">
+                                                                              
                                                                                 <p>
-                                                                                    <label>Email address <span class="required">*</span></label>
-                                                                                    <input type="text" name="email" />
+                                                                                    <label>Name <span class="required">*</span></label>
+                                                                                    <input type="text" name="firstname" id="user-name" placeholder="{{users.username}}" />
+                                                                                </p>
+
+
+                                                                                <p>
+                                                                                    <label>Phone Number <span class="required">*</span></label>
+                                                                                    <input type="text" name="ph" placeholder="{{users.phone_number}}" id="ph" oninput="return validatephnumber()"/>
+                                                                                    <span id="ph-error" style="color: red;"></span>
                                                                                 </p>
                                                                                 <h3 class="title18 title-change-pasword">Password change</h3>
                                                                                 <p>
                                                                                     <label>Current password (leave blank to leave unchanged)</label>
-                                                                                    <input type="text" name="current-password" />
+                                                                                    <input type="text" name="current-password" oninput="return validateCurrentPassword()" id="current-password-check" />
+                                                                                    <span id="current-password-error" style="color: red;"></span>
                                                                                 </p>
                                                                                 <p>
                                                                                     <label>New password (leave blank to leave unchanged)</label>
-                                                                                    <input type="text" name="new-password" />
+                                                                                    <input type="text" name="new-password" oninput="return validateNewPassword()" id="new-password-check"/>
+                                                                                    <span id="new-passsword-error" style="color: red;"></span>
                                                                                 </p>
                                                                                 <p>
                                                                                     <label>Confirm new password</label>
-                                                                                    <input type="text" name="confirm-password" />
+                                                                                    <input type="text" name="confirm-password" oninput="return validateNewConfirmPassword()" id="confirm-new-password" />
+                                                                                    <span id="confirm-password-error" style="color: red;"></span>
                                                                                 </p>
                                                                                 <p>
-                                                                                    <input type="submit" class="register-button save-change" name="register" value="Save Changes">
+                                                                                    <input type="submit" class="register-button save-change" id="edit-submit" onclick=" return EditProfile()" name="register" value="Save Changes">
+                                                                                    <span id="FormError" style="color: red;"></span>
                                                                                 </p>
+                                                                                </form>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -190,5 +193,153 @@
                                 </div>
                             </div>
                         </section>
+
+                        <script>
+
+
+                            var CurrentpasswordError=document.getElementById('current-password-error')
+                            var NewpasswordError=document.getElementById('new-passsword-error')
+                            var NewconfirmpasswordError=document.getElementById('confirm-password-error')
+                            var phError=document.getElementById('ph-error')
+                            var submitFormError=document.getElementById('FormError')
+                           
+                            function validateCurrentPassword(){
+        
+                                    var password=document.getElementById('current-password-check').value
+                                    var newpassword=document.getElementById('new-password-check').value
+
+                                    var minNumberofChars = 6;
+                                    var maxNumberofChars = 16;
+                                    var regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/; 
+                                    if(password.length==0 && newpassword.length ==0){
+
+                                        return true;
+                                    }
+                                    else if(password.length < minNumberofChars || password.length > maxNumberofChars){
+                                        CurrentpasswordError.innerHTML='password invalid';
+                                        return false;
+                                    }
+                                     else if(!regularExpression) {
+                                        CurrentpasswordError.innerHTML='password should be 6 character or number';
+                                        return false;
+                                    }
+                                    else{
+                                        CurrentpasswordError.innerHTML ='<i class="fa-solid fa-circle-check"></i>';
+                                        return true;
+                                    }
+                                }
+
+
+
+                                function validateNewPassword(){
+        
+                                    var password=document.getElementById('new-password-check').value
+                                
+                                    var minNumberofChars = 6;
+                                    var maxNumberofChars = 16;
+                                    var regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/; 
+                                    if(password.length==0){
+
+                                        return true;
+                                    }
+                                    else if(password.length < minNumberofChars || password.length > maxNumberofChars){
+                                        NewpasswordError.innerHTML='password invalid';
+                                        return false;
+                                    }
+                                    else if(!regularExpression) {
+                                        NewpasswordError.innerHTML='password should be 6 character or number';
+                                        return false;
+                                    }
+                                    else{
+                                        NewpasswordError.innerHTML ='<i class="fa-solid fa-circle-check"></i>';
+                                        return true;
+                                    }
+                                }
+
+                                function validateNewConfirmPassword(){
+                                        var password=document.getElementById('new-password-check').value;
+                                        var Confirmpassword=document.getElementById('confirm-new-password').value;
+                                        var currentpassword=document.getElementById('current-password-check').value
+
+                                        console.log("confirm password")
+                                            if(Confirmpassword.length==0 && password.length==0){
+                                            
+                                            
+                                                return true;
+                                            }
+                                            else if(password==Confirmpassword){
+
+                                                NewconfirmpasswordError.innerHTML ='<i class="fa-solid fa-circle-check"></i>';
+                                                return true;
+                                                
+                                            }
+                                            else{
+                                                NewconfirmpasswordError.innerHTML='check the confirm password';
+                                                return false;
+                                            }
+                                        }
+
+                                        function validatephnumber(){
+         
+                                            var phone=document.getElementById('ph').value;
+                                            if(phone.length == 0 )
+                                            {
+                                                
+                                                return true;
+                                            }else
+                                            if(phone.length<10||phone.length>10 )
+                                            {
+                                                phError.innerHTML="10 digits required";
+                                                return false;   
+                                            }else
+                                            if(!phone.match(/^[0-9]{10}$/)){
+                                                phError.innerHTML="not valid";
+                                                return false; 
+                                            }else
+                                            phError.innerHTML='<i class="fa-solid fa-square-check"></i>';
+                                            return true;
+
+                                        }
+                            function EditProfile(){
+                                   console.log("validation")
+                                   var username =document.getElementById('user-name').value;
+                                        var phone =document.getElementById('ph').value;
+                                        var current_password =document.getElementById('current-password-check').value;
+                                        var new_password_check =document.getElementById('new-password-check').value;
+                                        var confirm_new_password =document.getElementById('confirm-new-password').value;
+                                        
+                                    var submit =document.getElementById('edit-submit').value;
+                                    if( ! validateCurrentPassword()|| ! validateNewPassword() || ! validateNewConfirmPassword() || ! validatephnumber() ){
+                                        submitFormError.style.display ='block';
+                                        submitFormError.innerHTML='please fill the form';
+                                        setTimeout(function(){submitFormError.style.display ='none';},3000);
+                                        return false;
+                                    }
+                                    else{
+                                        // console.log(user)
+                                        console.log(username,'log123');
+                                        console.log(phone,'log12afadfadafa3');
+                                        console.log(current_password,'log123fafda');
+                                        console.log(new_password_check,'log123 new');
+                                        console.log(confirm_new_password,'confirm pa')
+                                        if(username== '' && phone == '' && current_password == '' && new_password_check == '' && confirm_new_password == '' ){
+                                          console.log("elseeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+                                            submitFormError.style.display ='block';
+                                        submitFormError.innerHTML='please fill the form';
+                                        setTimeout(function(){submitFormError.style.display ='none';},3000);
+                                        return false;
+                                        }
+                                        else{
+                                            console.log("trueeeeeeeeeeeee ")
+                                            return true;
+
+                                        }
+
+                                      
+                                    }
+                                    
+                                }
+
+                        </script>
 
                         {% endblock %}

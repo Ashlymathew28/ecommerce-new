@@ -28,8 +28,10 @@ from docx import Document
 
 from django.http import JsonResponse
 from offers.models import Coupon,product_offer,cat_offer
+from django.views.decorators.cache import never_cache
 # Create your views here.
 
+@never_cache
 def admin_login(request):
     if request.method == 'POST':
         email=request.POST.get('adminname')
@@ -48,8 +50,10 @@ def admin_login(request):
             return redirect('admin_login') 
 
     return render(request,'admin/admin-login.html')
-        
 
+    
+        
+@never_cache
 @login_required(login_url='admin_login')
 def admin_home(request):
     if request.user.is_superuser==True:
@@ -88,9 +92,9 @@ def admin_home(request):
 
            #  status count
        placed_count=Order.objects.filter(status='placed').count()
-       shipped_count=Order.objects.filter(status='shipped').count()
+       shipped_count=Order.objects.filter(status='Shipped').count()
        delivered_count=Order.objects.filter(status='Delivered').count()
-       return_count=Order.objects.filter(status='returned').count()
+       return_count=OrderProduct.objects.filter(status='Returned').count()
        cancelled_count=Order.objects.filter(status='Cancelled').count()
        print("total_orders",total_orders)
        print("total_products",total_products)
@@ -123,11 +127,11 @@ def admin_home(request):
         })
            
 
-       
-       
         
     return redirect('admin_login')
 
+
+@never_cache
 def admin_logout(request):
     logout(request)
     return redirect('admin_login')
@@ -135,7 +139,7 @@ def admin_logout(request):
 # for seeing banners 
 def banners(request):
     ban=Banner.objects.all()
-    paginator=Paginator(ban,2)
+    paginator=Paginator(ban,3)
     page=request.GET.get('page')
     paged_new=paginator.get_page(page)
     return render(request,'admin/Banners.html',{'paged_new':paged_new})
@@ -262,9 +266,12 @@ def update_category(request,id):
        description=request.POST.get('catedescription')
        image=request.FILES.get('Image')
        print("REQUEST: ",request.FILES)
-       Category.category_name=Category_name
-       Category.category_image=image
-       Category.description=description
+       if image:
+           Category.category_image=image
+       if Category_name:
+            Category.category_name=Category_name
+       if description:
+         Category.description=description
        Category.save()
        messages.info(request,"Category updated")
     return redirect('admin_category')
@@ -272,8 +279,8 @@ def update_category(request,id):
 # for seeing productlist
 @login_required(login_url='admin_login')
 def admin_productlist(request):
-    product=Product.objects.all()
-    paginator=Paginator(product,4)
+    product=Product.objects.all().order_by('id')
+    paginator=Paginator(product,10)
     page=request.GET.get('page')
     paged_products=paginator.get_page(page)
     return render(request,'admin/admin-productlist.html',{'product':paged_products})
@@ -357,11 +364,13 @@ def edit_product(request,id):
         image2=request.FILES.get('Image2')
         cat=request.POST.get('category')
         stock=request.POST.get('stock')
-
-        product.product_name=product_name
-        product.description=description
-        product.price=price
-        product.user_price=price
+        if product_name:
+            product.product_name=product_name
+        if description:
+            product.description=description
+        if price:
+            product.price=price
+            product.user_price=price
 
         if images:
             product.images=images
@@ -661,10 +670,15 @@ def admin_coupons(request):
 
 def admin_addcoupon(request):
     if request.method == 'POST':
+       code=request.POST.get('code')
+       if Coupon.objects.filter(coupon_code=code).exists():
+           messages.error(request,'This code exist!!!')
+           return redirect('admin_addcoupon')
        coupon=Coupon()
        coupon.coupon_name= request.POST.get('couponName')
        coupon.coupon_code = request.POST.get('code')
        coupon. discount=request.POST.get('discount')
+       coupon.limited_price=request.POST.get('limit')
        coupon.valid_from=request.POST.get('validFrom')
        coupon.valid_to=request.POST.get('validTo')
        coupon.save()
@@ -691,7 +705,7 @@ def admin_orderlist(request):
     return render(request,'admin/orderList.html',{'orderlist':paged_orderlist} )
 
 def viewDetails(request,id):
-    orders=OrderProduct.objects.filter(order_id=id)
+    orders=OrderProduct.objects.filter(order=id)
     print(orders)
     return render(request,'admin/admin_VewDetails.html',{'orders':orders})
 

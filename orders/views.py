@@ -41,7 +41,7 @@ def place_order(request):
         total += (cart_item.product.user_price * cart_item.quantity)
         qunatity += cart_item.quantity
 
-    tax = (2 * total)/100
+    tax = round((2 * total)/100)
     grand_total = total + tax
 
     if request.method == 'POST':
@@ -154,6 +154,7 @@ def proceed_to_pay(request):
     else:
         tax=(2*total_price)/100
         total_price=total_price+tax
+    total_price=round(total_price)
     print("total from proceed to pay",total_price)
     return JsonResponse({
 
@@ -178,9 +179,11 @@ def order_cancel(request):
 
 def order_return(request):
     order_id=request.POST.get('order_id')
+    text=request.POST.get('text')
     print("order id: ",order_id)
     order=OrderProduct.objects.get(id=order_id)
     order.status = 'Returned'
+    order.reason=text
     order.save()
     order.product.stock += order.quantity
     order.product.save()
